@@ -24,7 +24,7 @@ using eSSP_example;
 namespace POS_v20
 {
     /// <summary>
-    /// POS application version 3.7
+    /// POS application version 3.7//
     /// new features: connection with web based server on Laravel Framework,
     /// mixed type of payments (cash & credit), replace NV9 USB+ validator with NV11 note recycler
     /// Note: if you are using x64 platform you must change project options to x86 to 
