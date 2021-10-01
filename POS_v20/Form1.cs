@@ -1420,7 +1420,7 @@ namespace POS_v20
                                 string FileName = "C:/CreditPOS/closeBatch/" + DateTime.Now.ToString("ddMMyy") + "_closeBatch.txt";
                                 attachment = new Attachment(FileName);
                                 mail.Attachments.Add(attachment);
-
+                                SmtpServer.UseDefaultCredentials = false;
                                 SmtpServer.Port = Convert.ToInt32(ini.IniReadValue("Params", "SmtpPort"));
                                 SmtpServer.Credentials = new System.Net.NetworkCredential(ini.IniReadValue("Params", "SmtpUsername"), ini.IniReadValue("Params", "SmtpPassword"));
                                 SmtpServer.EnableSsl = true;
