@@ -154,6 +154,8 @@ namespace POS_v20
         string customer = "";
         string subscriptionId = "";
         string snapshot = "";
+        bool ticket_scanned = false;
+        bool card_scanned = false;
         bool cardpresense = false;
         bool p = false;
         bool notes05In = false;
@@ -3280,6 +3282,7 @@ namespace POS_v20
                                 GeneralCounter = 120;
                                 LanguageTimer.Start();
                                 SM = 5;
+                                ticket_scanned = true;
                                 secondForm.POS_Messages.Clear();
                                 secondForm.Cancel.Visible = true;
                                 secondForm.cashButton.Location = new Point(24, 257);
@@ -3399,6 +3402,7 @@ namespace POS_v20
                             else if (secondForm.Language.StartsWith("GER"))
                                 secondForm.Messages2.AppendText("\n\nKunde/Kundin: " + customer + "\n\nGültig bis: " + validto + "\n\nErneuerungswert: " + value);
                             SM = 51;
+                            card_scanned = true;
                             secondForm.POS_Messages.Clear();
                             break;
                         }
@@ -4688,12 +4692,12 @@ namespace POS_v20
                         notes05In = false;
                         notesIn = false;
                         NV11.storedNoteValue = 0;
-                        if (secondForm.CashPayment)
+                        if (secondForm.CashPayment && ticket_scanned)
                         {
                             SM = 6;
                             break;
                         }
-                        else if(secondForm.CreditCardPayment)
+                        else if(secondForm.CashPayment && card_scanned)
                         {
                             SM = 61;
                             break;
@@ -4712,12 +4716,12 @@ namespace POS_v20
                         notes10In = false;
                         notesIn = false;
                         NV11.storedNoteValue = 0;
-                        if (secondForm.CashPayment)
+                        if (secondForm.CashPayment && ticket_scanned)
                         {
                             SM = 6;
                             break;
                         }
-                        else if (secondForm.CreditCardPayment)
+                        else if (secondForm.CashPayment && card_scanned)
                         {
                             SM = 61;
                             break;
@@ -4735,12 +4739,12 @@ namespace POS_v20
                         notes20In = false;
                         notesIn = false;
                         NV11.storedNoteValue = 0;
-                        if (secondForm.CashPayment)
+                        if (secondForm.CashPayment && ticket_scanned)
                         {
                             SM = 6;
                             break;
                         }
-                        else if (secondForm.CreditCardPayment)
+                        else if (secondForm.CashPayment && card_scanned)
                         {
                             SM = 61;
                             break;
@@ -4758,12 +4762,12 @@ namespace POS_v20
                         notes50In = false;
                         notesIn = false;
                         NV11.storedNoteValue = 0;
-                        if (secondForm.CashPayment)
+                        if (secondForm.CashPayment && ticket_scanned)
                         {
                             SM = 6;
                             break;
                         }
-                        else if (secondForm.CreditCardPayment)
+                        else if (secondForm.CashPayment && card_scanned)
                         {
                             SM = 61;
                             break;
@@ -5249,6 +5253,8 @@ namespace POS_v20
                     BR_Card = "";
                     RF_Card = "";
                     cardpresense = false;
+                    ticket_scanned = false;
+                    card_scanned = false;
                     ShowNotes("000");
                     secondForm.btnYes.Visible = false;
                     secondForm.btnNo.Visible = false;
