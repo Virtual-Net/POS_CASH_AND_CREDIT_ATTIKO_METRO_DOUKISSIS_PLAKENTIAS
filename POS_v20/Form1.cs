@@ -52,7 +52,6 @@ namespace POS_v20
         string HTTPURLCARD = "";
         string HTTPURLRENEW = "";
         string HTTPURL = "";
-        string phpresponse = "";
         string MyIP = "";
         string ApiToken = "";
         string BatchTotalAmount = "";
