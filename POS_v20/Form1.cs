@@ -1421,6 +1421,7 @@ namespace POS_v20
                                 attachment = new Attachment(FileName);
                                 mail.Attachments.Add(attachment);
                                 SmtpServer.UseDefaultCredentials = false;
+                                SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
                                 SmtpServer.Port = Convert.ToInt32(ini.IniReadValue("Params", "SmtpPort"));
                                 SmtpServer.Credentials = new System.Net.NetworkCredential(ini.IniReadValue("Params", "SmtpUsername"), ini.IniReadValue("Params", "SmtpPassword"));
                                 SmtpServer.EnableSsl = true;
