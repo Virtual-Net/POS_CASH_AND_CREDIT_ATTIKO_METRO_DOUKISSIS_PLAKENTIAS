@@ -253,35 +253,17 @@ namespace POS_v20
                     else if (lParam == 17)
                     {
                         if (FiveCentIn)
-                        {
-                            FiveCent--;
                             FiveCentIn = false;
-                        }
                         else if (TenCentIn)
-                        {
-                            TenCent--;
                             TenCentIn = false;
-                        }
                         else if (TwentyCentIn)
-                        {
-                            TwentyCent--;
                             TwentyCentIn = false;
-                        }
                         else if (FiftyCentIn)
-                        {
-                            FiftyCent--;
                             FiftyCentIn = false;
-                        }
                         else if (OneHundredCentIn)
-                        {
-                            OneHundredCent--;
-                            TenCentIn = false;
-                        }
+                            OneHundredCentIn = false;
                         else if (TwoHundredCentIn)
-                        {
-                            TwoHundredCent--;
-                            TwentyCentIn = false;
-                        }
+                            TwoHundredCentIn = false;
                     }
                     break;
                 case 0x11://W17										// Coin accepted
