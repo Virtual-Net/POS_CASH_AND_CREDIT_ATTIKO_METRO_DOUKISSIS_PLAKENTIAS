@@ -204,7 +204,7 @@
             this.lostButton.Name = "lostButton";
             this.lostButton.Size = new System.Drawing.Size(408, 87);
             this.lostButton.TabIndex = 20;
-            this.lostButton.Text = "Χαμένο εισιτήριο";
+            this.lostButton.Text = "Έαν έχετε χάσει το εισιτήριό σας,\r\nπατήστε την ενδοεπικοινωνία.";
             this.lostButton.UseVisualStyleBackColor = true;
             this.lostButton.Click += new System.EventHandler(this.lostButton_Click);
             // 

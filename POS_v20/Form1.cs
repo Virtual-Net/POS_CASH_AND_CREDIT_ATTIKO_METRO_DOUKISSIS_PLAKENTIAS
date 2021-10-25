@@ -2928,7 +2928,7 @@ namespace POS_v20
                         secondForm.buttonGRE.Visible = false;
                         secondForm.buttonGER.Visible = true;
                         secondForm.buttonFRA.Visible = true;
-                        secondForm.lostButton.Text = "Χαμένο εισιτήριο";
+                        secondForm.lostButton.Text = "Έαν έχετε χάσει το εισιτήριό σας,πατήστε την ενδοεπικοινωνία.";
                         secondForm.cashButton.Text = "Μετρητά";
                         secondForm.creditButton.Text = "Πιστωτική - Χρεωστική Κάρτα";
                         secondForm.Cancel.Text = "ΑΚΥΡΩΣΗ";
@@ -2943,7 +2943,7 @@ namespace POS_v20
                         secondForm.buttonGRE.Visible = true;
                         secondForm.buttonGER.Visible = true;
                         secondForm.buttonFRA.Visible = true;
-                        secondForm.lostButton.Text = "Lost Ticket";
+                        secondForm.lostButton.Text = "If you have lost your ticket,press the intercom.";
                         secondForm.cashButton.Text = "Cash";
                         secondForm.creditButton.Text = "Credit - Debit Card";
                         secondForm.Cancel.Text = "CANCEL";
@@ -2958,7 +2958,7 @@ namespace POS_v20
                         secondForm.buttonGRE.Visible = true;
                         secondForm.buttonGER.Visible = true;
                         secondForm.buttonFRA.Visible = false;
-                        secondForm.lostButton.Text = "Billet Perdu";
+                        secondForm.lostButton.Text = "Si vous avez perdu votre billet,appuyez sur l'interphone.";
                         secondForm.Cancel.Text = "ANNULER";
                         secondForm.ValueLabel.Text = "Ensemble: ";
                         secondForm.PaymentLabel.Text = "Reçu: ";
@@ -2971,7 +2971,7 @@ namespace POS_v20
                         secondForm.buttonGRE.Visible = true;
                         secondForm.buttonGER.Visible = false;
                         secondForm.buttonFRA.Visible = true;
-                        secondForm.lostButton.Text = "Ticket Verloren";
+                        secondForm.lostButton.Text = "Wenn Sie Ihr Ticket verloren haben,drücken Sie die Gegensprechanlage.";
                         secondForm.cashButton.Text = "Bargeld";
                         secondForm.creditButton.Text = "Kredit - Debitkarte";
                         secondForm.Cancel.Text = "STORNIEREN";
