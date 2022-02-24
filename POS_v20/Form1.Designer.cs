@@ -138,6 +138,8 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lostTimer = new System.Windows.Forms.Timer(this.components);
+            this.Avail10Notes = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
             this.Settings.SuspendLayout();
             this.Coins.SuspendLayout();
             this.NoteRecycler.SuspendLayout();
@@ -229,6 +231,8 @@
             // 
             this.Settings.BackColor = System.Drawing.Color.Silver;
             this.Settings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Settings.Controls.Add(this.label22);
+            this.Settings.Controls.Add(this.Avail10Notes);
             this.Settings.Controls.Add(this.ResetAllCoinsbtn);
             this.Settings.Controls.Add(this.Paid200Coins);
             this.Settings.Controls.Add(this.Paid100Coins);
@@ -1337,6 +1341,27 @@
             this.lostTimer.Interval = 20000;
             this.lostTimer.Tick += new System.EventHandler(this.lostTimer_Tick);
             // 
+            // Avail10Notes
+            // 
+            this.Avail10Notes.Location = new System.Drawing.Point(135, 76);
+            this.Avail10Notes.Margin = new System.Windows.Forms.Padding(4);
+            this.Avail10Notes.Name = "Avail10Notes";
+            this.Avail10Notes.ReadOnly = true;
+            this.Avail10Notes.Size = new System.Drawing.Size(59, 19);
+            this.Avail10Notes.TabIndex = 62;
+            this.Avail10Notes.Text = "0";
+            this.Avail10Notes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(210, 79);
+            this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(51, 13);
+            this.label22.TabIndex = 63;
+            this.label22.Text = "10 Euro";
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1486,6 +1511,8 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Button ResetAllNotesbtn;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TextBox Avail10Notes;
     }
 }
 

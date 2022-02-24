@@ -2414,7 +2414,7 @@ namespace POS_v20
             Display("TotalCoins:" + tmp + "\n");
 
             //Read INI values
-            //Avail10Notes.Text = ini.IniReadValue("SerialND", "Avail10");
+            Avail10Notes.Text = ini.IniReadValue("SerialND", "Avail10");
             Avail05Notes.Text = ini.IniReadValue("SerialNV", "Avail05");
             Paid50Notes.Text = ini.IniReadValue("SerialNV", "Paid50");
             Paid20Notes.Text = ini.IniReadValue("SerialNV", "Paid20");
@@ -2517,7 +2517,9 @@ namespace POS_v20
         {
             
             ini.IniWriteValue("SerialNV", "Avail05", Avail05Notes.Text); Thread.Sleep(100);
+            NotesFive = int.Parse(Avail05Notes.Text);
             ini.IniWriteValue("SerialNV", "Paid50", Paid50Notes.Text); Thread.Sleep(100);
+            NotesTen = int.Parse(Avail10Notes.Text);
             ini.IniWriteValue("SerialNV", "Paid20", Paid20Notes.Text); Thread.Sleep(100);
             ini.IniWriteValue("SerialNV", "Paid10", Paid10Notes.Text); Thread.Sleep(100);
             ini.IniWriteValue("SerialNV", "Paid05", Paid05Notes.Text); Thread.Sleep(100);
@@ -2706,7 +2708,7 @@ namespace POS_v20
             GeneralTimer.Interval = 1000;//STATE MACHINE
             GeneralTimer.Start();
             Save_Click(this, e);
-            NV11.storedNoteValue = 0;
+            //NV11.storedNoteValue = 0;
             MoneyStatus(2);
             secondForm.Show();
             if (Total_Coins < 10)//1000
