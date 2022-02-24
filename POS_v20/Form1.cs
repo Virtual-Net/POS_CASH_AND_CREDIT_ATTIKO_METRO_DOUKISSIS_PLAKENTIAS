@@ -84,12 +84,17 @@ namespace POS_v20
         string TenEuroNotesLevel = "";
         string TwentyEuroNotesLevel = "";
 
-        int DNote = 0;
+        //int DNote = 0;
+        int DNote10 = 0;
+        int DNote5 = 0;
         int Total_Coins = 0;
         uint Total_Notes = 0;
         int RFID_Lenght = 0;
         int BC_Lenght = 0;
         int CPN_Length = 0;
+        int NotesFive = 0;
+        int NotesTen = 0;
+        int NotesTwenty = 0;
 
         Boolean UserHasCpn = false;
 
