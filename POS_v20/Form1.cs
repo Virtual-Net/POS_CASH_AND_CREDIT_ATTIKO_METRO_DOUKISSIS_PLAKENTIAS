@@ -225,39 +225,51 @@ namespace POS_v20
                     {
                         if (FiveCentIn)
                         {
-                            Paid05Coins.Text = FiveCent.ToString();
-                            ini.IniWriteValue("PaidCOINS", "5cents", Paid05Coins.Text);
+                            Paid05Coins.Text = ini.IniReadValue("PaidCOINS", "5cents");
+                            int five = int.Parse(Paid05Coins.Text);
+                            five++;
+                            ini.IniWriteValue("PaidCOINS", "5cents", five.ToString());
                             FiveCentIn = false;
                         }
                         else if (TenCentIn)
                         {
-                            Paid10Coins.Text = TenCent.ToString();
-                            ini.IniWriteValue("PaidCOINS", "10cents", Paid10Coins.Text);
+                            Paid10Coins.Text = ini.IniReadValue("PaidCOINS", "10cents");
+                            int ten = int.Parse(Paid10Coins.Text);
+                            ten++;
+                            ini.IniWriteValue("PaidCOINS", "10cents", ten.ToString());
                             TenCentIn = false;
                         }
                         else if (TwentyCentIn)
                         {
-                            Paid20Coins.Text = TwentyCent.ToString();
-                            ini.IniWriteValue("PaidCOINS", "20cents", Paid20Coins.Text);
+                            Paid20Coins.Text = ini.IniReadValue("PaidCOINS", "20cents");
+                            int twenty = int.Parse(Paid20Coins.Text);
+                            twenty++;
+                            ini.IniWriteValue("PaidCOINS", "20cents", twenty.ToString());
                             TwentyCentIn = false;
                         }
                         else if (FiftyCentIn)
                         {
-                            Paid50Coins.Text = FiftyCent.ToString();
-                            ini.IniWriteValue("PaidCOINS", "50cents", Paid50Coins.Text);
+                            Paid50Coins.Text = ini.IniReadValue("PaidCOINS", "50cents");
+                            int fifty = int.Parse(Paid50Coins.Text);
+                            fifty++;
+                            ini.IniWriteValue("PaidCOINS", "50cents", fifty.ToString());
                             FiftyCentIn = false;
                         }
                         else if (OneHundredCentIn)
                         {
-                            Paid100Coins.Text = OneHundredCent.ToString();
-                            ini.IniWriteValue("PaidCOINS", "100cents", Paid100Coins.Text);
-                            TenCentIn = false;
+                            Paid100Coins.Text = ini.IniReadValue("PaidCOINS", "100cents");
+                            int onehundred = int.Parse(Paid100Coins.Text);
+                            onehundred++;
+                            ini.IniWriteValue("PaidCOINS", "100cents", onehundred.ToString());
+                            OneHundredCentIn = false;
                         }
                         else if (TwoHundredCentIn)
                         {
-                            Paid200Coins.Text = TwoHundredCent.ToString();
-                            ini.IniWriteValue("PaidCOINS", "200cents", Paid200Coins.Text);
-                            TwentyCentIn = false;
+                            Paid200Coins.Text = ini.IniReadValue("PaidCOINS", "200cents");
+                            int twohundred = int.Parse(Paid200Coins.Text);
+                            twohundred++;
+                            ini.IniWriteValue("PaidCOINS", "200cents", twohundred.ToString());
+                            TwoHundredCentIn = false;
                         }
                     }
                     else if (lParam == 17)
@@ -339,9 +351,9 @@ namespace POS_v20
                     CoinStatus.Enabled = false;
                     CoinStatus.BackColor = Color.YellowGreen;
                     Coins.Text = "Coins_OK";
-                    //int tab = MainConfig.SelectedIndex;
-                    //MainConfig.SelectedIndex = tab + 1;
-                    //MainConfig.TabPages[6].Parent.Focus();
+                    int tab = MainConfig.SelectedIndex;
+                    MainConfig.SelectedIndex = tab + 1;
+                    MainConfig.TabPages[6].Parent.Focus();
                     break;
                 case 8:
                     Display("No Configuration file\n");
