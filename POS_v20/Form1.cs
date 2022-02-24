@@ -2274,25 +2274,27 @@ namespace POS_v20
         {
             string Port = ini.IniReadValue("SerialNV", "COM");
             string SSP_Address = ini.IniReadValue("SerialNV", "SSP");
+            FiveEuroNotesLevel = ini.IniReadValue("SerialNV", "Avail05");
+            TenEuroNotesLevel = ini.IniReadValue("SerialNV", "Avail10");
 
             Global.ComPort = Port;
             Global.SSPAddress = Byte.Parse(SSP_Address);
-
             Display("LOAD SETTINGS Note Validator COM Port: " + Port + "\n");
             Display("LOAD SETTINGS Note Validator SSP Address: " + SSP_Address + "\n");
+
             try
             {
                 OpenNV.BackColor = Color.GreenYellow;
                 OpenNV.Enabled = false;
                 NVStatus.Enabled = true;
-                this.Refresh();
+                Refresh();
             }
             catch
             {
                 MessageBox.Show("NoteValidator Error \n\nProblem While Opening Serial Port: " + Port + " \nCheck Ini Settings!");
                 Display("NoteValidator Error \n\nProblem While Opening Serial Port: " + Port + " \n");
                 OpenNV.BackColor = Color.Tomato;
-                this.Refresh();
+                Refresh();
             }
         }
 
