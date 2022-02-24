@@ -2304,29 +2304,22 @@ namespace POS_v20
         private void NVStatus_Click(object sender, EventArgs e)
         {
             // create an instance of the validator info class
-            NV11 = new CNV11();
-
+            Payout = new CPayout();
             btnHalt.Enabled = false;
-            // Position the comms window of the validator
+            string Port = ini.IniReadValue("SerialNV", "COM");
+            string SSP_Address = ini.IniReadValue("SerialNV", "SSP");
+            Global.ComPort = Port;
+            Global.SSPAddress = Byte.Parse(SSP_Address);
             Point p = this.Location;
             p.X += this.Width;
-            NV11.CommsLog.Location = p;
-
-            if (Properties.Settings.Default.CommWindow)
-            {
-                NV11.CommsLog.Show();
-                logTickBox.Checked = true;
-            }
-            else
-                logTickBox.Checked = false;
-
+            Payout.CommsLog.Location = p;
             NVStatus.Enabled = false;
             NVStatus.BackColor = Color.YellowGreen;
-            this.NoteRecycler.Text = "NoteValidator_OK";
-            //int tab = this.MainConfig.SelectedIndex;
-            //this.MainConfig.SelectedIndex = tab + 1;
-            //this.MainConfig.TabPages[6].Parent.Focus();
-            this.Refresh();
+            NoteRecycler.Text = "NoteValidator_OK";
+            int tab = MainConfig.SelectedIndex;
+            MainConfig.SelectedIndex = tab + 1;
+            MainConfig.TabPages[5].Parent.Focus();
+            Refresh();
         }
 
 
