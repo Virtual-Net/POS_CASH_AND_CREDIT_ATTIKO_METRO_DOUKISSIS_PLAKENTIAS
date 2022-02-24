@@ -137,6 +137,12 @@ namespace POS_v20
         int Payment = 0;
         int ReturnMoney = 0;
         int InitalCost = 0;
+        int FiveCent = 0;
+        int TenCent = 0;
+        int TwentyCent = 0;
+        int FiftyCent = 0;
+        int OneHundredCent = 0;
+        int TwoHundredCent = 0;
         string FileName = "C:/POS/log/POS_Log.txt";
         string type = "";
         string validto = "";
@@ -164,28 +170,22 @@ namespace POS_v20
         string customer = "";
         string subscriptionId = "";
         string snapshot = "";
+        string TerminalCard = "";
         bool ticket_scanned = false;
         bool card_scanned = false;
         bool cardpresense = false;
         bool p = false;
-        bool notes05In = false;
-        bool notes10In = false;
-        bool notes20In = false;
-        bool notes50In = false;
-        bool notesIn = false;
-        bool pay05 = false;
         bool FiveCentIn = false;
         bool TenCentIn = false;
         bool TwentyCentIn = false;
         bool FiftyCentIn = false;
         bool OneHundredCentIn = false;
         bool TwoHundredCentIn = false;
-        int FiveCent = 0;
-        int TenCent = 0;
-        int TwentyCent = 0;
-        int FiftyCent = 0;
-        int OneHundredCent = 0;
-        int TwoHundredCent = 0;
+        bool FiveEuroNoteIn = false;
+        bool TenEuroNoteIn = false;
+        bool TwentyEuroNoteIn = false;
+        bool DisableChangeNotes = false;
+
         /// <summary>
         /// Following 3 lines added @18/09/2020 for automatic UX300 close batch every day after midnight
         /// </summary>
