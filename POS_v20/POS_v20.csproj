@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\CNV11.cs" />
+    <Compile Include="Classes\CPayout.cs" />
     <Compile Include="Comms\CCommsWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +132,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Popout Forms\frmOpenMenu.Designer.cs" />
+    <Compile Include="Popout Forms\frmPayoutByDenom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Popout Forms\frmPayoutByDenom.designer.cs">
+      <DependentUpon>frmPayoutByDenom.cs</DependentUpon>
+    </Compile>
     <Compile Include="Popout Forms\frmSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Popout Forms\frmOpenMenu.resx">
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Popout Forms\frmPayoutByDenom.resx">
+      <DependentUpon>frmPayoutByDenom.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Popout Forms\frmSettings.resx">
       <SubType>Designer</SubType>

@@ -72,13 +72,18 @@ namespace POS_v20
         public string UserCoupon;
         int GeneralCounter = 120;
 
-        // Variables for NV11.
+        // Variables for SmartPayout.
         bool Running = false;
-        int pollTimer = 250; // timer in ms
+        int pollTimer = 300; // timer in ms
         int reconnectionAttempts = 5;
-        CNV11 NV11; // the class used to interface with the validator
+        CPayout Payout; // the class used to interface with the validator
         bool FormSetup = false;
-                
+        frmPayoutByDenom payoutByDenomFrm;
+        List<CheckBox> recycleBoxes = new List<CheckBox>();
+        string FiveEuroNotesLevel = "";
+        string TenEuroNotesLevel = "";
+        string TwentyEuroNotesLevel = "";
+
         int DNote = 0;
         int Total_Coins = 0;
         uint Total_Notes = 0;
