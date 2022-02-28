@@ -5728,17 +5728,38 @@ namespace POS_v20
                         Thread.Sleep(500);
                         
                         if (((Payment - ReturnMoney) / 500) > 0)
-                        {//Prwth epafh me ND / 500 
+                        {
                             secondForm.Ticket_Icon.Visible = false;
                             GeneralTimer.Stop();
-                            int x = (Math.Abs(Payment - ReturnMoney) / 500);
-                            if (DNote < x)
+                            int x = Math.Abs(Payment - ReturnMoney) / 1000;
+                            if (x > 0)
                             {
-                                Display("go return 5 euro notes on cancel: " + (x - DNote));
-                                payoutBtn_Click(this, e);
-                                ReturnMoney = ReturnMoney + 500;
-                                SM = 65;
-                                break;
+                                if ((DNote10 <= x) && (int.Parse(TenEuroNotesLevel) > 0))
+                                {
+                                    if (x > int.Parse(TenEuroNotesLevel))
+                                        Display("go return 10 euro notes on cancel: " + int.Parse(TenEuroNotesLevel));
+                                    else if (x <= int.Parse(TenEuroNotesLevel))
+                                        Display("go return 10 euro notes on cancel: " + (x - DNote10));
+                                    tbPayoutAmount.Text = "10";
+                                    btnPayout_Click(this, e);
+                                    SM = 65;
+                                    break;
+                                }
+                            }
+                            int y = Math.Abs(Payment - ReturnMoney) / 500;
+                            if (y > 0)
+                            {
+                                if ((DNote5 <= y) && (int.Parse(FiveEuroNotesLevel) > 0))
+                                {
+                                    if (y > int.Parse(FiveEuroNotesLevel))
+                                        Display("go return 5 euro notes on cancel: " + int.Parse(FiveEuroNotesLevel));
+                                    else if (y <= int.Parse(FiveEuroNotesLevel))
+                                        Display("go return 5 euro notes on cancel: " + (y - DNote5));
+                                    tbPayoutAmount.Text = "5";
+                                    btnPayout_Click(this, e);
+                                    SM = 65;
+                                    break;
+                                }
                             }
                             GeneralTimer.Start();
                         }
