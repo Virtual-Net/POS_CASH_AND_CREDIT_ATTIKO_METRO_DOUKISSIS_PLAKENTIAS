@@ -6257,31 +6257,31 @@ namespace POS_v20
 
         // This function opens the com port and attempts to connect with the validator. It then negotiates
         // the keys for encryption and performs some other setup commands.
-        private bool ConnectToValidator(int attempts)
+        private bool ConnectToValidator(int attempts, int interval)
         {
             // setup timer
             System.Windows.Forms.Timer reconnectionTimer = new System.Windows.Forms.Timer();
             reconnectionTimer.Tick += new EventHandler(reconnectionTimer_Tick);
-            reconnectionTimer.Interval = 500;//3000; // ms
+            reconnectionTimer.Interval = interval * 1000;//3000; // ms
 
             // run for number of attempts specified
             for (int i = 0; i < attempts; i++)
             {
                 // close com port in case it was open
-                NV11.SSPComms.CloseComPort();
+                Payout.SSPComms.CloseComPort();
 
                 // turn encryption off for first stage
-                NV11.CommandStructure.EncryptionStatus = false;
+                Payout.CommandStructure.EncryptionStatus = false;
 
                 // if the key negotiation is successful then set the rest up
-                if (NV11.OpenComPort(textBox1) && NV11.NegotiateKeys(textBox1))
+                if (Payout.OpenComPort(textBox1) && Payout.NegotiateKeys(textBox1))
                 {
-                    NV11.CommandStructure.EncryptionStatus = true; // now encrypting
+                    Payout.CommandStructure.EncryptionStatus = true; // now encrypting
                     // find the max protocol version this validator supports
                     byte maxPVersion = FindMaxProtocolVersion();
                     if (maxPVersion >= 6)
                     {
-                        NV11.SetProtocolVersion(maxPVersion, textBox1);
+                        Payout.SetProtocolVersion(maxPVersion, textBox1);
                     }
                     else
                     {
@@ -6289,17 +6289,34 @@ namespace POS_v20
                         return false;
                     }
                     // get info from the validator and store useful vars
-                    NV11.ValidatorSetupRequest(textBox1);
+                    Payout.PayoutSetupRequest(textBox1);
+                    // check this unit is supported
+                    if (!IsUnitValid(Payout.UnitType))
+                    {
+                        MessageBox.Show("Unsupported type shown by SMART Payout, this SDK supports the SMART Payout only");
+                        Application.Exit();
+                        return false;
+                    }
                     // inhibits, this sets which channels can receive notes
-                    NV11.SetInhibits(textBox1);
+                    Payout.SetInhibits(textBox1);
+                    // Get serial number
+                    Payout.GetSerialNumber(textBox1);
                     // enable, this allows the validator to operate
-                    NV11.EnableValidator(textBox1);
-                    // value reporting, set whether the validator reports channel or coin value in 
-                    // subsequent requests
-                    NV11.SetValueReportingType(false, textBox1);
-                    // check for notes already in the float on startup
-                    NV11.CheckForStoredNotes(textBox1);
-                    // 
+                    Payout.EnableValidator(textBox1);
+                    // enable the payout system on the validator
+                    Payout.EnablePayout(textBox1);
+                    //// get info from the validator and store useful vars
+                    //NV11.ValidatorSetupRequest(textBox1);
+                    //// inhibits, this sets which channels can receive notes
+                    //NV11.SetInhibits(textBox1);
+                    //// enable, this allows the validator to operate
+                    //NV11.EnableValidator(textBox1);
+                    //// value reporting, set whether the validator reports channel or coin value in 
+                    //// subsequent requests
+                    //NV11.SetValueReportingType(false, textBox1);
+                    //// check for notes already in the float on startup
+                    //NV11.CheckForStoredNotes(textBox1);
+                    //// 
                     return true;
                 }
                 // reset timer
