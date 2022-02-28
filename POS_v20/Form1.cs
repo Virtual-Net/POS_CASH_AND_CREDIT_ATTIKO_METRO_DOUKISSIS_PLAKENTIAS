@@ -6515,6 +6515,15 @@ namespace POS_v20
             Payout.EmptyPayoutDevice(textBox1);
         }
 
+        private void btnPayoutByDenom_Click(object sender, EventArgs e)
+        {
+            if (Running && ((payoutByDenomFrm == null) || (payoutByDenomFrm != null && !payoutByDenomFrm.Visible)))
+            {
+                payoutByDenomFrm = new frmPayoutByDenom(Payout, textBox1);
+                payoutByDenomFrm.Show();
+            }
+        }
+
         private void payoutBtn_Click(object sender, EventArgs e)
         {
             if (NV11 != null)
