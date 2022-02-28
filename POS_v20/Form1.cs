@@ -6480,6 +6480,13 @@ namespace POS_v20
             this.Close();
         }
 
+        private void lostTimer_Tick(object sender, EventArgs e)
+        {
+            secondForm.LostButton = false;
+            lostTimer.Enabled = false;
+            SM = 1;
+        }
+
         private void payoutBtn_Click(object sender, EventArgs e)
         {
             if (NV11 != null)
