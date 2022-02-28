@@ -6468,6 +6468,18 @@ namespace POS_v20
             }
         }
 
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DW.Abort();
+            btnHalt_Click(this, e);
+            Thread.Sleep(2000);
+            Properties.Settings.Default.CommWindow = logTickBox.Checked;
+            Properties.Settings.Default.ComPort = Global.ComPort;
+            Properties.Settings.Default.Save();
+            base.Dispose();
+            this.Close();
+        }
+
         private void payoutBtn_Click(object sender, EventArgs e)
         {
             if (NV11 != null)
