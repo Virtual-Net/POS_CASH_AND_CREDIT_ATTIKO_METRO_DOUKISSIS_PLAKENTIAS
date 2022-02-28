@@ -5098,9 +5098,164 @@ namespace POS_v20
                     secondForm.ValueText.AppendText(value);
                     break;
 
-                case 64:    //Wait state to retrieve 5 EUR note change
+                case 64:    //WAIT TO RETRIVE NOTES - CHANGE
                     Display("SM: " + SM);
-                    Display("Wait to retrive 5 EUR note...");
+                    Display("Wait to retrive note(s)...");
+                    int PollNumber_ = Payout.DoPoll(textBox1).Item2;
+                    Display("SmartPayout Poll response: " + PollNumber_.ToString());
+                    Display(textBox1.Text);
+                    switch (PollNumber_)
+                    {
+                        case 0:
+                            Display("SmartPayout idle state");
+                            break;
+                        case 1:
+                            Display("SmartPayout reset");
+                            break;
+                        case 2:
+                            Display("SmartPayout disabled");
+                            break;
+                        case 3:
+                            Display("SmartPayout note in escrow, reading note...");
+                            break;
+                        case 4:
+                            Display("SmartPayout credit");
+                            break;
+                        case 5:
+                            Display("SmartPayout rejecting note");
+                            break;
+                        case 6:
+                            Display("SmartPayout note rejected");
+                            break;
+                        case 7:
+                            Display("SmartPayout stacking note");
+                            break;
+                        case 8:
+                            Display("SmartPayout floating note");
+                            break;
+                        case 9:
+                            Display("SmartPayout note stacked");
+                            break;
+                        case 10:
+                            Display("SmartPayout completed floating");
+                            break;
+                        case 11:
+                            Display("SmartPayout note stored");
+                            break;
+                        case 12:
+                            Display("SmartPayout safe jam");
+                            break;
+                        case 13:
+                            Display("SmartPayout unsafe jam");
+                            break;
+                        case 14:
+                            Display("SmartPayout detect error with payout device");
+                            break;
+                        case 15:
+                            Display("SmartPayout fraud attempt!!!");
+                            break;
+                        case 16:
+                            Display("SmartPayout stacker full");
+                            break;
+                        case 17:
+                            Display("SmartPayout note cleared from front of validator");
+                            break;
+                        case 18:
+                            Display("SmartPayout note cleared to cashbox");
+                            break;
+                        case 19:
+                            Display("SmartPayout note paid into payout on startup");
+                            break;
+                        case 20:
+                            Display("SmartPayout note paid into cashbox on startup");
+                            break;
+                        case 21:
+                            Display("SmartPayout cashbox removed");
+                            break;
+                        case 22:
+                            Display("SmartPayout cashbox replaced");
+                            break;
+                        case 23:
+                            Display("SmartPayout despensing notes");
+                            break;
+                        case 24:
+                            Display("SmartPayout dispensed notes");
+                            break;
+                        case 25:
+                            Display("SmartPayout emptying...");
+                            break;
+                        case 26:
+                            Display("SmartPayout emptied");
+                            break;
+                        case 27:
+                            Display("SmartPayout SMART Emptying");
+                            break;
+                        case 28:
+                            Display("SmartPayout SMART Emptied, getting info...");
+                            break;
+                        case 29:
+                            Display("SmartPayout unit jammed");
+                            break;
+                        case 30:
+                            Display("SmartPayout halted");
+                            break;
+                        case 31:
+                            Display("SmartPayout incomplete payout");
+                            break;
+                        case 32:
+                            Display("SmartPayout incomplete float");
+                            break;
+                        case 33:
+                            Display("SmartPayout note transferred to stacker");
+                            break;
+                        case 34:
+                            Display("SmartPayout note in bezel");
+                            break;
+                        case 35:
+                            Display("SmartPayout payout out of service");
+                            break;
+                        case 36:
+                            Display("SmartPayout timeout searching for a note");
+                            break;
+                        case 37:
+                            Display("SmartPayout unsupported poll response received");
+                            break;
+                        default:
+                            //Display("Credit is: " + PollNumber.ToString());
+                            break;
+                    }
+                    if (textBox1.Text.IndexOf("Command response is CANNOT PROCESS COMMAND") != -1)   //No remainder in notes
+                    {
+                        if (((Math.Abs(InitalCost - Payment) + ReturnMoney) / 1000 > 0) && int.Parse(TenEuroNotesLevel) > 0)
+                        {
+                            DNote10 = Math.Abs(InitalCost - Payment) / 1000;
+                            Display("No more 10 euro notes in Note Float...");
+                            SM = 6;
+                            break;
+                        }
+                        if ((Math.Abs(InitalCost - Payment) + ReturnMoney) / 500 > 0)
+                        {
+                            DNote5 = Math.Abs(InitalCost - Payment) / 500;
+                            Display("No more 5 euro notes in Note Float, go to return coins...");
+                            SM = 6;
+                            break;
+                        }
+                    }
+                    if (textBox1.Text.IndexOf("Busy") != -1)
+                    {
+                        DisableChangeNotes = true;
+                        SM = 6;
+                        //Thread.Sleep(300);
+                        //btnPayout_Click(this, e);
+                        Display("Note Validator responded Busy condition. Rest of change in coins...");
+                        break;
+                    }
+                    if (textBox1.Text.IndexOf("Unsafe jam") != -1)
+                    {
+                        DisableChangeNotes = true;
+                        SM = 6;
+                        break;
+                    }
                     break;
 
                 case 65:    //Wait state to retrieve 5 EUR note of cancelled transaction
