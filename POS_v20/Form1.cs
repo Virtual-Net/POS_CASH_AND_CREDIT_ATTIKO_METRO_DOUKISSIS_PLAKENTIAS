@@ -6395,11 +6395,11 @@ namespace POS_v20
             byte b = 0x06;
             while (true)
             {
-                NV11.SetProtocolVersion(b);
-                if (NV11.CommandStructure.ResponseData[0] == CCommands.SSP_RESPONSE_FAIL)
+                Payout.SetProtocolVersion(b);
+                if (Payout.CommandStructure.ResponseData[0] == CCommands.SSP_RESPONSE_FAIL)
                     return --b;
                 b++;
-                if (b > 20) return 0x06; // return lowest if p version runs too high
+                if (b > 12) return 0x06; // return lowest if p version runs too high
             }
         }
 
