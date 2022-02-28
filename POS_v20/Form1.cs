@@ -6434,10 +6434,18 @@ namespace POS_v20
             timer1.Enabled = false;
         }
 
-        private void cashboxBtn_Click(object sender, EventArgs e)
+        //private void cashboxBtn_Click(object sender, EventArgs e)
+        //{
+        //    if (NV11 != null)
+        //        NV11.StackNextNote(textBox1);
+        //}
+
+        private void resetValidatorBtn_Click(object sender, EventArgs e)
         {
-            if (NV11 != null)
-                NV11.StackNextNote(textBox1);
+            Payout.Reset(textBox1);
+            // Shut port to force reconnect
+            Payout.SSPComms.CloseComPort();
+            ClearCheckBoxes();
         }
 
         private void payoutBtn_Click(object sender, EventArgs e)
