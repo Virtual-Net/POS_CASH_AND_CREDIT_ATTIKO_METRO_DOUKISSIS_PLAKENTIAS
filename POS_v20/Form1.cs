@@ -3444,14 +3444,37 @@ namespace POS_v20
                     {
                         if (secondForm.CashPayment)
                         {
-                            DNote = 0;
-                            NV11.EnableValidator();
-                            NV11.EnablePayout();
+                            DNote10 = 0;
+                            DNote5 = 0;
+                            Payout.EnableValidator();   //enable note recycler
+                            Payout.EnablePayout();
                             Display("Asking_for_money...");
                             if (pm.set(0, 0, 0, 0) == 0)//ACCEPT COINS
                                 Display("START PAYMENT_ACCEPT Coins");
                             InitalCost = int.Parse((charge_double * 100) + "");
                             Display("InitalCost " + InitalCost.ToString());
+                            string CheckLevelInfo = Payout.GetChannelLevelInfo();
+                            string[] NoteLevel = CheckLevelInfo.Split('[', ']');
+                            for (int count = 1; count < NoteLevel.Length; count = count += 2)
+                            {
+                                switch (count)
+                                {
+                                    case 1:
+                                        Display("5 EUR Level: " + NoteLevel[count]);
+                                        FiveEuroNotesLevel = NoteLevel[count];
+                                        break;
+                                    case 3:
+                                        Display("10 EUR Level: " + NoteLevel[count]);
+                                        TenEuroNotesLevel = NoteLevel[count];
+                                        break;
+                                    case 5:
+                                        Display("20 EUR Level: " + NoteLevel[count]);
+                                        TwentyEuroNotesLevel = NoteLevel[count];
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
                             Langtemp = ini.IniReadValue("LANGUAGE", "pay" + secondForm.Language);
                             secondForm.POS_Messages.Clear();
                             secondForm.POS_Messages.AppendText(Langtemp);
