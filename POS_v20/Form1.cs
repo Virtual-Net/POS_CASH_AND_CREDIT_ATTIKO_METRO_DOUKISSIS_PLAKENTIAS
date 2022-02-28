@@ -6448,12 +6448,24 @@ namespace POS_v20
             ClearCheckBoxes();
         }
 
-        rivate void logTickBox_CheckedChanged(object sender, EventArgs e)
+        private void logTickBox_CheckedChanged(object sender, EventArgs e)
         {
             if (logTickBox.Checked)
                 Payout.CommsLog.Show();
             else
                 Payout.CommsLog.Hide();
+        }
+
+        private void chkHold_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkHold.Checked == true)
+            {
+                Payout.HoldNumber = 10;
+            }
+            else
+            {
+                Payout.HoldNumber = 0;
+            }
         }
 
         private void payoutBtn_Click(object sender, EventArgs e)
