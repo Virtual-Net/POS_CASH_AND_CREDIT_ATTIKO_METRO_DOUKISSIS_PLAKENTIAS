@@ -5258,9 +5258,55 @@ namespace POS_v20
                     }
                     break;
 
-                case 65:    //Wait state to retrieve 5 EUR note of cancelled transaction
+                case 65:    //WAIT TO RETRIVE NOTES - CASH TRANSACTION WAS CANCELLED
                     Display("SM: " + SM);
-                    Display("Wait to retrive 5 EUR note from cancel...");
+                    Display("Wait to retrive note(s) from cancel...");
+                    textBox1.ScrollToCaret();
+                    if (textBox1.Text.IndexOf("Paying out 10.00") != -1 && textBox1.Text.IndexOf("Dispensed note(s)") != -1)
+                    {
+                        DNote10++;
+                        ReturnMoney = ReturnMoney + 1000;
+                        Refresh();
+                        secondForm.Refresh(); Thread.Sleep(100);
+                        string ten = ini.IniReadValue("SerialNV", "Avail10");
+                        int temp = Convert.ToInt16(ten); temp--;
+                        ini.IniWriteValue("SerialNV", "Avail10", temp.ToString());
+                        textBox1.Text = "";
+                        tbPayoutAmount.Text = "";
+                        SM = 10;
+                        break;
+                    }
+                    if (textBox1.Text.IndexOf("Paying out 5.00") != -1 && textBox1.Text.IndexOf("Dispensed note(s)") != -1)
+                    {
+                        DNote5++;
+                        ReturnMoney = ReturnMoney + 500;
+                        Refresh();
+                        secondForm.Refresh(); Thread.Sleep(100);
+                        string five = ini.IniReadValue("SerialNV", "Avail05");
+                        int temp = Convert.ToInt16(five); temp--;
+                        ini.IniWriteValue("SerialNV", "Avail05", temp.ToString());
+                        textBox1.Text = "";
+                        tbPayoutAmount.Text = "";
+                        SM = 10;
+                        break;
+                    }
+                    if (textBox1.Text.IndexOf("Command response is CANNOT PROCESS COMMAND") != -1)   //No remainder in notes
+                    {
+                        if ((Math.Abs(InitalCost - Payment) + ReturnMoney) / 1000 > 0)
+                        {
+                            DNote10 = (Math.Abs(InitalCost - Payment) + ReturnMoney) / 1000;
+                            Display("No more 10 euro notes in Note Float...");
+                            SM = 10;
+                            break;
+                        }
+                        if ((Math.Abs(InitalCost - Payment) + ReturnMoney) / 500 > 0)
+                        {
+                            DNote5 = (Math.Abs(InitalCost - Payment) + ReturnMoney) / 500;
+                            Display("No more 5 euro notes in Note Float, go to return coins...");
+                            SM = 10;
+                            break;
+                        }
+                    }
                     break;
 
                 case 7:     //PRINT RECEIPT FOR TICKET - CASH
