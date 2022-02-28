@@ -6121,35 +6121,42 @@ namespace POS_v20
         void MainLoop()
         {
             btnRun.Enabled = false;
-            NV11.CommandStructure.ComPort = Global.ComPort;
-            NV11.CommandStructure.SSPAddress = Global.SSPAddress;
-            NV11.CommandStructure.Timeout = 100;
-            
+            string Port = ini.IniReadValue("SerialNV", "COM");
+            string SSP_Address = ini.IniReadValue("SerialNV", "SSP");
+            Global.ComPort = Port;
+            Global.SSPAddress = Byte.Parse(SSP_Address);
+            Payout.CommandStructure.ComPort = Global.ComPort;
+            Payout.CommandStructure.SSPAddress = Global.SSPAddress;
+            Payout.CommandStructure.Timeout = 3000;
+
             // connect to validator
-            if (ConnectToValidator(reconnectionAttempts))
+            if (ConnectToValidator(reconnectionAttempts, 2))
             {
                 Running = true;
                 textBox1.AppendText("\r\nPoll Loop\r\n*********************************\r\n");
-                this.Refresh();
+                Refresh();
+                Payout.ConfigureBezel(0x00, 0x00, 0xFF, textBox1);
                 btnHalt.Enabled = true;
+
             }
-            
+
             while (Running)
             {
                 /// if the poll fails, try to reconnect
-                if (NV11.DoPoll(textBox1) == false)
+                if (Payout.DoPoll(textBox1).Item1 == false)
                 {
                     textBox1.AppendText("Poll failed, attempting to reconnect...\r\n");
                     this.Refresh();
                     while (true)
                     {
+                        Payout.SSPComms.CloseComPort(); // close com port
                         // attempt reconnect, pass over number of reconnection attempts
-                        if (ConnectToValidator(reconnectionAttempts) == true)
+                        if (ConnectToValidator(reconnectionAttempts, 2) == true)
                             break; // if connection successful, break out and carry on
                         // if not successful, stop the execution of the poll loop
                         btnRun.Enabled = true;
                         btnHalt.Enabled = false;
-                        NV11.SSPComms.CloseComPort(); // close com port before return
+                        Payout.SSPComms.CloseComPort(); // close com port before return
                         return;
                     }
                     textBox1.AppendText("Reconnected\r\n");
@@ -6159,35 +6166,26 @@ namespace POS_v20
                 // update form
                 UpdateUI();
                 // setup dynamic elements of win form once
-                if (!FormSetup)
+                if (!bFormSetup)
                 {
                     SetupFormLayout();
-                    FormSetup = true;
-                }
-                
-                if (NV11.NoteHeld)
-                {
-                    btnReturn.Enabled = true;
-                }
-                else
-                {
-                    btnReturn.Enabled = false;
+                    bFormSetup = true;
                 }
 
-                while (timer1.Enabled)
-                {
-                    Application.DoEvents();
-                    Thread.Sleep(1); // Yield to free up CPU
+                    while (timer1.Enabled)
+                    {
+                        Application.DoEvents();
+                        Thread.Sleep(1); // Yield to free up CPU
+                    }
+
                 }
 
+                //close com port
+                Payout.SSPComms.CloseComPort();
+
+                btnRun.Enabled = true;
+                btnHalt.Enabled = false;
             }
-
-            //close com port
-            NV11.SSPComms.CloseComPort();
-
-            btnRun.Enabled = true;
-            btnHalt.Enabled = false;
-        }
 
         private void noteToRecycleComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
