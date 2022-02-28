@@ -6487,6 +6487,29 @@ namespace POS_v20
             SM = 1;
         }
 
+        private void recycleBox_CheckedChange(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get the sending object as a checkbox
+                CheckBox c = sender as CheckBox;
+
+                // Get the data from the payout
+                ChannelData d = new ChannelData();
+                Payout.GetDataByChannel(Int32.Parse(c.Name), ref d);
+
+                if (c.Checked)
+                    Payout.ChangeNoteRoute(d.Value, d.Currency, false, textBox1);
+                else
+                    Payout.ChangeNoteRoute(d.Value, d.Currency, true, textBox1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "EXCEPTION");
+                return;
+            }
+        }
+
         private void payoutBtn_Click(object sender, EventArgs e)
         {
             if (NV11 != null)
