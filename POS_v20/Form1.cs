@@ -6403,6 +6403,25 @@ namespace POS_v20
             }
         }
 
+        private void CalculatePayout(string amount, char[] currency)
+        {
+            string[] s = amount.Split('.');
+            // only need to deal with whole numbers so we can always just deal
+            // with s[0]
+            int n = 0;
+            try
+            {
+                n = Int32.Parse(s[0]) * 100; // Multiply by 100 for penny value
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "EXCEPTION");
+                return;
+            }
+            // Make payout
+            Payout.PayoutAmount(n, currency, textBox1);
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             timer1.Enabled = false;
