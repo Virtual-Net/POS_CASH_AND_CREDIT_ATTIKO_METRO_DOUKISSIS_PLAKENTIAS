@@ -3713,32 +3713,250 @@ namespace POS_v20
                     Display("SM: " + SM);
                     secondForm.Ticket_Icon.Visible = false;
                     secondForm.Card_Icon.Visible = false;
-                    switch (NV11.storedNoteValue)
+
+                    int PollNumber = Payout.DoPoll(textBox1).Item2;
+                    Display("SmartPayout Poll response: " + PollNumber.ToString());
+                    Display(textBox1.Text);
+                    if (textBox1.Text.IndexOf("Credit 5.00") != -1)
                     {
-                        case 500:
-                            Display("NoteValue: " + NV11.storedNoteValue.ToString());
-                            notes05In = true;
-                            SM = 611;
+                        FiveEuroNoteIn = true;
+                        TenEuroNoteIn = false;
+                        TwentyEuroNoteIn = false;
+                        //textBox1.Text = "";
+                        Display("5 Euro note added");
+                    }
+                    if (textBox1.Text.IndexOf("Credit 10.00") != -1)
+                    {
+                        FiveEuroNoteIn = false;
+                        TenEuroNoteIn = true;
+                        TwentyEuroNoteIn = false;
+                        //textBox1.Text = "";
+                        Display("10 Euro note added");
+                    }
+                    if (textBox1.Text.IndexOf("Credit 20.00") != -1)
+                    {
+                        FiveEuroNoteIn = false;
+                        TenEuroNoteIn = false;
+                        TwentyEuroNoteIn = true;
+                        //textBox1.Text = "";
+                        Display("20 Euro note added");
+                    }
+                    if (textBox1.Text.IndexOf("Note stacked") != -1)
+                    {
+                        if (FiveEuroNoteIn)
+                        {
+                            FiveEuroNoteIn = false;
+                            TenEuroNoteIn = false;
+                            TenEuroNoteIn = false;
+                            Payment = Payment + 500;
+                            GeneralCounter = 120;
+                            Paid05Notes.Text = ini.IniReadValue("SerialNV", "Paid05");
+                            int five = int.Parse(Paid05Notes.Text);
+                            five++;
+                            ini.IniWriteValue("SerialNV", "Paid05", five.ToString());
+                            textBox1.Text = "";
+                            Display("Payment: " + Payment.ToString());
+                        }
+                        else if (TenEuroNoteIn)
+                        {
+                            FiveEuroNoteIn = false;
+                            TenEuroNoteIn = false;
+                            TenEuroNoteIn = false;
+                            Payment = Payment + 1000;
+                            GeneralCounter = 120;
+                            Paid10Notes.Text = ini.IniReadValue("SerialNV", "Paid10");
+                            int ten = int.Parse(Paid10Notes.Text);
+                            ten++;
+                            ini.IniWriteValue("SerialNV", "Paid10", ten.ToString());
+                            textBox1.Text = "";
+                            Display("Payment: " + Payment.ToString());
+                        }
+                        else if (TwentyEuroNoteIn)
+                        {
+                            FiveEuroNoteIn = false;
+                            TenEuroNoteIn = false;
+                            TenEuroNoteIn = false;
+                            Payment = Payment + 2000;
+                            GeneralCounter = 120;
+                            Paid20Notes.Text = ini.IniReadValue("SerialNV", "Paid20");
+                            int twenty = int.Parse(Paid20Notes.Text);
+                            twenty++;
+                            ini.IniWriteValue("SerialNV", "Paid20", twenty.ToString());
+                            textBox1.Text = "";
+                            Display("Payment: " + Payment.ToString());
+                        }
+                    }
+                    if (textBox1.Text.IndexOf("Note stored") != -1)
+                    {
+                        if (FiveEuroNoteIn)
+                        {
+                            FiveEuroNoteIn = false;
+                            TenEuroNoteIn = false;
+                            TenEuroNoteIn = false;
+                            Payment = Payment + 500;
+                            GeneralCounter = 120;
+                            Avail05Notes.Text = ini.IniReadValue("SerialNV", "Avail05");
+                            int five = int.Parse(Avail05Notes.Text);
+                            five++;
+                            ini.IniWriteValue("SerialNV", "Avail05", five.ToString());
+                            textBox1.Text = "";
+                            Display("Payment: " + Payment.ToString());
+                        }
+                        else if (TenEuroNoteIn)
+                        {
+                            FiveEuroNoteIn = false;
+                            TenEuroNoteIn = false;
+                            TenEuroNoteIn = false;
+                            Payment = Payment + 1000;
+                            GeneralCounter = 120;
+                            Avail10Notes.Text = ini.IniReadValue("SerialNV", "Avail10");
+                            int ten = int.Parse(Avail10Notes.Text);
+                            ten++;
+                            ini.IniWriteValue("SerialNV", "Avail10", ten.ToString());
+                            textBox1.Text = "";
+                            Display("Payment: " + Payment.ToString());
+                        }
+                        else if (TwentyEuroNoteIn)
+                        {
+                            FiveEuroNoteIn = false;
+                            TenEuroNoteIn = false;
+                            TenEuroNoteIn = false;
+                            Payment = Payment + 2000;
+                            GeneralCounter = 120;
+                            Paid20Notes.Text = ini.IniReadValue("SerialNV", "Paid20");
+                            int twenty = int.Parse(Paid20Notes.Text);
+                            twenty++;
+                            ini.IniWriteValue("SerialNV", "Paid20", twenty.ToString());
+                            textBox1.Text = "";
+                            Display("Payment: " + Payment.ToString());
+                        }
+                    }
+                    if (textBox1.Text.IndexOf("Rejecting") != -1)
+                        textBox1.Text = "";
+                    switch (PollNumber)
+                    {
+                        case 0:
+                            Display("SmartPayout idle state");
+                            //DisableChangeNotes = false;
                             break;
-                        case 1000:
-                            Display("NoteValue: " + NV11.storedNoteValue.ToString());
-                            notes10In = true;
-                            SM = 611;
+                        case 1:
+                            Display("SmartPayout reset");
                             break;
-                        case 2000:
-                            Display("NoteValue: " + NV11.storedNoteValue.ToString());
-                            notes20In = true;
-                            SM = 611;
+                        case 2:
+                            Display("SmartPayout disabled");
                             break;
-                        case 5000:
-                            Display("NoteValue: " + NV11.storedNoteValue.ToString());
-                            notes50In = true;
-                            SM = 611;
+                        case 3:
+                            Display("SmartPayout note in escrow, reading note...");
+                            break;
+                        case 4:
+                            Display("SmartPayout credit");
+                            break;
+                        case 5:
+                            Display("SmartPayout rejecting note");
+                            break;
+                        case 6:
+                            Display("SmartPayout note rejected");
+                            break;
+                        case 7:
+                            Display("SmartPayout stacking note");
+                            break;
+                        case 8:
+                            Display("SmartPayout floating note");
+                            break;
+                        case 9:
+                            Display("SmartPayout note stacked");
+
+                            break;
+                        case 10:
+                            Display("SmartPayout completed floating");
+                            break;
+                        case 11:
+                            Display("SmartPayout note stored");
+
+                            break;
+                        case 12:
+                            Display("SmartPayout safe jam");
+                            break;
+                        case 13:
+                            Display("SmartPayout unsafe jam");
+                            break;
+                        case 14:
+                            Display("SmartPayout detect error with payout device");
+                            break;
+                        case 15:
+                            Display("SmartPayout fraud attempt!!!");
+                            break;
+                        case 16:
+                            Display("SmartPayout stacker full");
+                            break;
+                        case 17:
+                            Display("SmartPayout note cleared from front of validator");
+                            break;
+                        case 18:
+                            Display("SmartPayout note cleared to cashbox");
+                            break;
+                        case 19:
+                            Display("SmartPayout note paid into payout on startup");
+                            break;
+                        case 20:
+                            Display("SmartPayout note paid into cashbox on startup");
+                            break;
+                        case 21:
+                            Display("SmartPayout cashbox removed");
+                            break;
+                        case 22:
+                            Display("SmartPayout cashbox replaced");
+                            break;
+                        case 23:
+                            Display("SmartPayout despensing notes");
+                            break;
+                        case 24:
+                            Display("SmartPayout dispensed notes");
+                            break;
+                        case 25:
+                            Display("SmartPayout emptying...");
+                            break;
+                        case 26:
+                            Display("SmartPayout emptied");
+                            break;
+                        case 27:
+                            Display("SmartPayout SMART Emptying");
+                            break;
+                        case 28:
+                            Display("SmartPayout SMART Emptied, getting info...");
+                            break;
+                        case 29:
+                            Display("SmartPayout unit jammed");
+                            break;
+                        case 30:
+                            Display("SmartPayout halted");
+                            break;
+                        case 31:
+                            Display("SmartPayout incomplete payout");
+                            break;
+                        case 32:
+                            Display("SmartPayout incomplete float");
+                            break;
+                        case 33:
+                            Display("SmartPayout note transferred to stacker");
+                            break;
+                        case 34:
+                            Display("SmartPayout note in bezel");
+                            break;
+                        case 35:
+                            Display("SmartPayout payout out of service");
+                            break;
+                        case 36:
+                            Display("SmartPayout timeout searching for a note");
+                            break;
+                        case 37:
+                            Display("SmartPayout unsupported poll response received");
                             break;
                         default:
+                            //Display("Credit is: " + PollNumber.ToString());
                             break;
                     }
-                    
+
                     if (Payment == InitalCost)
                     { //AKRIBWS
                         ReturnMoney = 0;
