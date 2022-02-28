@@ -3581,14 +3581,32 @@ namespace POS_v20
                     {
                         if (secondForm.CashPayment)
                         {
-                            DNote = 0;
-                            NV11.EnableValidator();
-                            NV11.EnablePayout();
+                            DNote10 = 0;
+                            DNote5 = 0;
+                            Payout.EnableValidator();
+                            Payout.EnablePayout();
                             Display("Asking_for_money...");
                             if (pm.set(0, 0, 0, 0) == 0)//ACCEPT COINS
                                 Display("START PAYMENT_ACCEPT Coins");
                             InitalCost = int.Parse((charge_double * 100) + "");
                             Display("InitalCost " + InitalCost.ToString());
+                            string[] strArray = Payout.GetChannelLevelInfo().Split('[', ']');
+                            int num2;
+                            for (int index = 1; index < strArray.Length; index = num2 = index + 2)
+                            {
+                                switch (index)
+                                {
+                                    case 1:
+                                        Display("5 EUR Level: " + strArray[index]);
+                                        break;
+                                    case 3:
+                                        Display("10 EUR Level: " + strArray[index]);
+                                        break;
+                                    case 5:
+                                        Display("20 EUR Level: " + strArray[index]);
+                                        break;
+                                }
+                            }
                             secondForm.Ticket_Icon.Visible = false;
                             secondForm.Card_Icon.Visible = false;
                             secondForm.ValueText.Text = value;
