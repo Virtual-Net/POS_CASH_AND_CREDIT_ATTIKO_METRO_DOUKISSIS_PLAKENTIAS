@@ -43,7 +43,7 @@ namespace POS_v20
         /// <summary>
         /// end of
         /// </summary>
-        string IniFilePath = "C:/POS/POS.ini"; 
+        string IniFilePath = "C:/POS/POS.ini";
         IniFile ini;
         string BC_Data = "";
         string RF_Card = "";
@@ -65,9 +65,9 @@ namespace POS_v20
         string PaymentMethod = "";
 
         int SM = 1;
-        
+
         Form2 secondForm = new Form2();
-        
+
         public string UserCode;
         public string UserCoupon;
         int GeneralCounter = 120;
@@ -77,7 +77,7 @@ namespace POS_v20
         int pollTimer = 300; // timer in ms
         int reconnectionAttempts = 5;
         CPayout Payout; // the class used to interface with the validator
-        bool FormSetup = false;
+        bool bFormSetup = false;
         frmPayoutByDenom payoutByDenomFrm;
         List<CheckBox> recycleBoxes = new List<CheckBox>();
         string FiveEuroNotesLevel = "";
@@ -212,15 +212,16 @@ namespace POS_v20
 
         protected void processPMMessage(int wParam, int lParam)
         {
-            switch (wParam){
+            switch (wParam)
+            {
                 case 0x00:										// Coin accepted
-                    Display("Coins Ready " + "W" + wParam.ToString() + "L" + lParam.ToString()+"\n");
+                    Display("Coins Ready " + "W" + wParam.ToString() + "L" + lParam.ToString() + "\n");
                     break;
                 case 0x01:
-                    Display("Coins Unknown" + "W" + wParam.ToString() + "L" + lParam.ToString()+"\n");
+                    Display("Coins Unknown" + "W" + wParam.ToString() + "L" + lParam.ToString() + "\n");
                     if (lParam == 4)
                         Display("NO MONEY LEFT\n");
-                    Display("Tubes EMPTY:" + "W" + wParam.ToString() + "L" + lParam.ToString()+"\n");
+                    Display("Tubes EMPTY:" + "W" + wParam.ToString() + "L" + lParam.ToString() + "\n");
                     if (lParam == 16)
                     {
                         if (FiveCentIn)
@@ -289,8 +290,9 @@ namespace POS_v20
                     }
                     break;
                 case 0x11://W17										// Coin accepted
-                    Display("Coins Accepted" + "W" + wParam.ToString() + "L " + lParam.ToString()+"\n");
-                    switch (lParam){
+                    Display("Coins Accepted" + "W" + wParam.ToString() + "L " + lParam.ToString() + "\n");
+                    switch (lParam)
+                    {
                         case 5:
                             Payment = Payment + 5;
                             GeneralCounter = 120;
@@ -330,7 +332,7 @@ namespace POS_v20
                     }
                     break;
                 case 33:
-                    Display("Coins Manual Eject:" + "W" + wParam.ToString() + "L" + lParam.ToString()+"\n");
+                    Display("Coins Manual Eject:" + "W" + wParam.ToString() + "L" + lParam.ToString() + "\n");
                     break;
                 case 0x31:										// Reject button pressed
                     Display("Coins Reject Button Pressed\n");//btnReject_Click(this, new EventArgs());
@@ -341,7 +343,7 @@ namespace POS_v20
                     //Display("\nW" + wParam.ToString() + "L" + lParam.ToString());
                     break;
                 default:
-                    Display("Coins Unknown" + "W" + wParam.ToString() + "L" + lParam.ToString()+ "\n");
+                    Display("Coins Unknown" + "W" + wParam.ToString() + "L" + lParam.ToString() + "\n");
                     break;
             }
             switch (lParam)
@@ -375,14 +377,17 @@ namespace POS_v20
             FileName = "C:/POS/log/" + DateTime.Now.ToString("ddMMyy") + "_POS_Log.txt";
             WRfile = new StreamWriter(FileName, true, Encoding.UTF8, 100);
             WRfile.AutoFlush = true;
-            
+
             //Open Config File
-            if (System.IO.File.Exists(IniFilePath) == true){
+            if (System.IO.File.Exists(IniFilePath) == true)
+            {
                 ini = new IniFile(IniFilePath);
-            }else{
+            }
+            else
+            {
                 MessageBox.Show("Ini NOT Found\nFix Error and restart application");
                 return;
-            }            
+            }
 
             //Buttons Status
             UX300Status.Enabled = false;
@@ -392,19 +397,19 @@ namespace POS_v20
             NVStatus.Enabled = false;
             CoinStatus.Enabled = false;
 
-            secondForm.pictureBox05.Visible = false;            
+            secondForm.pictureBox05.Visible = false;
             secondForm.pictureBox10.Visible = false;
             secondForm.pictureBox20.Visible = false;
             secondForm.btnYes.Visible = false;
             secondForm.btnNo.Visible = false;
             secondForm.cashButton.Visible = false;
             secondForm.creditButton.Visible = false;
-            
+
             secondForm.Messages2.Visible = false;
 
             secondForm.Vprogress.Maximum = 120;
 
-            BC_Lenght   = Convert.ToInt16(ini.IniReadValue("Params", "BC_Length"));
+            BC_Lenght = Convert.ToInt16(ini.IniReadValue("Params", "BC_Length"));
             CPN_Length = Convert.ToInt16(ini.IniReadValue("Params", "CPN_Length"));
             RFID_Lenght = Convert.ToInt16(ini.IniReadValue("Params", "RFID_Lenght"));
             HTTPURLTICKET = ini.IniReadValue("Params", "HTTPURLTICKET");
@@ -429,7 +434,7 @@ namespace POS_v20
             public string data { get; set; }
             public string finalStatus { get; set; }
         }
-    private void pd_PrintPage(object sender, PrintPageEventArgs ev)
+        private void pd_PrintPage(object sender, PrintPageEventArgs ev)
         {
             float linesPerPage = 0;
             float yPos = 0;
@@ -467,33 +472,33 @@ namespace POS_v20
             return _CheckSumByte;
         }
 
-/**************************************************************************************/
-/**************************************************************************************/
-//TCP Handling    
-    #region TCP handling
-    private string PHPHandling(string message)
-    {
-        //Here we will enter the data to send, just like if we where to go to a webpage and enter variables,
-        string requestmethod = "POST";
-        string postData = message;
-        //The Byte Array that will be used for writing the data to the stream.
-        byte[] byteArray = Encoding.UTF8.GetBytes(postData);
-        //The URL of the webpage to send the data to.
-        string URL = HTTPURL;
-        //The type of content being send, this is almost always "application/x-www-form-urlencoded".
-        string contenttype = "application/x-www-form-urlencoded";
-        //What the server sends back:
-        string responseFromServer = null;
+        /**************************************************************************************/
+        /**************************************************************************************/
+        //TCP Handling    
+        #region TCP handling
+        private string PHPHandling(string message)
+        {
+            //Here we will enter the data to send, just like if we where to go to a webpage and enter variables,
+            string requestmethod = "POST";
+            string postData = message;
+            //The Byte Array that will be used for writing the data to the stream.
+            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+            //The URL of the webpage to send the data to.
+            string URL = HTTPURL;
+            //The type of content being send, this is almost always "application/x-www-form-urlencoded".
+            string contenttype = "application/x-www-form-urlencoded";
+            //What the server sends back:
+            string responseFromServer = null;
 
-        //Here we will create the WebRequest object, and enter the URL as soon as it is created.
+            //Here we will create the WebRequest object, and enter the URL as soon as it is created.
 
-        WebRequest request = WebRequest.Create(URL);
-        //We also need a Stream:
-        Stream dataStream;
-        //...And a webResponce,
-        WebResponse response;
-        //don't forget the streamreader either!
-        StreamReader reader;
+            WebRequest request = WebRequest.Create(URL);
+            //We also need a Stream:
+            Stream dataStream;
+            //...And a webResponce,
+            WebResponse response;
+            //don't forget the streamreader either!
+            StreamReader reader;
 
             try
             {
@@ -536,8 +541,8 @@ namespace POS_v20
                 SM = 11;
                 Display("FATAL ERROR: Connection to server was lost");
             }
-        return responseFromServer;
-    }
+            return responseFromServer;
+        }
 
         private void TCP_Connect_Click(object sender, EventArgs e)
         {
@@ -570,160 +575,160 @@ namespace POS_v20
                 MessageBox.Show("Could not connect to server\n Check TCP settings");
             }
         }
-    /************************/
-    public void WaitForData()
-    {
-        try
+        /************************/
+        public void WaitForData()
         {
-            if (m_pfnCallBack == null)
-                m_pfnCallBack = new AsyncCallback(OnDataReceived);
-
-            SocketPacket theSocPkt = new SocketPacket();
-            theSocPkt.thisSocket = m_clientSocket;
-            // Start listening to the data asynchronously
-            m_result = m_clientSocket.BeginReceive(theSocPkt.dataBuffer,
-                                                    0, theSocPkt.dataBuffer.Length,
-                                                    SocketFlags.None,
-                                                    m_pfnCallBack,
-                                                    theSocPkt);
-            Server_Connect.BackColor = Color.YellowGreen;
-        }
-        catch (SocketException se)
-        {
-            Display("Exception Wait For Data" + se.Message+"\n");
-        }
-    }
-    /************************/
-    public class SocketPacket
-    {
-        public System.Net.Sockets.Socket thisSocket;
-        public byte[] dataBuffer = new byte[100];
-    }
-    /************************/
-    public void OnDataReceived(IAsyncResult asyn)
-    {
-        //byte[] byData;
-
-        try
-        {
-            SocketPacket theSockId = (SocketPacket)asyn.AsyncState;
-            int iRx = theSockId.thisSocket.EndReceive(asyn);
-            char[] chars = new char[iRx + 1];
-            System.Text.Decoder d = System.Text.Encoding.Default.GetDecoder();
-
-            int charLen = d.GetChars(theSockId.dataBuffer, 0, iRx, chars, 0);
-            System.String szData = new System.String(chars);
-            Display("TCP_RCV:" + szData+"\n");//richTextRxMessage.Text = richTextRxMessage.Text + szData;
-
-            if (szData.IndexOf("#TIC") != -1)
+            try
             {
-                TCP_Data = szData.TrimEnd('\0');
+                if (m_pfnCallBack == null)
+                    m_pfnCallBack = new AsyncCallback(OnDataReceived);
+
+                SocketPacket theSocPkt = new SocketPacket();
+                theSocPkt.thisSocket = m_clientSocket;
+                // Start listening to the data asynchronously
+                m_result = m_clientSocket.BeginReceive(theSocPkt.dataBuffer,
+                                                        0, theSocPkt.dataBuffer.Length,
+                                                        SocketFlags.None,
+                                                        m_pfnCallBack,
+                                                        theSocPkt);
+                Server_Connect.BackColor = Color.YellowGreen;
             }
-            if (szData.IndexOf("#CARD") != -1)
+            catch (SocketException se)
             {
-                TCP_Data = szData.TrimEnd('\0');
+                Display("Exception Wait For Data" + se.Message + "\n");
             }
-            if (szData.IndexOf("#RCP") != -1)
+        }
+        /************************/
+        public class SocketPacket
+        {
+            public System.Net.Sockets.Socket thisSocket;
+            public byte[] dataBuffer = new byte[100];
+        }
+        /************************/
+        public void OnDataReceived(IAsyncResult asyn)
+        {
+            //byte[] byData;
+
+            try
             {
-                TCP_Data = szData.TrimEnd('\0');
+                SocketPacket theSockId = (SocketPacket)asyn.AsyncState;
+                int iRx = theSockId.thisSocket.EndReceive(asyn);
+                char[] chars = new char[iRx + 1];
+                System.Text.Decoder d = System.Text.Encoding.Default.GetDecoder();
+
+                int charLen = d.GetChars(theSockId.dataBuffer, 0, iRx, chars, 0);
+                System.String szData = new System.String(chars);
+                Display("TCP_RCV:" + szData + "\n");//richTextRxMessage.Text = richTextRxMessage.Text + szData;
+
+                if (szData.IndexOf("#TIC") != -1)
+                {
+                    TCP_Data = szData.TrimEnd('\0');
+                }
+                if (szData.IndexOf("#CARD") != -1)
+                {
+                    TCP_Data = szData.TrimEnd('\0');
+                }
+                if (szData.IndexOf("#RCP") != -1)
+                {
+                    TCP_Data = szData.TrimEnd('\0');
+                }
+                if (szData.IndexOf("#CPN") != -1)
+                {
+                    TCP_Data = szData.TrimEnd('\0');
+                }
+                if (szData.IndexOf("\0") == 0)
+                {
+                    //TCP_Send("ERROR: Problem with connection");
+                    m_clientSocket.Close();
+                    SM = 11;
+                    Display("Problem with connection\n");
+                    return;
+                }
+                //byData = System.Text.Encoding.ASCII.GetBytes(szData);
+                //m_clientSocket.Send(byData);
+                WaitForData();
             }
-            if (szData.IndexOf("#CPN") != -1)
+            catch (ObjectDisposedException)
             {
-                TCP_Data = szData.TrimEnd('\0');
-            }            
-            if (szData.IndexOf("\0") == 0)
-            {
-                //TCP_Send("ERROR: Problem with connection");
-                m_clientSocket.Close();
-                SM = 11; 
-                Display("Problem with connection\n");
-                return;
+                System.Diagnostics.Debugger.Log(0, "1", "\nOnDataReceived: Socket has been closed\n");
             }
-            //byData = System.Text.Encoding.ASCII.GetBytes(szData);
-            //m_clientSocket.Send(byData);
-            WaitForData();
+            catch (SocketException se)
+            {
+                Display("Exception On Data Received " + se.Message + "\n");
+                Server_Connect.BackColor = Color.Tomato;
+            }
         }
-        catch (ObjectDisposedException)
-        {
-            System.Diagnostics.Debugger.Log(0, "1", "\nOnDataReceived: Socket has been closed\n");
-        }
-        catch (SocketException se)
-        {
-            Display("Exception On Data Received "+se.Message+"\n");
-            Server_Connect.BackColor = Color.Tomato;
-        }
-    }
-    #endregion
+        #endregion
 
-/**************************************************************************************/
-// TCP SEND FUNCTION
-    public int TCP_Send(string HTTPHeader1, string send, string HTTPHeader2)
-    {
-        byte[] byDataHTTPHeader1;
-        byte[] byDataSend;
-        byte[] byDataHTTPHeader2;
-
-        byDataHTTPHeader1 = Encoding.ASCII.GetBytes(HTTPHeader1);
-        byDataSend = Encoding.ASCII.GetBytes(send);
-        byDataHTTPHeader2 = Encoding.ASCII.GetBytes(HTTPHeader2);
-
-        //m_clientSocket.
-        if (send.Length == 0)
+        /**************************************************************************************/
+        // TCP SEND FUNCTION
+        public int TCP_Send(string HTTPHeader1, string send, string HTTPHeader2)
         {
-            Display("Empty TCP data to send");
-            return 0;
-        }
-        else if (!m_clientSocket.Connected)
-        {
-            Display("No Connection with Server");
-            SM = 11;
-            return 0;
-        }
-        else
-        {
-            int count = m_clientSocket.Send(byDataHTTPHeader1);
-            int count1 = m_clientSocket.Send(byDataSend);
-            int count2 = m_clientSocket.Send(byDataHTTPHeader2);
-            Display("TCP_SEND:" + HTTPHeader1 + send + HTTPHeader2);
-            Thread.Sleep(100);
-            return count;
-        }
-    }
+            byte[] byDataHTTPHeader1;
+            byte[] byDataSend;
+            byte[] byDataHTTPHeader2;
 
-/**************************************************************************************/
-/**************************************************************************************/
-//OPEN BARCODE PORT
+            byDataHTTPHeader1 = Encoding.ASCII.GetBytes(HTTPHeader1);
+            byDataSend = Encoding.ASCII.GetBytes(send);
+            byDataHTTPHeader2 = Encoding.ASCII.GetBytes(HTTPHeader2);
 
-    private void OpenBR_Click(object sender, EventArgs e)
-    {
-        string Port = ini.IniReadValue("SerialBR", "COM");
-
-        Display("LOAD SETTINGS SerialBR COM Port: " + Port + "\n");
-        serialBR.PortName = Port;
-        serialBR.BaudRate = 9600;
-        serialBR.DataBits = 8;
-        serialBR.Parity = Parity.None;
-        serialBR.StopBits = StopBits.One;
-        serialBR.Handshake = Handshake.None;
-        serialBR.ReadTimeout = 300;
-
-        try
-        {
-            serialBR.Open();
-            OpenBR.BackColor = Color.GreenYellow;
-            BRStatus.Enabled = true;
-            OpenBR.Enabled = false;
-            this.Refresh();
+            //m_clientSocket.
+            if (send.Length == 0)
+            {
+                Display("Empty TCP data to send");
+                return 0;
+            }
+            else if (!m_clientSocket.Connected)
+            {
+                Display("No Connection with Server");
+                SM = 11;
+                return 0;
+            }
+            else
+            {
+                int count = m_clientSocket.Send(byDataHTTPHeader1);
+                int count1 = m_clientSocket.Send(byDataSend);
+                int count2 = m_clientSocket.Send(byDataHTTPHeader2);
+                Display("TCP_SEND:" + HTTPHeader1 + send + HTTPHeader2);
+                Thread.Sleep(100);
+                return count;
+            }
         }
-        catch
+
+        /**************************************************************************************/
+        /**************************************************************************************/
+        //OPEN BARCODE PORT
+
+        private void OpenBR_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("SerialBR Error \n\nProblem While Opening Serial Port: " + Port + " \nCheck Ini Settings!");
-            Display("SerialBR Error \n\nProblem While Opening Serial Port: " + Port + " \n");
-            OpenBR.BackColor = Color.Tomato;
-            this.Refresh();
+            string Port = ini.IniReadValue("SerialBR", "COM");
+
+            Display("LOAD SETTINGS SerialBR COM Port: " + Port + "\n");
+            serialBR.PortName = Port;
+            serialBR.BaudRate = 9600;
+            serialBR.DataBits = 8;
+            serialBR.Parity = Parity.None;
+            serialBR.StopBits = StopBits.One;
+            serialBR.Handshake = Handshake.None;
+            serialBR.ReadTimeout = 300;
+
+            try
+            {
+                serialBR.Open();
+                OpenBR.BackColor = Color.GreenYellow;
+                BRStatus.Enabled = true;
+                OpenBR.Enabled = false;
+                this.Refresh();
+            }
+            catch
+            {
+                MessageBox.Show("SerialBR Error \n\nProblem While Opening Serial Port: " + Port + " \nCheck Ini Settings!");
+                Display("SerialBR Error \n\nProblem While Opening Serial Port: " + Port + " \n");
+                OpenBR.BackColor = Color.Tomato;
+                this.Refresh();
+            }
+            serialBR.Close();
         }
-        serialBR.Close();
-    }
         /**************************************************************************************/
         //BARCODE STATUS
 
@@ -871,7 +876,7 @@ namespace POS_v20
                     tab = MainConfig.SelectedIndex;
                     RFID.Text = "RFID_OK";
                     //MainConfig.SelectedIndex = tab + 1;
-                   //MainConfig.TabPages[6].Parent.Focus();
+                    //MainConfig.TabPages[6].Parent.Focus();
                     RFIDStatus.Enabled = false;
                     Refresh();
                     break;
@@ -927,15 +932,15 @@ namespace POS_v20
             serialEFT_POS.Close();
         }
 
-/**************************************************************************************/
-//UX300 STATUS
+        /**************************************************************************************/
+        //UX300 STATUS
 
-    private void UX300Status_Click(object sender, EventArgs e)
-    {
-        if (!serialEFT_POS.IsOpen)
-            serialEFT_POS.Open();
-        else
-            Thread.Sleep(100);
+        private void UX300Status_Click(object sender, EventArgs e)
+        {
+            if (!serialEFT_POS.IsOpen)
+                serialEFT_POS.Open();
+            else
+                Thread.Sleep(100);
 
             try
             {
@@ -2124,11 +2129,11 @@ namespace POS_v20
             if (serialEFT_POS.IsOpen) { serialEFT_POS.Write(NDOneBill, 0, NDOneBill.Length); Thread.Sleep(100); }//1000
         }
 
-/**************************************************************************************/
-/**************************************************************************************/
-    //OPEN PRINTER PORT
-    private void OpenPRINTER_Click(object sender, EventArgs e)
-    {
+        /**************************************************************************************/
+        /**************************************************************************************/
+        //OPEN PRINTER PORT
+        private void OpenPRINTER_Click(object sender, EventArgs e)
+        {
             string usb_printer = ini.IniReadValue("Params", "usb_printer");
             Display("Declared printer is: " + usb_printer); //as written in control panel
             foreach (string printer in PrinterSettings.InstalledPrinters)
@@ -2145,10 +2150,10 @@ namespace POS_v20
                 }
             }
         }
-    /**************************************************************************************/
-    //PRINTER STATUS
-    private void PRINTERStatus_Click(object sender, EventArgs e)
-    {
+        /**************************************************************************************/
+        //PRINTER STATUS
+        private void PRINTERStatus_Click(object sender, EventArgs e)
+        {
             try
             {
                 streamToPrint = new StreamReader
@@ -2175,71 +2180,71 @@ namespace POS_v20
             {
                 OpenPRINTER.BackColor = Color.Tomato;
                 Display(ex.Message);
-            }            
+            }
         }
-    
-    /**************************************************************************************/
-    //RECEIVE HANDLER FOR PRINTER
-    private void ReceivePRINTER(object sender, SerialDataReceivedEventArgs e)
-    {
-        byte[] buffer = new byte[100];
 
-        int size = serialPRINTER.Read(buffer, 0, 60);
-        string data = BitConverter.ToString(buffer);
-        data = data.Replace("-", "");
-        data = data.Substring(0, 2 * size);
-        
-        if (size > 0)
-            this.Invoke((MethodInvoker)delegate
-            { Display("Got Printer Message_" + size.ToString() + ": " + data + "\n"); });
+        /**************************************************************************************/
+        //RECEIVE HANDLER FOR PRINTER
+        private void ReceivePRINTER(object sender, SerialDataReceivedEventArgs e)
+        {
+            byte[] buffer = new byte[100];
 
-        if (size >= 1 && ((buffer[0]) == 0x7E))
-        {
-            this.Invoke((MethodInvoker)delegate
+            int size = serialPRINTER.Read(buffer, 0, 60);
+            string data = BitConverter.ToString(buffer);
+            data = data.Replace("-", "");
+            data = data.Substring(0, 2 * size);
+
+            if (size > 0)
+                this.Invoke((MethodInvoker)delegate
+                { Display("Got Printer Message_" + size.ToString() + ": " + data + "\n"); });
+
+            if (size >= 1 && ((buffer[0]) == 0x7E))
             {
-                Display("Printer ERROR: Paper End\nReplace paper\n"); SM = 11;
-                secondForm.richTextBox1.ForeColor = Color.DarkRed;
-                secondForm.richTextBox1.Text = "Warning: *** Printer OUT OF ORDER, Replace Paper! ***";
-                PRINTERStatus.BackColor = Color.Tomato;
-            });
-            Thread.Sleep(1);
-        }
-        if (size >= 1 && (buffer[0] == 0x1E))
-        {
-            this.Invoke((MethodInvoker)delegate
+                this.Invoke((MethodInvoker)delegate
+                {
+                    Display("Printer ERROR: Paper End\nReplace paper\n"); SM = 11;
+                    secondForm.richTextBox1.ForeColor = Color.DarkRed;
+                    secondForm.richTextBox1.Text = "Warning: *** Printer OUT OF ORDER, Replace Paper! ***";
+                    PRINTERStatus.BackColor = Color.Tomato;
+                });
+                Thread.Sleep(1);
+            }
+            if (size >= 1 && (buffer[0] == 0x1E))
             {
-                Display("Printer Status OK\n");
-                PRINTERStatus.BackColor = Color.YellowGreen;
-                this.Printer.Text = "Printer_OK";
-                PRINTERStatus.Enabled = false;
-                int tab = this.MainConfig.SelectedIndex;
+                this.Invoke((MethodInvoker)delegate
+                {
+                    Display("Printer Status OK\n");
+                    PRINTERStatus.BackColor = Color.YellowGreen;
+                    this.Printer.Text = "Printer_OK";
+                    PRINTERStatus.Enabled = false;
+                    int tab = this.MainConfig.SelectedIndex;
                 //if (tab < 4) this.MainConfig.SelectedIndex = tab + 1;
                 //this.MainConfig.TabPages[6].Parent.Focus();
             });
-            Thread.Sleep(1);
-        }
-        if (size >= 1 && (buffer[0] == 0x12))
-        {
-            this.Invoke((MethodInvoker)delegate
+                Thread.Sleep(1);
+            }
+            if (size >= 1 && (buffer[0] == 0x12))
             {
-                Display("Printer Status OK\n");
-                PRINTERStatus.BackColor = Color.YellowGreen;
-                this.Printer.Text = "Printer_OK";
-                PRINTERStatus.Enabled = false;
-                int tab = this.MainConfig.SelectedIndex;
+                this.Invoke((MethodInvoker)delegate
+                {
+                    Display("Printer Status OK\n");
+                    PRINTERStatus.BackColor = Color.YellowGreen;
+                    this.Printer.Text = "Printer_OK";
+                    PRINTERStatus.Enabled = false;
+                    int tab = this.MainConfig.SelectedIndex;
                 //if (tab < 4) this.MainConfig.SelectedIndex = tab + 1;
                 //this.MainConfig.TabPages[6].Parent.Focus();
             });
-            Thread.Sleep(1);
+                Thread.Sleep(1);
+            }
+            data = "";
         }
-        data = "";
-    }
 
-/**************************************************************************************/
-// PrintTEST Receipt 
+        /**************************************************************************************/
+        // PrintTEST Receipt 
 
-    private void test_Click(object sender, EventArgs e)
-    {
+        private void test_Click(object sender, EventArgs e)
+        {
             try
             {
                 streamToPrint = new StreamReader
@@ -2351,15 +2356,15 @@ namespace POS_v20
                 Display("Coins Error \n\nProblem While Opening Serial Port: " + Port + " \n");
             }
         }
-/**************************************************************************************/
-//COINS STATUS
+        /**************************************************************************************/
+        //COINS STATUS
 
-    private void CoinStatus_Click(object sender, EventArgs e)
-    {
-        pm.start(wndHandle, WM_PAYMENTMESSAGE, 0, 0, 0);
-        if (pm.set(0, 1, 0, 0) != 0)
-            Display("CoinDisp: Disable all ERROR\n");
-    }
+        private void CoinStatus_Click(object sender, EventArgs e)
+        {
+            pm.start(wndHandle, WM_PAYMENTMESSAGE, 0, 0, 0);
+            if (pm.set(0, 1, 0, 0) != 0)
+                Display("CoinDisp: Disable all ERROR\n");
+        }
         /**************************************************************************************/
         //FINAL REFRESH BUTTON
 
@@ -2494,28 +2499,28 @@ namespace POS_v20
             }
         }
 
-/**************************************************************************************/
-//Return Coins Test   
+        /**************************************************************************************/
+        //Return Coins Test   
 
-    private void CoinsTest_Click(object sender, EventArgs e)
-    {
-        pm.set(1, 0, 385, 0);
-    }
+        private void CoinsTest_Click(object sender, EventArgs e)
+        {
+            pm.set(1, 0, 385, 0);
+        }
 
-/**************************************************************************************/
-// Print Cash & Coins Report
+        /**************************************************************************************/
+        // Print Cash & Coins Report
 
-    private void button1_Click(object sender, EventArgs e)
-    {
-        p = true; Refresh_Click(this, e); p = false;
-    }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            p = true; Refresh_Click(this, e); p = false;
+        }
 
         /**************************************************************************************/
         //FINAL SAVE BUTTON
 
         private void Save_Click(object sender, EventArgs e)
         {
-            
+
             ini.IniWriteValue("SerialNV", "Avail05", Avail05Notes.Text); Thread.Sleep(100);
             NotesFive = int.Parse(Avail05Notes.Text);
             ini.IniWriteValue("SerialNV", "Paid50", Paid50Notes.Text); Thread.Sleep(100);
@@ -2532,12 +2537,12 @@ namespace POS_v20
             Display("\nAvailable Data Values Saved to Ini\n");
         }
 
-/**************************************************************************************/
-/**************************************************************************************/
-/**************************************************************************************/
-/**************************************************************************************/    
-// INIT SYSTEM
-    private Thread DW = new Thread(DiskWriter);
+        /**************************************************************************************/
+        /**************************************************************************************/
+        /**************************************************************************************/
+        /**************************************************************************************/
+        // INIT SYSTEM
+        private Thread DW = new Thread(DiskWriter);
 
         private void Init_System_Click(object sender, EventArgs e)
         {
@@ -2605,7 +2610,7 @@ namespace POS_v20
             {
                 OpenNV_Click(this, e); this.Refresh(); Thread.Sleep(800);
                 NVStatus_Click(this, e); this.Refresh(); Thread.Sleep(1000);
-                
+
             }
             catch (Exception ex)
             {
@@ -2651,7 +2656,7 @@ namespace POS_v20
             Paid10Notes.ReadOnly = true;
             Paid20Notes.ReadOnly = true;
             Paid50Notes.ReadOnly = true;
-            
+
             if (m_clientSocket == null)
             {
                 Cursor.Show();
@@ -2742,13 +2747,13 @@ namespace POS_v20
             Thread.Sleep(100);
         }
 
-/**************************************************************************************/
-/**************************************************************************************/
-/**************************************************************************************/
-/**************************************************************************************/
-//DISPLAY MESSAGES
-    private static Queue<string> que = new Queue<string>();
-    private static Object locker = new object();
+        /**************************************************************************************/
+        /**************************************************************************************/
+        /**************************************************************************************/
+        /**************************************************************************************/
+        //DISPLAY MESSAGES
+        private static Queue<string> que = new Queue<string>();
+        private static Object locker = new object();
         public void Display(string s)//just a function used to display messages on richedit box
         {
             lock (locker)
@@ -2784,8 +2789,8 @@ namespace POS_v20
                             s = "NULL_LOG_DATA";
                         POS_v20.Form1.instance.Invoke((MethodInvoker)delegate
                         {
-                        //s = s.Replace('\n','_');          
-                        POS_v20.Form1.instance.Debugging.AppendText(DateTime.Now.ToString("\ndd/MM/yy HH:mm:ss/> ") + s);
+                            //s = s.Replace('\n','_');          
+                            POS_v20.Form1.instance.Debugging.AppendText(DateTime.Now.ToString("\ndd/MM/yy HH:mm:ss/> ") + s);
                             POS_v20.Form1.instance.Debugging.ScrollToCaret();
                         });
 
@@ -2841,7 +2846,8 @@ namespace POS_v20
 
             if (secondForm.Text != "")
                 Thread.Sleep(1);
-            else {
+            else
+            {
                 GeneralTimer.Stop();
                 Display("Form2 Closed");
                 p = false;
@@ -2881,7 +2887,7 @@ namespace POS_v20
                     serialEFT_POS.Write(ETX, 0, ETX.Length);
                     serialEFT_POS.Write(LRC, 0, LRC.Length);
                     SM = 2;
-                    Display("CANCEL BUTTON PRESSED @ CREDIT PAYMENT\n");                    
+                    Display("CANCEL BUTTON PRESSED @ CREDIT PAYMENT\n");
                 }
                 else if (secondForm.CashPayment)
                 {
@@ -2894,12 +2900,14 @@ namespace POS_v20
                     Display("CANCEL BUTTON PRESSED\n");
                 }
             }
-            if (Server_Connect.BackColor == Color.Tomato) {
+            if (Server_Connect.BackColor == Color.Tomato)
+            {
                 SM = 11;
                 Display("FATAL NETWORK ERROR");
                 return;
             }
-            switch (SM) {
+            switch (SM)
+            {
 
                 case 1: //idle state - Welcome Screen
                     Display("SM: " + SM);
@@ -3005,7 +3013,7 @@ namespace POS_v20
                         secondForm.ResidualLabel.Text = "Ruhe: ";
                         secondForm.Refresh();
                     }
-                    if(secondForm.LostButton)
+                    if (secondForm.LostButton)
                     {
                         secondForm.lostButton.Visible = false;
                         secondForm.POS_Messages.Clear();
@@ -3053,7 +3061,7 @@ namespace POS_v20
                         ShowNotes("000");
                         secondForm.Refresh();
                         SM = 4;
-                        BR_Card = ""; 
+                        BR_Card = "";
                         RF_Card = "";
                         break;
                     }
@@ -3120,7 +3128,7 @@ namespace POS_v20
                         GeneralCounter = 120;
                         secondForm.Vprogress.Visible = true;
                         LanguageTimer.Start();
-                        if (secondForm.btnYN == 1) 
+                        if (secondForm.btnYN == 1)
                         {
                             UserHasCpn = true;
                             SM = 23;
@@ -3139,7 +3147,7 @@ namespace POS_v20
                     }
                     break;
 
-             case 23:
+                case 23:
                     Display("SM: " + SM);
                     if (BR_Card.Length != 0)
                     {
@@ -3158,12 +3166,12 @@ namespace POS_v20
                         {
                             BR_Card = "";
                         }
-                        BR_Card = ""; 
+                        BR_Card = "";
                         RF_Card = ""; //3
                     }
                     break;
 
-            case 31:    //Display handler for wrong barcode length
+                case 31:    //Display handler for wrong barcode length
                     Display("SM: " + SM);
                     secondForm.POS_Messages.Clear();
                     InitalCost = 0;
@@ -3179,9 +3187,9 @@ namespace POS_v20
                     secondForm.Refresh();
                     Thread.Sleep(2500);
                     secondForm.POS_Messages.Clear();
-                    BR_Card = ""; 
+                    BR_Card = "";
                     RF_Card = "";
-                    SM = 1;                 
+                    SM = 1;
                     break;
 
                 case 4:     //Send ticket (barcode) to server
@@ -3340,7 +3348,8 @@ namespace POS_v20
                     secondForm.Card_Icon.Visible = false;
                     secondForm.Messages2.Visible = true;
 
-                    if (UserCode.Length != 0) {
+                    if (UserCode.Length != 0)
+                    {
                         if (secondForm.Language.StartsWith("GRE"))
                             secondForm.Messages2.AppendText("\nΑριθμός Κάρτας: " + UserCode);
                         else if (secondForm.Language.StartsWith("ENG"))
@@ -3439,7 +3448,7 @@ namespace POS_v20
                     break;
 
                 case 5: //Get ticket cost - Select payment method
-                    Display("SM: " + SM);                   
+                    Display("SM: " + SM);
                     if (value != "0")
                     {
                         if (secondForm.CashPayment)
@@ -4307,7 +4316,7 @@ namespace POS_v20
                                     SM = 11;
                                     ShowNotes("000");
                                     break;
-                                }                               
+                                }
                                 SM = 80;
                                 break;
                             }
@@ -4897,9 +4906,9 @@ namespace POS_v20
                     secondForm.ResidualText.Clear();
                     secondForm.ResidualText.AppendText(text66);
                     //textBox1.Text = "";
-                break;
+                    break;
 
-                case 611:    
+                case 611:
                     Display("SM: " + SM);
                     /*if(notes05In)
                     {
@@ -5715,18 +5724,20 @@ namespace POS_v20
                     secondForm.ResidualLabel.Visible = false;
                     secondForm.lostButton.Visible = false;
                     secondForm.Refresh();
-                    if (pm.set(0, 1, 0, 0) != 0){
+                    if (pm.set(0, 1, 0, 0) != 0)
+                    {
                         Display("Disable Coin ERROR 100\n");
                         secondForm.CancelButton = false; SM = 11;
                         break;
                     }
-                    if (Payment > 0){//GIVE HIM HIS MONEY BACK TODO check if > or < zero
+                    if (Payment > 0)
+                    {//GIVE HIM HIS MONEY BACK TODO check if > or < zero
                         secondForm.Ticket_Icon.Visible = false;
                         secondForm.POS_Messages.Clear();
                         secondForm.POS_Messages.AppendText("WAIT\n");
                         secondForm.Refresh();
                         Thread.Sleep(500);
-                        
+
                         if (((Payment - ReturnMoney) / 500) > 0)
                         {
                             secondForm.Ticket_Icon.Visible = false;
@@ -5769,8 +5780,8 @@ namespace POS_v20
                             Display("Go Return Coins\n");
                             res1 = pm.set(1, 0, (Payment - ReturnMoney), 0);
                             ReturnMoney = ReturnMoney + res1;
-                         
-                            if ((Payment - ReturnMoney)>0)
+
+                            if ((Payment - ReturnMoney) > 0)
                             {
                                 res1 = pm.set(1, 0, (Payment - ReturnMoney), 0);
                                 ReturnMoney = ReturnMoney + res1;
@@ -5786,10 +5797,11 @@ namespace POS_v20
                             Display("INCOMPLETE Pay: " + Payment.ToString() + " " + ReturnMoney.ToString() + " " + res1.ToString() + "\n");
                         }
                     }
-                    
-                    if (pm.set(0, 1, 0, 0) != 0){
+
+                    if (pm.set(0, 1, 0, 0) != 0)
+                    {
                         Display("Disable Coin ERROR 101\n"); secondForm.CancelButton = false;
-                        SM = 11; 
+                        SM = 11;
                         break;
                     }
 
@@ -5818,7 +5830,7 @@ namespace POS_v20
                     //secondForm.POS_Messages.Clear();
                     this.Debugging.Clear();
                     secondForm.Refresh();
-                    Thread.Sleep(200);                    
+                    Thread.Sleep(200);
                     break;
 
                 case 11: //SERIOUS ERROR
@@ -5830,26 +5842,26 @@ namespace POS_v20
                     LanguageTimer.Stop();
                     GeneralTimer.Stop();
                     ShowNotes("000");
-                    pm.set(0, 1, 0, 0);                                                                                  
-                    secondForm.POS_Messages.Font = new Font("Arial", 14,FontStyle.Bold);
+                    pm.set(0, 1, 0, 0);
+                    secondForm.POS_Messages.Font = new Font("Arial", 14, FontStyle.Bold);
                     secondForm.POS_Messages.Clear();
                     Langtemp = ini.IniReadValue("LANGUAGE", "ERROR" + secondForm.Language);
                     secondForm.POS_Messages.AppendText(Langtemp);
-                    secondForm.Refresh(); 
+                    secondForm.Refresh();
 
                     Thread.Sleep(5000);
                     GeneralTimer.Interval = 1000;
 
                     secondForm.btnYes.Visible = false;
                     secondForm.btnNo.Visible = false;
-                    secondForm.LangPictureBox.Visible = false; 
-                    secondForm.ReaderPictureBox.Visible = false; 
-                    secondForm.buttonUK.Visible = false; 
-                    secondForm.buttonGRE.Visible = false; 
-                    secondForm.buttonGER.Visible = false; 
-                    secondForm.buttonFRA.Visible = false; 
-                    secondForm.Vprogress.Visible = false; 
-                    secondForm.ValueText.Visible = false; 
+                    secondForm.LangPictureBox.Visible = false;
+                    secondForm.ReaderPictureBox.Visible = false;
+                    secondForm.buttonUK.Visible = false;
+                    secondForm.buttonGRE.Visible = false;
+                    secondForm.buttonGER.Visible = false;
+                    secondForm.buttonFRA.Visible = false;
+                    secondForm.Vprogress.Visible = false;
+                    secondForm.ValueText.Visible = false;
                     secondForm.POS_Messages.Visible = false;
                     secondForm.Messages2.Visible = false;
                     secondForm.pictureBox1.Visible = false;
@@ -5864,7 +5876,7 @@ namespace POS_v20
                     break;
 
                 case 12:    //Wait State on OUT OF ORDER
-                    Display("SM: " + SM); 
+                    Display("SM: " + SM);
                     secondForm.Refresh();
                     if (BR_Card.Length != 0 && BR_Card == "ADMIN")
                     {
@@ -5875,108 +5887,114 @@ namespace POS_v20
                     break;
                 default:
                     break;
-                            
+
             }//switch
             GeneralTimer.Start();
         }
 
-/**************************************************************************************/
-    public void MoneyStatus(int state)
-    {
-        string CCoin5 = "";
-        string CCoin10 = "";
-        string CCoin20 = "";
-        string CCoin50 = "";
-        string CCoin100 = "";
-        string CCoin200 = "";
-        int temp = 0;
+        /**************************************************************************************/
+        public void MoneyStatus(int state)
+        {
+            string CCoin5 = "";
+            string CCoin10 = "";
+            string CCoin20 = "";
+            string CCoin50 = "";
+            string CCoin100 = "";
+            string CCoin200 = "";
+            int temp = 0;
 
-        /* #DENOM@<position>@<value>$
-         * 0-5
-         * 1-10
-         * 2-20
-         * 3-50
-         * 4-100
-         * 5-200
-         * 6-500
-         * 7-1000
-         * 8-2000
-         */
-        if (m_clientSocket == null)
-        {
-            Display("Money status function exit with error\n");
-            return;
-        }
-        if (state == 2)
-        {
-            /*TCP_Send("#DENOM@0@000005$"); Thread.Sleep(10);
-            TCP_Send("#DENOM@1@000010$"); Thread.Sleep(10);
-            TCP_Send("#DENOM@2@000020$"); Thread.Sleep(10);
-            TCP_Send("#DENOM@3@000050$"); Thread.Sleep(10);
-            TCP_Send("#DENOM@4@000100$"); Thread.Sleep(10);
-            TCP_Send("#DENOM@5@000200$"); Thread.Sleep(10);
-            TCP_Send("#DENOM@6@000500$"); Thread.Sleep(10);
-            TCP_Send("#DENOM@7@001000$"); Thread.Sleep(10);
-            TCP_Send("#DENOM@8@002000$"); Thread.Sleep(10);*/
-        }
-
-        for (int i = 0; i <= 5; i++)
-        {
-            temp = pm.set(2, 4, i, 0); Thread.Sleep(50);
-            if (temp != -1)
+            /* #DENOM@<position>@<value>$
+             * 0-5
+             * 1-10
+             * 2-20
+             * 3-50
+             * 4-100
+             * 5-200
+             * 6-500
+             * 7-1000
+             * 8-2000
+             */
+            if (m_clientSocket == null)
             {
-                Display(i.ToString() + ": " + temp.ToString());
-                switch (i)
-                {
-                    case 0: CCoin5 = temp.ToString();
-                        break;
-                    case 1: CCoin10 = temp.ToString();
-                        break;
-                    case 2: CCoin20 = temp.ToString();
-                        break;
-                    case 3: CCoin50 = temp.ToString();
-                        break;
-                    case 4: CCoin100 = temp.ToString();
-                        break;
-                    case 5: CCoin200 = temp.ToString();
-                        break;
-                }
+                Display("Money status function exit with error\n");
+                return;
             }
-            else
-                Display("No Data\n");
-        }
+            if (state == 2)
+            {
+                /*TCP_Send("#DENOM@0@000005$"); Thread.Sleep(10);
+                TCP_Send("#DENOM@1@000010$"); Thread.Sleep(10);
+                TCP_Send("#DENOM@2@000020$"); Thread.Sleep(10);
+                TCP_Send("#DENOM@3@000050$"); Thread.Sleep(10);
+                TCP_Send("#DENOM@4@000100$"); Thread.Sleep(10);
+                TCP_Send("#DENOM@5@000200$"); Thread.Sleep(10);
+                TCP_Send("#DENOM@6@000500$"); Thread.Sleep(10);
+                TCP_Send("#DENOM@7@001000$"); Thread.Sleep(10);
+                TCP_Send("#DENOM@8@002000$"); Thread.Sleep(10);*/
+            }
 
-        string Avail05Notes = ini.IniReadValue("SerialNV", "Avail05");
-        if (Avail05Notes.Length == 0)
-            Avail05Notes = "0";
-        if (notesInStorageText.Text == "")
-                notesInStorageText.Text = "0";
-        Total_Notes = Convert.ToUInt32(notesInStorageText.Text) * 500;
-        Paid20Notes.Text = ini.IniReadValue("SerialNV", "Paid20");
-        Paid10Notes.Text = ini.IniReadValue("SerialNV", "Paid10");
-        Paid05Notes.Text = ini.IniReadValue("SerialNV", "Paid05");
+            for (int i = 0; i <= 5; i++)
+            {
+                temp = pm.set(2, 4, i, 0); Thread.Sleep(50);
+                if (temp != -1)
+                {
+                    Display(i.ToString() + ": " + temp.ToString());
+                    switch (i)
+                    {
+                        case 0:
+                            CCoin5 = temp.ToString();
+                            break;
+                        case 1:
+                            CCoin10 = temp.ToString();
+                            break;
+                        case 2:
+                            CCoin20 = temp.ToString();
+                            break;
+                        case 3:
+                            CCoin50 = temp.ToString();
+                            break;
+                        case 4:
+                            CCoin100 = temp.ToString();
+                            break;
+                        case 5:
+                            CCoin200 = temp.ToString();
+                            break;
+                    }
+                }
+                else
+                    Display("No Data\n");
+            }
 
-        if (state == 1)
-        {
-            /*TCP_Send("#CHAV@" + CCoin5 + "@" + CCoin10 + "@" + CCoin20 + "@" + CCoin50 + "@" + CCoin100 + "@" + CCoin200 + "@" + Avail05Notes + "@" + Avail10Notes + "@0$");
-            Thread.Sleep(1000);
-            TCP_Send("#CASH@" + CCoin5 + "@" + CCoin10 + "@" + CCoin20 + "@" + CCoin50 + "@" + CCoin100 + "@" + CCoin200 + "@" + Paid05Notes.Text + "@" + Paid10Notes.Text + "@" + Paid20Notes.Text + "$");*/
-        }
-        Total_Coins = pm.set(1, 3, 0, 0);//TOTAL COINS CMD
-        string tmp1 = Total_Coins.ToString();
-        if (tmp1.Length > 2)
-        {
-            tmp1 = tmp1.Insert(tmp1.Length - 2, ",");
-        }        
-        string tmp2 = Total_Notes.ToString();
-        if (tmp2.Length > 2)
-        {
-            tmp2 = tmp2.Insert(tmp2.Length - 2, ",");
-        }
-        Display("TotalCoins:" + tmp1 + " TotalNotes:" + tmp2 + "\n");
-        Display("Paid05Note: " + Paid05Notes.Text + " Paid10Note: " + Paid10Notes.Text + " Paid20Note: " + Paid20Notes.Text + "\n");
+            string Avail05Notes = ini.IniReadValue("SerialNV", "Avail05");
+            if (Avail05Notes.Length == 0)
+                Avail05Notes = "0";
+            //if (notesInStorageText.Text == "")
+            //        notesInStorageText.Text = "0";
+            //Total_Notes = Convert.ToUInt32(notesInStorageText.Text) * 500;
+            Paid20Notes.Text = ini.IniReadValue("SerialNV", "Paid20");
+            Paid10Notes.Text = ini.IniReadValue("SerialNV", "Paid10");
+            Paid05Notes.Text = ini.IniReadValue("SerialNV", "Paid05");
 
-    }
+            if (state == 1)
+            {
+                /*TCP_Send("#CHAV@" + CCoin5 + "@" + CCoin10 + "@" + CCoin20 + "@" + CCoin50 + "@" + CCoin100 + "@" + CCoin200 + "@" + Avail05Notes + "@" + Avail10Notes + "@0$");
+                Thread.Sleep(1000);
+                TCP_Send("#CASH@" + CCoin5 + "@" + CCoin10 + "@" + CCoin20 + "@" + CCoin50 + "@" + CCoin100 + "@" + CCoin200 + "@" + Paid05Notes.Text + "@" + Paid10Notes.Text + "@" + Paid20Notes.Text + "$");*/
+            }
+            Total_Coins = pm.set(1, 3, 0, 0);//TOTAL COINS CMD
+            string tmp1 = Total_Coins.ToString();
+            if (tmp1.Length > 2)
+            {
+                tmp1 = tmp1.Insert(tmp1.Length - 2, ",");
+            }
+            string tmp2 = Total_Notes.ToString();
+            if (tmp2.Length > 2)
+            {
+                tmp2 = tmp2.Insert(tmp2.Length - 2, ",");
+            }
+            Display("TotalCoins:" + tmp1 + " TotalNotes:" + tmp2 + "\n");
+            Display("Paid05Note: " + Paid05Notes.Text + " Paid10Note: " + Paid10Notes.Text + " Paid20Note: " + Paid20Notes.Text + "\n");
+
+        }
 
         /**************************************************************************************/
         // DISPENCE THE 05 NOTES 
@@ -6034,23 +6052,24 @@ namespace POS_v20
             return 0;
         }
 
-/**************************************************************************************/
-    public void ShowNotes(string Notes) {
-        
-        if (Notes.IndexOf("05")!=-1)
-            secondForm.pictureBox05.Visible = true;
-        else
-            secondForm.pictureBox05.Visible = false;
-        if (Notes.IndexOf("10") != -1)
-            secondForm.pictureBox10.Visible = true;
-        else
-            secondForm.pictureBox10.Visible = false;
-        if (Notes.IndexOf("20") != -1)
-            secondForm.pictureBox20.Visible = true;
-        else
-            secondForm.pictureBox20.Visible = false;
-        secondForm.Refresh();
-    }
+        /**************************************************************************************/
+        public void ShowNotes(string Notes)
+        {
+
+            if (Notes.IndexOf("05") != -1)
+                secondForm.pictureBox05.Visible = true;
+            else
+                secondForm.pictureBox05.Visible = false;
+            if (Notes.IndexOf("10") != -1)
+                secondForm.pictureBox10.Visible = true;
+            else
+                secondForm.pictureBox10.Visible = false;
+            if (Notes.IndexOf("20") != -1)
+                secondForm.pictureBox20.Visible = true;
+            else
+                secondForm.pictureBox20.Visible = false;
+            secondForm.Refresh();
+        }
 
         private void quitBtn_Click(object sender, EventArgs e)
         {
@@ -6172,66 +6191,66 @@ namespace POS_v20
                     bFormSetup = true;
                 }
 
-                    while (timer1.Enabled)
-                    {
-                        Application.DoEvents();
-                        Thread.Sleep(1); // Yield to free up CPU
-                    }
-
+                while (timer1.Enabled)
+                {
+                    Application.DoEvents();
+                    Thread.Sleep(1); // Yield to free up CPU
                 }
 
-                //close com port
-                Payout.SSPComms.CloseComPort();
-
-                btnRun.Enabled = true;
-                btnHalt.Enabled = false;
             }
 
-        private void noteToRecycleComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (NV11 != null)
-            {
+            //close com port
+            Payout.SSPComms.CloseComPort();
 
-                if (noteToRecycleComboBox.Text == "No Recycling")
-                {
-                    // switch all notes to stacking
-                    textBox1.AppendText("Resetting note routing...\r\n");
-                    this.Refresh();
-                    NV11.RouteAllToStack(textBox1);
-                }
-                else if (noteToRecycleComboBox.Text == "Show Routing")
-                {
-                    textBox1.AppendText("Current note routing:\r\n");
-                    this.Refresh();
-                    NV11.ShowAllRouting(textBox1);
-                    UpdateUI();
-                }
-
-                else
-                {
-                    // switch all notes to stacking first
-                    //NV11.RouteAllToStack();
-                    // make sure payout is switched on
-                    NV11.EnablePayout();
-                    // switch selected note to payout
-                    string s = noteToRecycleComboBox.Items[noteToRecycleComboBox.SelectedIndex].ToString();
-                    string[] sArr = s.Split(' ');
-                    try
-                    {
-                        textBox1.AppendText("Changing note routing...\r\n");
-                        this.Refresh();
-                        NV11.ChangeNoteRoute(Int32.Parse(sArr[0]) * 100, sArr[1].ToCharArray(), false, textBox1);
-                        NV11.ShowAllRouting(textBox1);
-                        UpdateUI();
-                    }
-                    catch (Exception ex)
-                    {
-                        Display(ex.ToString());
-                        return;
-                    }
-                }
-            }
+            btnRun.Enabled = true;
+            btnHalt.Enabled = false;
         }
+    
+        //private void noteToRecycleComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    if (NV11 != null)
+        //    {
+
+        //        if (noteToRecycleComboBox.Text == "No Recycling")
+        //        {
+        //            // switch all notes to stacking
+        //            textBox1.AppendText("Resetting note routing...\r\n");
+        //            this.Refresh();
+        //            NV11.RouteAllToStack(textBox1);
+        //        }
+        //        else if (noteToRecycleComboBox.Text == "Show Routing")
+        //        {
+        //            textBox1.AppendText("Current note routing:\r\n");
+        //            this.Refresh();
+        //            NV11.ShowAllRouting(textBox1);
+        //            UpdateUI();
+        //        }
+
+        //        else
+        //        {
+        //            // switch all notes to stacking first
+        //            //NV11.RouteAllToStack();
+        //            // make sure payout is switched on
+        //            NV11.EnablePayout();
+        //            // switch selected note to payout
+        //            string s = noteToRecycleComboBox.Items[noteToRecycleComboBox.SelectedIndex].ToString();
+        //            string[] sArr = s.Split(' ');
+        //            try
+        //            {
+        //                textBox1.AppendText("Changing note routing...\r\n");
+        //                this.Refresh();
+        //                NV11.ChangeNoteRoute(Int32.Parse(sArr[0]) * 100, sArr[1].ToCharArray(), false, textBox1);
+        //                NV11.ShowAllRouting(textBox1);
+        //                UpdateUI();
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                Display(ex.ToString());
+        //                return;
+        //            }
+        //        }
+        //    }
+        //}
 
         private void btnRun_Click(object sender, EventArgs e)
         {
@@ -6510,223 +6529,11 @@ namespace POS_v20
             }
         }
 
+        
         private void btnEmpty_Click(object sender, EventArgs e)
         {
             Payout.EmptyPayoutDevice(textBox1);
         }
-
-        private void btnPayoutByDenom_Click(object sender, EventArgs e)
-        {
-            if (Running && ((payoutByDenomFrm == null) || (payoutByDenomFrm != null && !payoutByDenomFrm.Visible)))
-            {
-                payoutByDenomFrm = new frmPayoutByDenom(Payout, textBox1);
-                payoutByDenomFrm.Show();
-            }
-        }
-
-        private void btnPayout_Click(object sender, EventArgs e)
-        {
-            if (tbPayoutAmount.Text != "" && tbPayoutCurrency.Text != "")
-                CalculatePayout(tbPayoutAmount.Text, tbPayoutCurrency.Text.ToCharArray());
-        }
-
-        private void btnSetFloat_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                double mp = double.Parse(tbMinPayout.Text) * 100;
-                double fa = double.Parse(tbFloatAmount.Text) * 100;
-                Payout.SetFloat((Int32)mp, (Int32)fa, tbFloatCurrency.Text.ToCharArray(), textBox1);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "EXCEPTION");
-                return;
-            }
-        }
-
-        private void tbLevelInfo_TextChanged(object sender, EventArgs e)
-        {
-            string CheckChangedLevelInfo = Payout.GetChannelLevelInfo();
-            string[] ChangedNoteLevel = CheckChangedLevelInfo.Split('[', ']');
-            for (int count = 1; count < ChangedNoteLevel.Length; count = count += 2)
-            {
-                switch (count)
-                {
-                    case 1:
-                        Display("5 EUR new Level: " + ChangedNoteLevel[count]);
-                        string FiveEuroNotesTempLevel = ChangedNoteLevel[count];
-                        if (FiveEuroNotesLevel != FiveEuroNotesTempLevel)
-                        {
-                            if (int.Parse(FiveEuroNotesTempLevel) > int.Parse(FiveEuroNotesLevel))
-                            {
-                                ini.IniWriteValue("SerialNV", "Avail05", ChangedNoteLevel[count].ToString());
-                                Avail05Notes.Text = ini.IniReadValue("SerialNV", "Avail05");
-                                if (SM == 6 || SM == 61)
-                                {
-                                    FiveEuroNoteIn = false;
-                                    //Payment = Payment + 500;
-                                    GeneralCounter = 120;
-                                    NotesFive++;
-                                    Display("User paid with 5 euro Note");
-                                }
-                                Display("One 5 Euro note was added to Note Float");
-                                FiveEuroNotesLevel = Avail05Notes.Text;
-                            }
-                            else if (Convert.ToInt16(FiveEuroNotesTempLevel) < Convert.ToInt16(FiveEuroNotesLevel))
-                            {
-                                ini.IniWriteValue("SerialNV", "Avail05", ChangedNoteLevel[count].ToString());
-                                Avail05Notes.Text = ini.IniReadValue("SerialNV", "Avail05");
-                                FiveEuroNotesLevel = Avail05Notes.Text;
-                                Display("One 5 Euro note was removed from Note Float");
-                            }
-                        }
-                        else
-                        {
-                            ini.IniWriteValue("SerialNV", "Avail05", ChangedNoteLevel[count].ToString());
-                            Avail05Notes.Text = ini.IniReadValue("SerialNV", "Avail05");
-                            FiveEuroNotesLevel = Avail05Notes.Text;
-                        }
-                        break;
-                    case 3:
-                        Display("10 EUR new Level: " + ChangedNoteLevel[count]);
-                        string TenEuroNotesTempLevel = ChangedNoteLevel[count];
-                        if (TenEuroNotesLevel != TenEuroNotesTempLevel)
-                        {
-                            if (int.Parse(TenEuroNotesTempLevel) > int.Parse(TenEuroNotesLevel))
-                            {
-                                ini.IniWriteValue("SerialNV", "Avail10", ChangedNoteLevel[count].ToString());
-                                Avail10Notes.Text = ini.IniReadValue("SerialNV", "Avail10");
-                                if (SM == 6 || SM == 61)
-                                {
-                                    TenEuroNoteIn = false;
-                                    //Payment = Payment + 1000;
-                                    GeneralCounter = 120;
-                                    NotesTen++;
-                                    Display("User paid with 10 euro Note");
-                                }
-                                Display("One 10 Euro note was added to Note Float");
-                                TenEuroNotesLevel = Avail10Notes.Text;
-                            }
-                            else if (int.Parse(TenEuroNotesTempLevel) < int.Parse(TenEuroNotesLevel))
-                            {
-                                ini.IniWriteValue("SerialNV", "Avail10", ChangedNoteLevel[count].ToString());
-                                Avail10Notes.Text = ini.IniReadValue("SerialNV", "Avail10");
-                                TenEuroNotesLevel = Avail10Notes.Text;
-                                Display("One 10 Euro note was removed from Note Float");
-                            }
-                        }
-                        else
-                        {
-                            ini.IniWriteValue("SerialNV", "Avail10", ChangedNoteLevel[count].ToString());
-                            Avail10Notes.Text = ini.IniReadValue("SerialNV", "Avail10");
-                            TenEuroNotesLevel = Avail10Notes.Text;
-                        }
-                        break;
-                    case 5:
-                        Display("20 EUR new Level: " + ChangedNoteLevel[count]);
-                        string TwentyEuroNotesTempLevel = ChangedNoteLevel[count];
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            if (SM == 6 || SM == 61)
-            {
-                //if (textBox1.Text.IndexOf("Note in escrow, amount: 5.00") != -1 && textBox1.Text.IndexOf("Note stacked") != -1)
-                //{
-                //    Payment = Payment + 500;
-                //    GeneralCounter = 120;
-                //    Paid05Notes.Text = ini.IniReadValue("SerialNV", "Paid05");
-                //    int five = int.Parse(Paid05Notes.Text);
-                //    five++;
-                //    ini.IniWriteValue("SerialNV", "Paid05", five.ToString());
-                //    textBox1.Text = "";
-                //}
-                //if (textBox1.Text.IndexOf("Note in escrow, amount: 10.00") != -1 && textBox1.Text.IndexOf("Note stacked") != -1)
-                //{
-                //    Payment = Payment + 1000;
-                //    GeneralCounter = 120;
-                //    Paid10Notes.Text = ini.IniReadValue("SerialNV", "Paid10");
-                //    int ten = int.Parse(Paid10Notes.Text);
-                //    ten++;
-                //    ini.IniWriteValue("SerialNV", "Paid10", ten.ToString());
-                //    textBox1.Text = "";
-                //}
-                //if (textBox1.Text.IndexOf("Note in escrow, amount: 20.00") != -1 && textBox1.Text.IndexOf("Note stacked") != -1)
-                //{
-                //    Payment = Payment + 2000;
-                //    GeneralCounter = 120;
-                //    Paid20Notes.Text = ini.IniReadValue("SerialNV", "Paid20");
-                //    int twenty = int.Parse(Paid20Notes.Text);
-                //    twenty++;
-                //    ini.IniWriteValue("SerialNV", "Paid20", twenty.ToString());
-                //    textBox1.Text = "";
-                //}
-                //if (textBox1.Text.IndexOf("Note in escrow, amount:  50.00") != -1 && textBox1.Text.IndexOf("Note stacked") != -1)
-                //{
-                //    Payment = Payment + 5000;
-                //    GeneralCounter = 120;
-                //    Paid50Notes.Text = ini.IniReadValue("SerialNV", "Paid50");
-                //    int fifty = int.Parse(Paid50Notes.Text);
-                //    fifty++;
-                //    ini.IniWriteValue("SerialNV", "Paid50", fifty.ToString());
-                //    textBox1.Text = "";
-                //}
-                //if (textBox1.Text.IndexOf("rejecting") != -1)
-                //    textBox1.Text = "";
-            }
-            if (SM == 64)  //Change in notes
-            {
-                textBox1.ScrollToCaret();
-                if (textBox1.Text.IndexOf("Paying out 10.00") != -1 && textBox1.Text.IndexOf("Dispensed note(s)") != -1)
-                {
-                    DNote10++;
-                    ReturnMoney = ReturnMoney + 1000;
-                    Refresh();
-                    secondForm.Refresh(); Thread.Sleep(100);
-                    string ten = ini.IniReadValue("SerialNV", "Avail10");
-                    int temp = Convert.ToInt16(ten); temp--;
-                    ini.IniWriteValue("SerialNV", "Avail10", temp.ToString());
-                    textBox1.Text = "";
-                    tbPayoutAmount.Text = "";
-                    Display("Correctly Returned 10 euro Notes: " + DNote10.ToString() + " " + ReturnMoney.ToString());
-                    SM = 6;
-                }
-                if (textBox1.Text.IndexOf("Paying out 5.00") != -1 && textBox1.Text.IndexOf("Dispensed note(s)") != -1)
-                {
-                    DNote5++;
-                    ReturnMoney = ReturnMoney + 500;
-                    Refresh();
-                    secondForm.Refresh(); Thread.Sleep(100);
-                    string five = ini.IniReadValue("SerialNV", "Avail05");
-                    int temp = Convert.ToInt16(five); temp--;
-                    ini.IniWriteValue("SerialNV", "Avail05", temp.ToString());
-                    textBox1.Text = "";
-                    tbPayoutAmount.Text = "";
-                    Display("Correctly Returned 5 euro Notes: " + DNote5.ToString() + " " + ReturnMoney.ToString());
-                    SM = 6;
-                }
-                //if (textBox1.Text.IndexOf("Busy") != -1)
-                //{
-                //    DisableChangeNotes = true;
-                //    SM = 6;
-                //    //Thread.Sleep(300);
-                //    //btnPayout_Click(this, e);
-                //    Display("Note Validator responded Busy condition. Rest o f change in coins...");
-                //}
-                //if(textBox1.Text.IndexOf("Unsafe jam")!=-1)
-                //{
-                //    DisableChangeNotes = true;
-                //    SM = 6;
-                //}
-            }
-        }
-
 
         //private void payoutBtn_Click(object sender, EventArgs e)
         //{

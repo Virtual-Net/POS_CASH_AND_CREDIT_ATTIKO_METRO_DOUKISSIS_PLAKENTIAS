@@ -40,6 +40,8 @@
             this.Init_System = new System.Windows.Forms.Button();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.Settings = new System.Windows.Forms.TabPage();
+            this.label22 = new System.Windows.Forms.Label();
+            this.Avail10Notes = new System.Windows.Forms.TextBox();
             this.ResetAllCoinsbtn = new System.Windows.Forms.Button();
             this.Paid200Coins = new System.Windows.Forms.TextBox();
             this.Paid100Coins = new System.Windows.Forms.TextBox();
@@ -90,28 +92,32 @@
             this.CoinStatus = new System.Windows.Forms.Button();
             this.OpenCoins = new System.Windows.Forms.Button();
             this.NoteRecycler = new System.Windows.Forms.TabPage();
+            this.btnSetFloat = new System.Windows.Forms.Button();
+            this.tbFloatCurrency = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.tbFloatAmount = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.tbMinPayout = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.tbLevelInfo = new System.Windows.Forms.TextBox();
+            this.btnPayout = new System.Windows.Forms.Button();
+            this.label23 = new System.Windows.Forms.Label();
+            this.tbPayoutCurrency = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.tbPayoutAmount = new System.Windows.Forms.TextBox();
+            this.btnPayoutByDenom = new System.Windows.Forms.Button();
+            this.btnEmpty = new System.Windows.Forms.Button();
             this.chkHold = new System.Windows.Forms.CheckBox();
             this.logTickBox = new System.Windows.Forms.CheckBox();
             this.resetValidatorBtn = new System.Windows.Forms.Button();
-            this.cashboxBtn = new System.Windows.Forms.Button();
-            this.payoutBtn = new System.Windows.Forms.Button();
             this.btnReturn = new System.Windows.Forms.Button();
-            this.notesInStorageText = new System.Windows.Forms.TextBox();
+            this.btnHalt = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.StorageListBoxMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stackNextNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.emptyStoredNotesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label18 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.totalNumNotesDispensedText = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.totalAcceptedNumText = new System.Windows.Forms.TextBox();
-            this.ResetTotalsText = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.noteToRecycleComboBox = new System.Windows.Forms.ComboBox();
-            this.btnHalt = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnRun = new System.Windows.Forms.Button();
             this.NVStatus = new System.Windows.Forms.Button();
             this.OpenNV = new System.Windows.Forms.Button();
@@ -138,13 +144,10 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lostTimer = new System.Windows.Forms.Timer(this.components);
-            this.Avail10Notes = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
             this.Settings.SuspendLayout();
             this.Coins.SuspendLayout();
             this.NoteRecycler.SuspendLayout();
             this.StorageListBoxMenu.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.Printer.SuspendLayout();
             this.BarcodeReader.SuspendLayout();
             this.MainConfig.SuspendLayout();
@@ -287,6 +290,27 @@
             this.Settings.Text = "Settings";
             this.Settings.UseVisualStyleBackColor = true;
             // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(210, 79);
+            this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(51, 13);
+            this.label22.TabIndex = 63;
+            this.label22.Text = "10 Euro";
+            // 
+            // Avail10Notes
+            // 
+            this.Avail10Notes.Location = new System.Drawing.Point(135, 76);
+            this.Avail10Notes.Margin = new System.Windows.Forms.Padding(4);
+            this.Avail10Notes.Name = "Avail10Notes";
+            this.Avail10Notes.ReadOnly = true;
+            this.Avail10Notes.Size = new System.Drawing.Size(59, 19);
+            this.Avail10Notes.TabIndex = 62;
+            this.Avail10Notes.Text = "0";
+            this.Avail10Notes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // ResetAllCoinsbtn
             // 
             this.ResetAllCoinsbtn.Location = new System.Drawing.Point(618, 204);
@@ -295,7 +319,6 @@
             this.ResetAllCoinsbtn.TabIndex = 61;
             this.ResetAllCoinsbtn.Text = "Reset all";
             this.ResetAllCoinsbtn.UseVisualStyleBackColor = true;
-            this.ResetAllCoinsbtn.Click += new System.EventHandler(this.ResetAllCoinsbtn_Click);
             // 
             // Paid200Coins
             // 
@@ -435,7 +458,6 @@
             this.ResetAllNotesbtn.TabIndex = 36;
             this.ResetAllNotesbtn.Text = "Reset all";
             this.ResetAllNotesbtn.UseVisualStyleBackColor = true;
-            this.ResetAllNotesbtn.Click += new System.EventHandler(this.ResetAllNotesbtn_Click);
             // 
             // btnSmartEmpty
             // 
@@ -810,17 +832,26 @@
             // 
             this.NoteRecycler.BackColor = System.Drawing.Color.Silver;
             this.NoteRecycler.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.NoteRecycler.Controls.Add(this.btnSetFloat);
+            this.NoteRecycler.Controls.Add(this.tbFloatCurrency);
+            this.NoteRecycler.Controls.Add(this.label9);
+            this.NoteRecycler.Controls.Add(this.label16);
+            this.NoteRecycler.Controls.Add(this.tbFloatAmount);
+            this.NoteRecycler.Controls.Add(this.label17);
+            this.NoteRecycler.Controls.Add(this.tbMinPayout);
+            this.NoteRecycler.Controls.Add(this.label18);
+            this.NoteRecycler.Controls.Add(this.tbLevelInfo);
+            this.NoteRecycler.Controls.Add(this.btnPayout);
+            this.NoteRecycler.Controls.Add(this.label23);
+            this.NoteRecycler.Controls.Add(this.tbPayoutCurrency);
+            this.NoteRecycler.Controls.Add(this.label24);
+            this.NoteRecycler.Controls.Add(this.tbPayoutAmount);
+            this.NoteRecycler.Controls.Add(this.btnPayoutByDenom);
+            this.NoteRecycler.Controls.Add(this.btnEmpty);
             this.NoteRecycler.Controls.Add(this.chkHold);
             this.NoteRecycler.Controls.Add(this.logTickBox);
             this.NoteRecycler.Controls.Add(this.resetValidatorBtn);
-            this.NoteRecycler.Controls.Add(this.cashboxBtn);
-            this.NoteRecycler.Controls.Add(this.payoutBtn);
             this.NoteRecycler.Controls.Add(this.btnReturn);
-            this.NoteRecycler.Controls.Add(this.notesInStorageText);
-            this.NoteRecycler.Controls.Add(this.label18);
-            this.NoteRecycler.Controls.Add(this.groupBox1);
-            this.NoteRecycler.Controls.Add(this.label9);
-            this.NoteRecycler.Controls.Add(this.noteToRecycleComboBox);
             this.NoteRecycler.Controls.Add(this.btnHalt);
             this.NoteRecycler.Controls.Add(this.textBox1);
             this.NoteRecycler.Controls.Add(this.btnRun);
@@ -836,13 +867,156 @@
             this.NoteRecycler.Text = "NoteRecycler";
             this.NoteRecycler.UseVisualStyleBackColor = true;
             // 
+            // btnSetFloat
+            // 
+            this.btnSetFloat.Location = new System.Drawing.Point(133, 129);
+            this.btnSetFloat.Name = "btnSetFloat";
+            this.btnSetFloat.Size = new System.Drawing.Size(199, 23);
+            this.btnSetFloat.TabIndex = 98;
+            this.btnSetFloat.Text = "Set Float";
+            this.btnSetFloat.UseVisualStyleBackColor = true;
+            // 
+            // tbFloatCurrency
+            // 
+            this.tbFloatCurrency.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbFloatCurrency.Location = new System.Drawing.Point(236, 110);
+            this.tbFloatCurrency.Name = "tbFloatCurrency";
+            this.tbFloatCurrency.Size = new System.Drawing.Size(101, 19);
+            this.tbFloatCurrency.TabIndex = 96;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(139, 113);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(93, 13);
+            this.label9.TabIndex = 97;
+            this.label9.Text = "Float Currency:";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(139, 91);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(85, 13);
+            this.label16.TabIndex = 95;
+            this.label16.Text = "Float Amount:";
+            // 
+            // tbFloatAmount
+            // 
+            this.tbFloatAmount.Location = new System.Drawing.Point(236, 89);
+            this.tbFloatAmount.Name = "tbFloatAmount";
+            this.tbFloatAmount.Size = new System.Drawing.Size(103, 19);
+            this.tbFloatAmount.TabIndex = 94;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(139, 71);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(74, 13);
+            this.label17.TabIndex = 93;
+            this.label17.Text = "Min Payout:";
+            // 
+            // tbMinPayout
+            // 
+            this.tbMinPayout.Location = new System.Drawing.Point(235, 68);
+            this.tbMinPayout.Name = "tbMinPayout";
+            this.tbMinPayout.Size = new System.Drawing.Size(102, 19);
+            this.tbMinPayout.TabIndex = 92;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(343, 4);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(68, 13);
+            this.label18.TabIndex = 91;
+            this.label18.Text = "Level Info:";
+            // 
+            // tbLevelInfo
+            // 
+            this.tbLevelInfo.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tbLevelInfo.Location = new System.Drawing.Point(343, 21);
+            this.tbLevelInfo.Multiline = true;
+            this.tbLevelInfo.Name = "tbLevelInfo";
+            this.tbLevelInfo.ReadOnly = true;
+            this.tbLevelInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbLevelInfo.Size = new System.Drawing.Size(167, 93);
+            this.tbLevelInfo.TabIndex = 90;
+            // 
+            // btnPayout
+            // 
+            this.btnPayout.Location = new System.Drawing.Point(133, 43);
+            this.btnPayout.Name = "btnPayout";
+            this.btnPayout.Size = new System.Drawing.Size(191, 23);
+            this.btnPayout.TabIndex = 89;
+            this.btnPayout.Text = "Payout";
+            this.btnPayout.UseVisualStyleBackColor = true;
+            this.btnPayout.Click += new System.EventHandler(this.btnPayout_Click);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(233, 4);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(104, 13);
+            this.label23.TabIndex = 88;
+            this.label23.Text = "Payout Currency:";
+            // 
+            // tbPayoutCurrency
+            // 
+            this.tbPayoutCurrency.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbPayoutCurrency.Location = new System.Drawing.Point(236, 21);
+            this.tbPayoutCurrency.Name = "tbPayoutCurrency";
+            this.tbPayoutCurrency.Size = new System.Drawing.Size(86, 19);
+            this.tbPayoutCurrency.TabIndex = 87;
+            this.tbPayoutCurrency.Text = "EUR";
+            this.tbPayoutCurrency.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(130, 4);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(96, 13);
+            this.label24.TabIndex = 86;
+            this.label24.Text = "Payout Amount:";
+            // 
+            // tbPayoutAmount
+            // 
+            this.tbPayoutAmount.Location = new System.Drawing.Point(133, 21);
+            this.tbPayoutAmount.Name = "tbPayoutAmount";
+            this.tbPayoutAmount.Size = new System.Drawing.Size(80, 19);
+            this.tbPayoutAmount.TabIndex = 85;
+            this.tbPayoutAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // btnPayoutByDenom
+            // 
+            this.btnPayoutByDenom.Location = new System.Drawing.Point(133, 157);
+            this.btnPayoutByDenom.Name = "btnPayoutByDenom";
+            this.btnPayoutByDenom.Size = new System.Drawing.Size(199, 23);
+            this.btnPayoutByDenom.TabIndex = 84;
+            this.btnPayoutByDenom.Text = "Payout by Denomination";
+            this.btnPayoutByDenom.UseVisualStyleBackColor = true;
+            // 
+            // btnEmpty
+            // 
+            this.btnEmpty.Location = new System.Drawing.Point(133, 181);
+            this.btnEmpty.Name = "btnEmpty";
+            this.btnEmpty.Size = new System.Drawing.Size(199, 23);
+            this.btnEmpty.TabIndex = 83;
+            this.btnEmpty.Text = "Empty to Cashbox";
+            this.btnEmpty.UseVisualStyleBackColor = true;
+            this.btnEmpty.Click += new System.EventHandler(this.btnEmpty_Click);
+            // 
             // chkHold
             // 
             this.chkHold.AutoSize = true;
-            this.chkHold.Location = new System.Drawing.Point(25, 222);
+            this.chkHold.Location = new System.Drawing.Point(14, 217);
             this.chkHold.Name = "chkHold";
             this.chkHold.Size = new System.Drawing.Size(111, 17);
-            this.chkHold.TabIndex = 35;
+            this.chkHold.TabIndex = 82;
             this.chkHold.Text = "Hold in Escrow";
             this.chkHold.UseVisualStyleBackColor = true;
             this.chkHold.CheckedChanged += new System.EventHandler(this.chkHold_CheckedChanged);
@@ -852,65 +1026,55 @@
             this.logTickBox.AutoSize = true;
             this.logTickBox.Checked = true;
             this.logTickBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.logTickBox.Location = new System.Drawing.Point(25, 198);
+            this.logTickBox.Location = new System.Drawing.Point(25, 194);
             this.logTickBox.Name = "logTickBox";
             this.logTickBox.Size = new System.Drawing.Size(90, 17);
-            this.logTickBox.TabIndex = 34;
+            this.logTickBox.TabIndex = 81;
             this.logTickBox.Text = "Comms Log";
             this.logTickBox.UseVisualStyleBackColor = true;
             this.logTickBox.CheckedChanged += new System.EventHandler(this.logTickBox_CheckedChanged);
             // 
             // resetValidatorBtn
             // 
-            this.resetValidatorBtn.Location = new System.Drawing.Point(286, 210);
+            this.resetValidatorBtn.Location = new System.Drawing.Point(133, 210);
             this.resetValidatorBtn.Name = "resetValidatorBtn";
             this.resetValidatorBtn.Size = new System.Drawing.Size(199, 23);
-            this.resetValidatorBtn.TabIndex = 33;
+            this.resetValidatorBtn.TabIndex = 80;
             this.resetValidatorBtn.Text = "R&eset Validator";
             this.resetValidatorBtn.UseVisualStyleBackColor = true;
             this.resetValidatorBtn.Click += new System.EventHandler(this.resetValidatorBtn_Click);
             // 
-            // cashboxBtn
-            // 
-            this.cashboxBtn.Location = new System.Drawing.Point(286, 151);
-            this.cashboxBtn.Name = "cashboxBtn";
-            this.cashboxBtn.Size = new System.Drawing.Size(199, 23);
-            this.cashboxBtn.TabIndex = 32;
-            this.cashboxBtn.Text = "&Next Note to Cashbox";
-            this.cashboxBtn.UseVisualStyleBackColor = true;
-            this.cashboxBtn.Click += new System.EventHandler(this.cashboxBtn_Click);
-            // 
-            // payoutBtn
-            // 
-            this.payoutBtn.Location = new System.Drawing.Point(286, 181);
-            this.payoutBtn.Name = "payoutBtn";
-            this.payoutBtn.Size = new System.Drawing.Size(199, 23);
-            this.payoutBtn.TabIndex = 31;
-            this.payoutBtn.Text = "&Payout Next Note";
-            this.payoutBtn.UseVisualStyleBackColor = true;
-            this.payoutBtn.Click += new System.EventHandler(this.payoutBtn_Click);
-            // 
             // btnReturn
             // 
-            this.btnReturn.Location = new System.Drawing.Point(25, 7);
+            this.btnReturn.Location = new System.Drawing.Point(7, 7);
             this.btnReturn.Name = "btnReturn";
             this.btnReturn.Size = new System.Drawing.Size(117, 32);
-            this.btnReturn.TabIndex = 30;
+            this.btnReturn.TabIndex = 79;
             this.btnReturn.Text = "Return Note";
             this.btnReturn.UseVisualStyleBackColor = true;
             this.btnReturn.Click += new System.EventHandler(this.btnReturn_Click);
             // 
-            // notesInStorageText
+            // btnHalt
             // 
-            this.notesInStorageText.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.notesInStorageText.ContextMenuStrip = this.StorageListBoxMenu;
-            this.notesInStorageText.Location = new System.Drawing.Point(491, 24);
-            this.notesInStorageText.Multiline = true;
-            this.notesInStorageText.Name = "notesInStorageText";
-            this.notesInStorageText.ReadOnly = true;
-            this.notesInStorageText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.notesInStorageText.Size = new System.Drawing.Size(248, 56);
-            this.notesInStorageText.TabIndex = 29;
+            this.btnHalt.Location = new System.Drawing.Point(8, 156);
+            this.btnHalt.Name = "btnHalt";
+            this.btnHalt.Size = new System.Drawing.Size(117, 32);
+            this.btnHalt.TabIndex = 78;
+            this.btnHalt.Text = "&Halt";
+            this.btnHalt.UseVisualStyleBackColor = true;
+            this.btnHalt.Click += new System.EventHandler(this.btnHalt_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.textBox1.ContextMenuStrip = this.StorageListBoxMenu;
+            this.textBox1.Location = new System.Drawing.Point(343, 120);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox1.Size = new System.Drawing.Size(167, 113);
+            this.textBox1.TabIndex = 77;
             // 
             // StorageListBoxMenu
             // 
@@ -939,127 +1103,12 @@
             this.emptyStoredNotesToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.emptyStoredNotesToolStripMenuItem.Text = "Empty Stored Notes";
             // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(491, 7);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(106, 13);
-            this.label18.TabIndex = 28;
-            this.label18.Text = "Notes in Storage:";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.totalNumNotesDispensedText);
-            this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.label17);
-            this.groupBox1.Controls.Add(this.totalAcceptedNumText);
-            this.groupBox1.Controls.Add(this.ResetTotalsText);
-            this.groupBox1.Location = new System.Drawing.Point(285, 7);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 138);
-            this.groupBox1.TabIndex = 24;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "TOTALS";
-            // 
-            // totalNumNotesDispensedText
-            // 
-            this.totalNumNotesDispensedText.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.totalNumNotesDispensedText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalNumNotesDispensedText.Location = new System.Drawing.Point(6, 78);
-            this.totalNumNotesDispensedText.Name = "totalNumNotesDispensedText";
-            this.totalNumNotesDispensedText.ReadOnly = true;
-            this.totalNumNotesDispensedText.Size = new System.Drawing.Size(188, 22);
-            this.totalNumNotesDispensedText.TabIndex = 20;
-            this.totalNumNotesDispensedText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.totalNumNotesDispensedText.TextChanged += new System.EventHandler(this.totalNumNotesDispensedText_TextChanged);
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(6, 17);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(164, 13);
-            this.label16.TabIndex = 6;
-            this.label16.Text = "Number of Notes Accepted:";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(4, 60);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(169, 13);
-            this.label17.TabIndex = 19;
-            this.label17.Text = "Number of Notes Dispensed:";
-            // 
-            // totalAcceptedNumText
-            // 
-            this.totalAcceptedNumText.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.totalAcceptedNumText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalAcceptedNumText.Location = new System.Drawing.Point(6, 34);
-            this.totalAcceptedNumText.Name = "totalAcceptedNumText";
-            this.totalAcceptedNumText.ReadOnly = true;
-            this.totalAcceptedNumText.Size = new System.Drawing.Size(188, 22);
-            this.totalAcceptedNumText.TabIndex = 7;
-            this.totalAcceptedNumText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.totalAcceptedNumText.TextChanged += new System.EventHandler(this.totalAcceptedNumText_TextChanged);
-            // 
-            // ResetTotalsText
-            // 
-            this.ResetTotalsText.Location = new System.Drawing.Point(6, 106);
-            this.ResetTotalsText.Name = "ResetTotalsText";
-            this.ResetTotalsText.Size = new System.Drawing.Size(187, 23);
-            this.ResetTotalsText.TabIndex = 5;
-            this.ResetTotalsText.Text = "Reset Stats";
-            this.ResetTotalsText.UseVisualStyleBackColor = true;
-            this.ResetTotalsText.Click += new System.EventHandler(this.ResetTotalsText_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(159, 7);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(103, 13);
-            this.label9.TabIndex = 12;
-            this.label9.Text = "Note to Recycle:";
-            // 
-            // noteToRecycleComboBox
-            // 
-            this.noteToRecycleComboBox.FormattingEnabled = true;
-            this.noteToRecycleComboBox.Location = new System.Drawing.Point(162, 24);
-            this.noteToRecycleComboBox.Name = "noteToRecycleComboBox";
-            this.noteToRecycleComboBox.Size = new System.Drawing.Size(117, 21);
-            this.noteToRecycleComboBox.TabIndex = 11;
-            this.noteToRecycleComboBox.SelectedIndexChanged += new System.EventHandler(this.noteToRecycleComboBox_SelectedIndexChanged);
-            // 
-            // btnHalt
-            // 
-            this.btnHalt.Location = new System.Drawing.Point(162, 134);
-            this.btnHalt.Name = "btnHalt";
-            this.btnHalt.Size = new System.Drawing.Size(117, 59);
-            this.btnHalt.TabIndex = 10;
-            this.btnHalt.Text = "&Halt";
-            this.btnHalt.UseVisualStyleBackColor = true;
-            this.btnHalt.Click += new System.EventHandler(this.btnHalt_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.textBox1.ContextMenuStrip = this.StorageListBoxMenu;
-            this.textBox1.Location = new System.Drawing.Point(491, 101);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(248, 135);
-            this.textBox1.TabIndex = 9;
-            // 
             // btnRun
             // 
-            this.btnRun.Location = new System.Drawing.Point(162, 46);
+            this.btnRun.Location = new System.Drawing.Point(8, 118);
             this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(117, 59);
-            this.btnRun.TabIndex = 8;
+            this.btnRun.Size = new System.Drawing.Size(117, 32);
+            this.btnRun.TabIndex = 76;
             this.btnRun.Text = "&Run";
             this.btnRun.UseVisualStyleBackColor = true;
             this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
@@ -1067,11 +1116,11 @@
             // NVStatus
             // 
             this.NVStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.NVStatus.Location = new System.Drawing.Point(25, 133);
+            this.NVStatus.Location = new System.Drawing.Point(7, 80);
             this.NVStatus.Margin = new System.Windows.Forms.Padding(4);
             this.NVStatus.Name = "NVStatus";
-            this.NVStatus.Size = new System.Drawing.Size(117, 60);
-            this.NVStatus.TabIndex = 7;
+            this.NVStatus.Size = new System.Drawing.Size(117, 32);
+            this.NVStatus.TabIndex = 75;
             this.NVStatus.Text = "Status";
             this.NVStatus.UseVisualStyleBackColor = true;
             this.NVStatus.Click += new System.EventHandler(this.NVStatus_Click);
@@ -1079,11 +1128,11 @@
             // OpenNV
             // 
             this.OpenNV.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.OpenNV.Location = new System.Drawing.Point(25, 46);
+            this.OpenNV.Location = new System.Drawing.Point(8, 42);
             this.OpenNV.Margin = new System.Windows.Forms.Padding(4);
             this.OpenNV.Name = "OpenNV";
-            this.OpenNV.Size = new System.Drawing.Size(117, 59);
-            this.OpenNV.TabIndex = 6;
+            this.OpenNV.Size = new System.Drawing.Size(117, 32);
+            this.OpenNV.TabIndex = 74;
             this.OpenNV.Text = "Open";
             this.OpenNV.UseVisualStyleBackColor = true;
             this.OpenNV.Click += new System.EventHandler(this.OpenNV_Click);
@@ -1322,7 +1371,6 @@
             this.emptyNoteFloatToolStripMenuItem1.Name = "emptyNoteFloatToolStripMenuItem1";
             this.emptyNoteFloatToolStripMenuItem1.Size = new System.Drawing.Size(166, 22);
             this.emptyNoteFloatToolStripMenuItem1.Text = "Empty Note Float";
-            this.emptyNoteFloatToolStripMenuItem1.Click += new System.EventHandler(this.emptyNoteFloatToolStripMenuItem1_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -1340,27 +1388,6 @@
             // 
             this.lostTimer.Interval = 20000;
             this.lostTimer.Tick += new System.EventHandler(this.lostTimer_Tick);
-            // 
-            // Avail10Notes
-            // 
-            this.Avail10Notes.Location = new System.Drawing.Point(135, 76);
-            this.Avail10Notes.Margin = new System.Windows.Forms.Padding(4);
-            this.Avail10Notes.Name = "Avail10Notes";
-            this.Avail10Notes.ReadOnly = true;
-            this.Avail10Notes.Size = new System.Drawing.Size(59, 19);
-            this.Avail10Notes.TabIndex = 62;
-            this.Avail10Notes.Text = "0";
-            this.Avail10Notes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(210, 79);
-            this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(51, 13);
-            this.label22.TabIndex = 63;
-            this.label22.Text = "10 Euro";
             // 
             // Form1
             // 
@@ -1386,8 +1413,6 @@
             this.NoteRecycler.ResumeLayout(false);
             this.NoteRecycler.PerformLayout();
             this.StorageListBoxMenu.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.Printer.ResumeLayout(false);
             this.BarcodeReader.ResumeLayout(false);
             this.MainConfig.ResumeLayout(false);
@@ -1444,8 +1469,6 @@
         private System.Windows.Forms.Button CoinStatus;
         private System.Windows.Forms.Button OpenCoins;
         private System.Windows.Forms.TabPage NoteRecycler;
-        private System.Windows.Forms.Button NVStatus;
-        private System.Windows.Forms.Button OpenNV;
         private System.Windows.Forms.TabPage Printer;
         private System.Windows.Forms.Button PRINTERStatus;
         private System.Windows.Forms.Button OpenPRINTER;
@@ -1463,26 +1486,7 @@
         private System.Windows.Forms.Timer GeneralTimer;
         private System.Windows.Forms.Button CloseBatchButton;
         private System.Windows.Forms.Button btnSmartEmpty;
-        private System.Windows.Forms.Button btnRun;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button btnHalt;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox noteToRecycleComboBox;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox totalNumNotesDispensedText;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.TextBox totalAcceptedNumText;
-        private System.Windows.Forms.Button ResetTotalsText;
-        private System.Windows.Forms.TextBox notesInStorageText;
-        private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Button btnReturn;
-        private System.Windows.Forms.Button resetValidatorBtn;
-        private System.Windows.Forms.Button cashboxBtn;
-        private System.Windows.Forms.Button payoutBtn;
-        private System.Windows.Forms.CheckBox logTickBox;
-        private System.Windows.Forms.CheckBox chkHold;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem emptyNoteFloatToolStripMenuItem1;
@@ -1513,6 +1517,31 @@
         private System.Windows.Forms.Button ResetAllNotesbtn;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.TextBox Avail10Notes;
+        private System.Windows.Forms.Button btnSetFloat;
+        private System.Windows.Forms.TextBox tbFloatCurrency;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox tbFloatAmount;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox tbMinPayout;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox tbLevelInfo;
+        private System.Windows.Forms.Button btnPayout;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.TextBox tbPayoutCurrency;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.TextBox tbPayoutAmount;
+        private System.Windows.Forms.Button btnPayoutByDenom;
+        private System.Windows.Forms.Button btnEmpty;
+        private System.Windows.Forms.CheckBox chkHold;
+        private System.Windows.Forms.CheckBox logTickBox;
+        private System.Windows.Forms.Button resetValidatorBtn;
+        private System.Windows.Forms.Button btnReturn;
+        private System.Windows.Forms.Button btnHalt;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button btnRun;
+        private System.Windows.Forms.Button NVStatus;
+        private System.Windows.Forms.Button OpenNV;
     }
 }
 
