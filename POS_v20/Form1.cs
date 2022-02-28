@@ -6104,11 +6104,10 @@ namespace POS_v20
 
         private void btnSmartEmpty_Click(object sender, EventArgs e)
         {
-            //NV11.SmartEmpty(textBox1);
+            Payout.SmartEmpty(textBox1);
             Save_Click(this, e);
-            emptyNoteFloatToolStripMenuItem1_Click(this, e);
             UpdateUI();
-            this.Refresh();
+            Refresh();
         }
 
         private void btnHalt_Click(object sender, EventArgs e)
