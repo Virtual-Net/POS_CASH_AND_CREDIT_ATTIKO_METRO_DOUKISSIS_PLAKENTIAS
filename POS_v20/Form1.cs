@@ -5818,26 +5818,8 @@ namespace POS_v20
                     //secondForm.POS_Messages.Clear();
                     this.Debugging.Clear();
                     secondForm.Refresh();
-                    Thread.Sleep(200);
-                    int Available05NotesLevel = Convert.ToInt16(notesInStorageText.Text);
-                        ini.IniWriteValue("SerialNV", "Avail05", notesInStorageText.Text);
-                        Display("5 Euro Notes Level for change: " + Available05NotesLevel.ToString());
-                        if (Available05NotesLevel >= 25)
-                        {
-                            NV11.EnableValidator();
-                            NV11.EnablePayout();
-                            cashboxBtn_Click(this, e);
-                            string five = ini.IniReadValue("SerialNV", "Paid05");
-                            int temp = Convert.ToInt16(five); temp++;
-                            ini.IniWriteValue("SerialNV", "Paid05", temp.ToString());
-                        }
-                        else
-                        {
-                            NV11.DisableValidator();
-                            NV11.DisablePayout();
-                        }
-                    
-                        break;
+                    Thread.Sleep(200);                    
+                    break;
 
                 case 11: //SERIOUS ERROR
                     Display("SM: " + SM);
