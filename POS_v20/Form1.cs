@@ -4901,7 +4901,7 @@ namespace POS_v20
 
                 case 611:    
                     Display("SM: " + SM);
-                    if(notes05In)
+                    /*if(notes05In)
                     {
                         Display("NoteValidator 05 Euro Note");
                         Payment = Payment + 500;
@@ -4998,7 +4998,7 @@ namespace POS_v20
                             SM = 61;
                             break;
                         }
-                    }
+                    }*/
                     break;
 
                 case 62:    //Accept Credit - Debit Card for Ticket
