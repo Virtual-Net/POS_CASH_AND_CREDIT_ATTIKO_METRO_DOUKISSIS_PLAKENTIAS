@@ -5986,19 +5986,19 @@ namespace POS_v20
             byte[] NDOneBill = { 0x01, 0x10, 0x00, 0x10, 0x01, 0x22 };
             int NNotes = Notes;
             byte[] buffer = new byte[256];
-            DNote = 0;
+            DNote10 = 0;
             GeneralTimer.Stop();
-            payoutBtn_Click(this, e);
+            //payoutBtn_Click(this, e);
             Display("5 euro dispensed, wait to retrieve...");
 
             try
             {
                 while (Notes > 0)
                 {
-                    if (DNote > 0)
+                    if (DNote10 > 0)// buffer[3] == 0xAA)  Debugging.Text.IndexOf("ND Succesful Pay") != -1
                     {
                         Display("successful pay");
-                        DNote--;
+                        DNote10--;
                         Notes--;
                         ReturnMoney = ReturnMoney + 500;
                         this.Refresh();
@@ -6008,7 +6008,6 @@ namespace POS_v20
                         ini.IniWriteValue("SerialNV", "Avail05", temp.ToString());
                         if (Notes > 0)
                         {
-                            payoutBtn_Click(this, e);
                             Display(" next 5 euro dispensed, wait to retrieve...");
                         }
                         break;
@@ -6016,7 +6015,7 @@ namespace POS_v20
                     else
                     {
                         Thread.Sleep(500);
-                        this.Refresh();
+                        Refresh();
                         GeneralTimer.Start();
                         return NNotes;
                     }
