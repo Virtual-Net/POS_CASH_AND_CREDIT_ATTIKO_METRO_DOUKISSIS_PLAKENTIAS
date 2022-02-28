@@ -2905,7 +2905,13 @@ namespace POS_v20
                     Display("SM: " + SM);
                     if (!cardpresense)
                         serialRFID.Write(singleread, 0, singleread.Length);
-                    NV11.DisableValidator();
+                    DisableChangeNotes = false;
+                    FiveEuroNoteIn = false;
+                    TenEuroNoteIn = false;
+                    TwentyEuroNoteIn = false;
+                    Payout.DisableValidator();
+                    textBox1.Text = "";
+                    textBox1.ScrollToCaret();
                     secondForm.Cancel.Visible = false;
                     ShowNotes("000");
                     InitalCost = 0;
@@ -3049,6 +3055,7 @@ namespace POS_v20
                         SM = 4;
                         BR_Card = ""; 
                         RF_Card = "";
+                        break;
                     }
                     if (RF_Card.Length != 0)
                     {
