@@ -6535,17 +6535,13 @@ namespace POS_v20
             Payout.EmptyPayoutDevice(textBox1);
         }
 
-        //private void payoutBtn_Click(object sender, EventArgs e)
-        //{
-        //    if (NV11 != null)
-        //    {
-        //        // make sure payout is switched on
-        //        NV11.EnablePayout();
-        //        NV11.PayoutNextNote(textBox1);
-        //        //Display(textBox1.Text);
-        //    }
-        //    //DNote++;
-        //}
+        private void btnPayout_Click(object sender, EventArgs e)
+        {
+            if (tbPayoutAmount.Text != "" && tbPayoutCurrency.Text != "")
+                CalculatePayout(tbPayoutAmount.Text, tbPayoutCurrency.Text.ToCharArray());
+        }
+
+        
 
         //private void resetValidatorBtn_Click(object sender, EventArgs e)
         //{
