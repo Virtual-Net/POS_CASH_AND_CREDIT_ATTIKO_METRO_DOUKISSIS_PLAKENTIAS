@@ -4355,10 +4355,21 @@ namespace POS_v20
                     }
                     if (snapshot != null)
                     {
-                        secondForm.SnapshotPictureBox.Location = new Point(12, 257);
-                        secondForm.SnapshotPictureBox.Load("http://" + ini.IniReadValue("Params", "ServerIP") + "/storage/parking/" + snapshot);
-                        secondForm.SnapshotPictureBox.Visible = true;
-                        secondForm.Refresh();
+                        try
+                        {
+                            secondForm.SnapshotPictureBox.Location = new Point(12, 257);
+                            secondForm.SnapshotPictureBox.Load("http://" + ini.IniReadValue("Params", "ServerIP") + "/storage/parking/" + snapshot);
+                            secondForm.SnapshotPictureBox.Visible = true;
+                            secondForm.Refresh();
+                        }
+                        catch (ArgumentNullException)
+                        {
+                            Display("Snapsot contains no image - Argument null Exception");
+                        }
+                        catch
+                        {
+                            Display("Snapsot contains no image");
+                        }
                     }
                     else
                     {
