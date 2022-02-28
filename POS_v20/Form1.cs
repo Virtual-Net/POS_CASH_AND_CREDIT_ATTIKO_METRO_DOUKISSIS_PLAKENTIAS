@@ -4027,7 +4027,7 @@ namespace POS_v20
                                     Langtemp = ini.IniReadValue("LANGUAGE", "Noreceipt" + secondForm.Language);
                                     secondForm.POS_Messages.AppendText(Langtemp);
                                     secondForm.Refresh(); Thread.Sleep(2000);
-                                    SM = 7;
+                                    SM = 10;
                                     Display("Error 404 on receipt request");
                                     break;
                                 case HttpStatusCode.InternalServerError:
@@ -4036,7 +4036,7 @@ namespace POS_v20
                                     Langtemp = ini.IniReadValue("LANGUAGE", "Noreceipt" + secondForm.Language);
                                     secondForm.POS_Messages.AppendText(Langtemp);
                                     secondForm.Refresh(); Thread.Sleep(2000);
-                                    SM = 7;
+                                    SM = 10;
                                     Display("Error 500 on receipt request");
                                     break;
                                 case HttpStatusCode.ServiceUnavailable:
@@ -4045,7 +4045,7 @@ namespace POS_v20
                                     Langtemp = ini.IniReadValue("LANGUAGE", "Noreceipt" + secondForm.Language);
                                     secondForm.POS_Messages.AppendText(Langtemp);
                                     secondForm.Refresh(); Thread.Sleep(2000);
-                                    SM = 7;
+                                    SM = 10;
                                     Display("Error 503 on receipt request");
                                     break;
                             }
@@ -4082,74 +4082,58 @@ namespace POS_v20
                         secondForm.POS_Messages.Clear();
                         secondForm.Refresh();
 
-                        if ((Math.Abs(InitalCost - Payment) / 500) > 0)
-                        {
+                        if (Math.Abs(InitalCost - Payment + ReturnMoney) > 500 && !DisableChangeNotes)
+                        {   //change should be in notes
                             secondForm.Ticket_Icon.Visible = false;
                             secondForm.Card_Icon.Visible = false;
                             GeneralTimer.Stop();
-                            int x = (Math.Abs(InitalCost - Payment) / 500);
-                            if (DNote < x)
+                            int x = Math.Abs(InitalCost - Payment) / 1000;
+
+                            if (DNote10 < x)
                             {
-                                Display("NV11 Poll response is :" + NV11.CommsLog.logtext);
-                                if (textBox1.Text.IndexOf("Payout out of service") != -1)
-                                {
-                                    Display("PAYOUT MODULE IS OUT OF SERVICE!!!");
-                                    x = 0;
-                                    break;
-                                }
-                                else 
-                                {
-                                    UpdateUI();
-                                    if (notesInStorageText.Text.Length > 0)
-                                    {
-                                        Display("go return 5 euro notes: " + (x - DNote));
-                                        payoutBtn_Click(this, e);
-                                        ReturnMoney = ReturnMoney + 500;
-                                        SM = 64;
-                                        break;
-                                    }
-                                    else if (notesInStorageText.Text.Length == 0)
-                                    {
-                                        Display("out of stocked 5 euro notes!!!");
-                                        x = 0;
-                                    }
-                                }
+                                tbPayoutAmount.Text = "10";
+                                btnPayout_Click(this, e);
+                                SM = 64;
+                                break;
                             }
-                            if (x == (Math.Abs(InitalCost - Payment) / 500))
+                            int y = Math.Abs(InitalCost - Payment) / 500;
+                            if (DNote5 < y)
                             {
-                                Display("Correctly Returned Notes: " + x.ToString() + " " + ReturnMoney.ToString());
-                                string url_1 = HTTPURLTICKET + UserCode + "?charge_until=" + charge_until;
-                                HttpWebRequest request_1 = (HttpWebRequest)WebRequest.Create(url_1);
-                                request_1.Method = "PUT";
-                                request_1.Headers.Add("Authorization", "Bearer " + ApiToken);
+                                secondForm.Ticket_Icon.Visible = false;
+                                secondForm.Card_Icon.Visible = false;
+                                GeneralTimer.Stop();
+                                tbPayoutAmount.Text = "5";
+                                btnPayout_Click(this, e);
+                                SM = 64;
+                                break;
+                            }
+                            if (Math.Abs(InitalCost - Payment) > (Total_Coins - 1000))
+                            {
+                                Display("OUT OF AMMO\n");
+                                ShowNotes("000");
+                                Display("ERROR_INCOMPLETE Pay: " + (InitalCost - Payment).ToString() + "\n");
+                                value = (InitalCost - Payment).ToString();
+
+                                string url = HTTPURLTICKET + UserCode + "?charge_until=" + charge_until;
+                                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                                request.Method = "PUT";
+                                request.Headers.Add("Authorization", "Bearer " + ApiToken);
+                                HttpWebResponse response = null;
                                 try
                                 {
-                                    HttpWebResponse response_1 = null;
-                                    response_1 = (HttpWebResponse)request_1.GetResponse();
-                                    Stream responseStream = response_1.GetResponseStream();
-                                    string invoice_code;
+                                    response = (HttpWebResponse)request.GetResponse();
+                                    Stream responseStream = response.GetResponseStream();
                                     StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-                                    var jsonobject = reader.ReadToEnd();
-                                    Display("JSON_object is: " + jsonobject);
-                                    var responseData = JObject.Parse(jsonobject);
-                                    Display("+++" + responseData.ToString());
-                                    invoice_code = (string)responseData["invoice"]["code"];
-                                    Display("invoice_code: " + invoice_code);
-                                    invoice_sequence = (string)responseData["invoice"]["sequence"];
-                                    Display("invoice_sequence: " + invoice_sequence);
-                                    invoice_number = (string)responseData["invoice"]["number"];
-                                    Display("invoice_number: " + invoice_number);
-                                    plate = (string)responseData["ticket"]["ticket_entrance"]["vehicle"]["plate"];
-                                    Display("vehicle_plate: " + plate);
-                                    charge = (string)responseData["charge"];
-                                    Display("charge: " + charge);
-                                    entered_at = (string)responseData["ticket"]["ticket_entrance"]["entered_at"];
-                                    Display("entered_at: " + entered_at);
-                                    response_1.Close();
+                                    response.Close();
                                     reader.Close();
                                     responseStream.Close();
-                                    //SM = 7;
-                                    //break;
+                                    secondForm.POS_Messages.Clear();
+                                    Langtemp = ini.IniReadValue("LANGUAGE", "Complete" + secondForm.Language);
+                                    secondForm.POS_Messages.AppendText(Langtemp);
+                                    secondForm.Refresh();
+                                    GeneralTimer.Start();
+                                    SM = 80;
+                                    break;
                                 }
                                 catch (WebException ex)
                                 {
@@ -4180,75 +4164,9 @@ namespace POS_v20
                                             Langtemp = ini.IniReadValue("LANGUAGE", "Noreceipt" + secondForm.Language);
                                             secondForm.POS_Messages.AppendText(Langtemp);
                                             secondForm.Refresh(); Thread.Sleep(2000);
-                                            SM = 7;
+                                            SM = 10;
                                             Display("Error 503 on receipt request");
                                             break;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                Display("FAILURE Returned Notes:" + x.ToString() + " " + ReturnMoney.ToString());
-                                if (Math.Abs(InitalCost - Payment) > (Total_Coins - 1000)) // /2
-                                {
-                                    Display("OUT OF AMMO\n");
-                                    ShowNotes("000");
-                                    Display("ERROR_INCOMPLETE Pay: " + (InitalCost - Payment).ToString() + "\n");
-                                    value = (InitalCost - Payment).ToString();
-                                    string url = HTTPURLTICKET + UserCode + "?charge_until=" + charge_until;
-                                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                                    request.Method = "PUT";
-                                    request.Headers.Add("Authorization", "Bearer " + ApiToken);
-                                    HttpWebResponse response = null;
-                                    try
-                                    {
-                                        response = (HttpWebResponse)request.GetResponse();
-                                        Stream responseStream = response.GetResponseStream();
-                                        StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-                                        response.Close();
-                                        reader.Close();
-                                        responseStream.Close();
-                                        secondForm.POS_Messages.Clear();
-                                        Langtemp = ini.IniReadValue("LANGUAGE", "Complete" + secondForm.Language);
-                                        secondForm.POS_Messages.AppendText(Langtemp);
-                                        secondForm.Refresh();
-                                        GeneralTimer.Start();
-                                        SM = 80;
-                                        break;
-                                    }
-                                    catch (WebException ex)
-                                    {
-                                        HttpWebResponse response_1 = (HttpWebResponse)ex.Response;
-                                        switch (response_1.StatusCode)
-                                        {
-                                            case HttpStatusCode.NotFound:
-                                                secondForm.Ticket_Icon.Visible = false;
-                                                secondForm.POS_Messages.Clear();
-                                                Langtemp = ini.IniReadValue("LANGUAGE", "Noreceipt" + secondForm.Language);
-                                                secondForm.POS_Messages.AppendText(Langtemp);
-                                                secondForm.Refresh(); Thread.Sleep(2000);
-                                                SM = 7;
-                                                Display("Error 404 on receipt request");
-                                                break;
-                                            case HttpStatusCode.InternalServerError:
-                                                secondForm.Ticket_Icon.Visible = false;
-                                                secondForm.POS_Messages.Clear();
-                                                Langtemp = ini.IniReadValue("LANGUAGE", "Noreceipt" + secondForm.Language);
-                                                secondForm.POS_Messages.AppendText(Langtemp);
-                                                secondForm.Refresh(); Thread.Sleep(2000);
-                                                SM = 7;
-                                                Display("Error 500 on receipt request");
-                                                break;
-                                            case HttpStatusCode.ServiceUnavailable:
-                                                secondForm.Ticket_Icon.Visible = false;
-                                                secondForm.POS_Messages.Clear();
-                                                Langtemp = ini.IniReadValue("LANGUAGE", "Noreceipt" + secondForm.Language);
-                                                secondForm.POS_Messages.AppendText(Langtemp);
-                                                secondForm.Refresh(); Thread.Sleep(2000);
-                                                SM = 7;
-                                                Display("Error 503 on receipt request");
-                                                break;
-                                        }
                                     }
                                 }
                             }
@@ -4319,7 +4237,7 @@ namespace POS_v20
                                         Langtemp = ini.IniReadValue("LANGUAGE", "Noreceipt" + secondForm.Language);
                                         secondForm.POS_Messages.AppendText(Langtemp);
                                         secondForm.Refresh(); Thread.Sleep(2000);
-                                        SM = 7;
+                                        SM = 10;
                                         Display("Error 404 on receipt request");
                                         break;
                                     case HttpStatusCode.InternalServerError:
@@ -4328,7 +4246,7 @@ namespace POS_v20
                                         Langtemp = ini.IniReadValue("LANGUAGE", "Noreceipt" + secondForm.Language);
                                         secondForm.POS_Messages.AppendText(Langtemp);
                                         secondForm.Refresh(); Thread.Sleep(2000);
-                                        SM = 7;
+                                        SM = 10;
                                         Display("Error 500 on receipt request");
                                         break;
                                     case HttpStatusCode.ServiceUnavailable:
@@ -4337,7 +4255,7 @@ namespace POS_v20
                                         Langtemp = ini.IniReadValue("LANGUAGE", "Noreceipt" + secondForm.Language);
                                         secondForm.POS_Messages.AppendText(Langtemp);
                                         secondForm.Refresh(); Thread.Sleep(2000);
-                                        SM = 7;
+                                        SM = 10;
                                         Display("Error 503 on receipt request");
                                         break;
                                 }
@@ -4404,7 +4322,7 @@ namespace POS_v20
                                         Langtemp = ini.IniReadValue("LANGUAGE", "Noreceipt" + secondForm.Language);
                                         secondForm.POS_Messages.AppendText(Langtemp);
                                         secondForm.Refresh(); Thread.Sleep(2000);
-                                        SM = 7;
+                                        SM = 10;
                                         Display("Error 404 on receipt request");
                                         break;
                                     case HttpStatusCode.InternalServerError:
@@ -4413,7 +4331,7 @@ namespace POS_v20
                                         Langtemp = ini.IniReadValue("LANGUAGE", "Noreceipt" + secondForm.Language);
                                         secondForm.POS_Messages.AppendText(Langtemp);
                                         secondForm.Refresh(); Thread.Sleep(2000);
-                                        SM = 7;
+                                        SM = 10;
                                         Display("Error 500 on receipt request");
                                         break;
                                     case HttpStatusCode.ServiceUnavailable:
@@ -4422,7 +4340,7 @@ namespace POS_v20
                                         Langtemp = ini.IniReadValue("LANGUAGE", "Noreceipt" + secondForm.Language);
                                         secondForm.POS_Messages.AppendText(Langtemp);
                                         secondForm.Refresh(); Thread.Sleep(2000);
-                                        SM = 7;
+                                        SM = 10;
                                         Display("Error 503 on receipt request");
                                         break;
                                 }
