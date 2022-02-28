@@ -6240,14 +6240,19 @@ namespace POS_v20
         // This updates UI variables such as textboxes etc.
         void UpdateUI()
         {
-            // update text boxes
-            totalAcceptedNumText.Text = NV11.NotesAccepted.ToString();
-            totalNumNotesDispensedText.Text = NV11.NotesDispensed.ToString();
-            notesInStorageText.Text = NV11.GetStorageInfo();
-            if (notesInStorageText.Text == "")
-                Avail05Notes.Text = "0";
+            // update text boxes SmartPayout
+            tbLevelInfo.Text = Payout.GetChannelLevelInfo();
+
+            // disable buttons if input would be invalid
+            if (tbMinPayout.Text == "" || tbFloatAmount.Text == "" || tbFloatCurrency.Text == "")
+                btnSetFloat.Enabled = false;
             else
-                Avail05Notes.Text = notesInStorageText.Text;
+                btnSetFloat.Enabled = true;
+
+            if (tbPayoutAmount.Text == "" || tbPayoutCurrency.Text == "")
+                btnPayout.Enabled = false;
+            else
+                btnPayout.Enabled = true;
         }
 
         // This function opens the com port and attempts to connect with the validator. It then negotiates
