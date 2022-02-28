@@ -6328,7 +6328,7 @@ namespace POS_v20
 
         private void btnReturn_Click(object sender, EventArgs e)
         {
-            NV11.ReturnNote(textBox1);
+            Payout.ReturnNote(textBox1);
         }
 
         // This is a one off function that is called the first time the MainLoop()
@@ -6337,25 +6337,35 @@ namespace POS_v20
         private void SetupFormLayout()
         {
             // need validator class instance
-            if (NV11 == null)
+            if (Payout == null)
             {
                 MessageBox.Show("NV11 class is null.", "ERROR");
                 return;
             }
 
-            // find number and value of channels and update combo box
-            noteToRecycleComboBox.Items.Add("No Recycling");
+            // Positioning
+            int x = 600, y = 46;
 
-            foreach (ChannelData d in NV11.UnitDataList)
+            // Add label
+            Label lbl = new Label();
+            lbl.Location = new Point(x, y - 10);
+            lbl.Size = new Size(80, 30);
+            lbl.Text = "Recycle\nChannels:";
+            NoteRecycler.Controls.Add(lbl);
+            ////Controls.Add(lbl);
+
+            for (int i = 1; i <= Payout.NumberOfChannels; i++)
             {
-                string s = d.Value / 100 + " " + d.Currency[0] + d.Currency[1] + d.Currency[2];
-                noteToRecycleComboBox.Items.Add(s);
+                CheckBox c = new CheckBox();
+                c.Location = new Point(x, y + (i * 20));
+                c.Name = i.ToString();
+                ChannelData d = new ChannelData();
+                Payout.GetDataByChannel(i, ref d);
+                c.Text = CHelpers.FormatToCurrency(d.Value) + " " + new String(d.Currency);
+                c.Checked = d.Recycling;
+                c.CheckedChanged += new EventHandler(recycleBox_CheckedChange);
+                NoteRecycler.Controls.Add(c);
             }
-
-            noteToRecycleComboBox.Items.Add("Show Routing");
-
-            // start on second choice which will always be 5 euro note recycling
-            noteToRecycleComboBox.Text = noteToRecycleComboBox.Items[1].ToString();
         }
 
         private void reconnectionTimer_Tick(object sender, EventArgs e)
