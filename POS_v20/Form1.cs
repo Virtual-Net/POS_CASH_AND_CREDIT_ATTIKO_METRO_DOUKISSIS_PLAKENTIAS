@@ -6510,6 +6510,11 @@ namespace POS_v20
             }
         }
 
+        private void btnEmpty_Click(object sender, EventArgs e)
+        {
+            Payout.EmptyPayoutDevice(textBox1);
+        }
+
         private void payoutBtn_Click(object sender, EventArgs e)
         {
             if (NV11 != null)
