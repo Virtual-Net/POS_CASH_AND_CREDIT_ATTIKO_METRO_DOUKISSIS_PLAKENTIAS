@@ -875,6 +875,7 @@
             this.btnSetFloat.TabIndex = 98;
             this.btnSetFloat.Text = "Set Float";
             this.btnSetFloat.UseVisualStyleBackColor = true;
+            this.btnSetFloat.Click += new System.EventHandler(this.btnSetFloat_Click);
             // 
             // tbFloatCurrency
             // 
@@ -944,6 +945,7 @@
             this.tbLevelInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbLevelInfo.Size = new System.Drawing.Size(167, 93);
             this.tbLevelInfo.TabIndex = 90;
+            this.tbLevelInfo.TextChanged += new System.EventHandler(this.tbLevelInfo_TextChanged);
             // 
             // btnPayout
             // 
@@ -999,6 +1001,7 @@
             this.btnPayoutByDenom.TabIndex = 84;
             this.btnPayoutByDenom.Text = "Payout by Denomination";
             this.btnPayoutByDenom.UseVisualStyleBackColor = true;
+            this.btnPayoutByDenom.Click += new System.EventHandler(this.btnPayoutByDenom_Click);
             // 
             // btnEmpty
             // 
@@ -1075,6 +1078,7 @@
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox1.Size = new System.Drawing.Size(167, 113);
             this.textBox1.TabIndex = 77;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // StorageListBoxMenu
             // 

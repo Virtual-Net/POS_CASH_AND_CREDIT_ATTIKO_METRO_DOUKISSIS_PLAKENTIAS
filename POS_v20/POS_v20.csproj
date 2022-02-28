@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>POS_v20</RootNamespace>
     <AssemblyName>POS_v3.7</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <ManifestCertificateThumbprint>320C4E32A0043F97CBCE2FB0B2C9E43C858C40C1</ManifestCertificateThumbprint>
@@ -41,6 +41,7 @@
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -126,6 +127,7 @@
     </Compile>
     <Compile Include="Global.cs" />
     <Compile Include="Helpers\CHelpers.cs" />
+    <Compile Include="Helpers\EValidatorState.cs" />
     <Compile Include="Ini.cs" />
     <Compile Include="PaymentManagerWrapper.cs" />
     <Compile Include="Popout Forms\frmOpenMenu.cs">
@@ -173,6 +175,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

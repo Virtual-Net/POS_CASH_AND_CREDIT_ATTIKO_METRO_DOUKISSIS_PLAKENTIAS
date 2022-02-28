@@ -6541,110 +6541,217 @@ namespace POS_v20
                 CalculatePayout(tbPayoutAmount.Text, tbPayoutCurrency.Text.ToCharArray());
         }
 
-        
-
-        //private void resetValidatorBtn_Click(object sender, EventArgs e)
-        //{
-        //    if (NV11 != null)
-        //    {
-        //        NV11.Reset(textBox1);
-        //        NV11.SSPComms.CloseComPort(); // close com port to force reconnect
-        //    }
-        //}
-
-        //private void ResetTotalsText_Click(object sender, EventArgs e)
-        //{
-        //    if (NV11 != null)
-        //    {
-        //        NV11.NotesAccepted = 0;
-        //        NV11.NotesDispensed = 0;
-        //    }
-        //}
-
-        //private void logTickBox_CheckedChanged(object sender, EventArgs e)
-        //{
-        //    if (logTickBox.Checked)
-        //        NV11.CommsLog.Show();
-        //    else
-        //        NV11.CommsLog.Hide();
-    }
-
-    //private void chkHold_CheckedChanged(object sender, EventArgs e)
-    //{
-    //    if (chkHold.Checked)
-    //    {
-    //        NV11.HoldNumber = 10;
-
-    //    }
-    //    else
-    //    {
-    //        NV11.HoldNumber = 0;
-    //    }
-    //}
-
-    //private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-    //{
-
-    //}
-
-    //private void lostTimer_Tick(object sender, EventArgs e)
-    //{
-    //    secondForm.LostButton = false;
-    //    lostTimer.Enabled = false;
-    //    SM = 1;
-    //}
-
-    //private void emptyNoteFloatToolStripMenuItem1_Click(object sender, EventArgs e)
-    //{
-    //    if (NV11 != null)
-    //    {
-    //        // make sure payout is switched on
-    //        NV11.EnablePayout();
-    //        NV11.EmptyPayoutDevice(textBox1);
-    //    }
-    //    string five = ini.IniReadValue("SerialNV", "Paid05");
-    //    string five1 = ini.IniReadValue("SerialNV", "Avail05");
-    //    int temp = Convert.ToInt16(five);
-    //    int temp1 = Convert.ToUInt16(five1);
-    //    temp = temp + temp1;
-    //    ini.IniWriteValue("SerialNV", "Paid05", temp.ToString());
-    //    Paid05Notes.Text = temp.ToString();
-    //}
-
-    //private void totalAcceptedNumText_TextChanged(object sender, EventArgs e)
-    //{
-    //    notesIn = true;
-    //}
-
-    //private void totalNumNotesDispensedText_TextChanged(object sender, EventArgs e)
-    //{
-    //    if (SM == 64)
-    //    {
-    //        DNote++;
-    //        Display("notes in storage text: " + notesInStorageText.Text);
-    //        Display("5 euro note was retrieved!!!");
-    //        string five = notesInStorageText.Text;
-    //        ini.IniWriteValue("SerialNV", "Avail05", five);
-    //        if (secondForm.CashPayment)
-    //            SM = 6;
-    //        else if (secondForm.CreditCardPayment)
-    //            SM = 61;
-    //    }
-    //    if (SM == 65)
-    //    {
-    //        DNote++;
-    //        Display("5 euro note was retrieved!!!");
-    //        string five = notesInStorageText.Text;
-    //        ini.IniWriteValue("SerialNV", "Avail05", five);
-    //        SM = 10;
-    //    }
-    //}
-    private void ResetAllNotesbtn_Click(object sender, EventArgs e)
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (SM == 6 || SM == 61)
+            {
+                //if (textBox1.Text.IndexOf("Note in escrow, amount: 5.00") != -1 && textBox1.Text.IndexOf("Note stacked") != -1)
+                //{
+                //    Payment = Payment + 500;
+                //    GeneralCounter = 120;
+                //    Paid05Notes.Text = ini.IniReadValue("SerialNV", "Paid05");
+                //    int five = int.Parse(Paid05Notes.Text);
+                //    five++;
+                //    ini.IniWriteValue("SerialNV", "Paid05", five.ToString());
+                //    textBox1.Text = "";
+                //}
+                //if (textBox1.Text.IndexOf("Note in escrow, amount: 10.00") != -1 && textBox1.Text.IndexOf("Note stacked") != -1)
+                //{
+                //    Payment = Payment + 1000;
+                //    GeneralCounter = 120;
+                //    Paid10Notes.Text = ini.IniReadValue("SerialNV", "Paid10");
+                //    int ten = int.Parse(Paid10Notes.Text);
+                //    ten++;
+                //    ini.IniWriteValue("SerialNV", "Paid10", ten.ToString());
+                //    textBox1.Text = "";
+                //}
+                //if (textBox1.Text.IndexOf("Note in escrow, amount: 20.00") != -1 && textBox1.Text.IndexOf("Note stacked") != -1)
+                //{
+                //    Payment = Payment + 2000;
+                //    GeneralCounter = 120;
+                //    Paid20Notes.Text = ini.IniReadValue("SerialNV", "Paid20");
+                //    int twenty = int.Parse(Paid20Notes.Text);
+                //    twenty++;
+                //    ini.IniWriteValue("SerialNV", "Paid20", twenty.ToString());
+                //    textBox1.Text = "";
+                //}
+                //if (textBox1.Text.IndexOf("Note in escrow, amount:  50.00") != -1 && textBox1.Text.IndexOf("Note stacked") != -1)
+                //{
+                //    Payment = Payment + 5000;
+                //    GeneralCounter = 120;
+                //    Paid50Notes.Text = ini.IniReadValue("SerialNV", "Paid50");
+                //    int fifty = int.Parse(Paid50Notes.Text);
+                //    fifty++;
+                //    ini.IniWriteValue("SerialNV", "Paid50", fifty.ToString());
+                //    textBox1.Text = "";
+                //}
+                //if (textBox1.Text.IndexOf("rejecting") != -1)
+                //    textBox1.Text = "";
+            }
+            if (SM == 64)  //Change in notes
+            {
+                textBox1.ScrollToCaret();
+                if (textBox1.Text.IndexOf("Paying out 10.00") != -1 && textBox1.Text.IndexOf("Dispensed note(s)") != -1)
+                {
+                    DNote10++;
+                    ReturnMoney = ReturnMoney + 1000;
+                    Refresh();
+                    secondForm.Refresh(); Thread.Sleep(100);
+                    string ten = ini.IniReadValue("SerialNV", "Avail10");
+                    int temp = Convert.ToInt16(ten); temp--;
+                    ini.IniWriteValue("SerialNV", "Avail10", temp.ToString());
+                    textBox1.Text = "";
+                    tbPayoutAmount.Text = "";
+                    Display("Correctly Returned 10 euro Notes: " + DNote10.ToString() + " " + ReturnMoney.ToString());
+                    SM = 6;
+                }
+                if (textBox1.Text.IndexOf("Paying out 5.00") != -1 && textBox1.Text.IndexOf("Dispensed note(s)") != -1)
+                {
+                    DNote5++;
+                    ReturnMoney = ReturnMoney + 500;
+                    Refresh();
+                    secondForm.Refresh(); Thread.Sleep(100);
+                    string five = ini.IniReadValue("SerialNV", "Avail05");
+                    int temp = Convert.ToInt16(five); temp--;
+                    ini.IniWriteValue("SerialNV", "Avail05", temp.ToString());
+                    textBox1.Text = "";
+                    tbPayoutAmount.Text = "";
+                    Display("Correctly Returned 5 euro Notes: " + DNote5.ToString() + " " + ReturnMoney.ToString());
+                    SM = 6;
+                }
+                //if (textBox1.Text.IndexOf("Busy") != -1)
+                //{
+                //    DisableChangeNotes = true;
+                //    SM = 6;
+                //    //Thread.Sleep(300);
+                //    //btnPayout_Click(this, e);
+                //    Display("Note Validator responded Busy condition. Rest o f change in coins...");
+                //}
+                //if(textBox1.Text.IndexOf("Unsafe jam")!=-1)
+                //{
+                //    DisableChangeNotes = true;
+                //    SM = 6;
+                //}
+            }
+        }
+        private void ResetAllNotesbtn_Click(object sender, EventArgs e)
         {
             Paid05Notes.Text = "0";
             Paid10Notes.Text = "0";
             Paid20Notes.Text = "0";
             Paid50Notes.Text = "0";
+        }
+
+        private void tbLevelInfo_TextChanged(object sender, EventArgs e)
+        {
+            string CheckChangedLevelInfo = Payout.GetChannelLevelInfo();
+            string[] ChangedNoteLevel = CheckChangedLevelInfo.Split('[', ']');
+            for (int count = 1; count < ChangedNoteLevel.Length; count = count += 2)
+            {
+                switch (count)
+                {
+                    case 1:
+                        Display("5 EUR new Level: " + ChangedNoteLevel[count]);
+                        string FiveEuroNotesTempLevel = ChangedNoteLevel[count];
+                        if (FiveEuroNotesLevel != FiveEuroNotesTempLevel)
+                        {
+                            if (int.Parse(FiveEuroNotesTempLevel) > int.Parse(FiveEuroNotesLevel))
+                            {
+                                ini.IniWriteValue("SerialNV", "Avail05", ChangedNoteLevel[count].ToString());
+                                Avail05Notes.Text = ini.IniReadValue("SerialNV", "Avail05");
+                                if (SM == 6 || SM == 61)
+                                {
+                                    FiveEuroNoteIn = false;
+                                    //Payment = Payment + 500;
+                                    GeneralCounter = 120;
+                                    NotesFive++;
+                                    Display("User paid with 5 euro Note");
+                                }
+                                Display("One 5 Euro note was added to Note Float");
+                                FiveEuroNotesLevel = Avail05Notes.Text;
+                            }
+                            else if (Convert.ToInt16(FiveEuroNotesTempLevel) < Convert.ToInt16(FiveEuroNotesLevel))
+                            {
+                                ini.IniWriteValue("SerialNV", "Avail05", ChangedNoteLevel[count].ToString());
+                                Avail05Notes.Text = ini.IniReadValue("SerialNV", "Avail05");
+                                FiveEuroNotesLevel = Avail05Notes.Text;
+                                Display("One 5 Euro note was removed from Note Float");
+                            }
+                        }
+                        else
+                        {
+                            ini.IniWriteValue("SerialNV", "Avail05", ChangedNoteLevel[count].ToString());
+                            Avail05Notes.Text = ini.IniReadValue("SerialNV", "Avail05");
+                            FiveEuroNotesLevel = Avail05Notes.Text;
+                        }
+                        break;
+                    case 3:
+                        Display("10 EUR new Level: " + ChangedNoteLevel[count]);
+                        string TenEuroNotesTempLevel = ChangedNoteLevel[count];
+                        if (TenEuroNotesLevel != TenEuroNotesTempLevel)
+                        {
+                            if (int.Parse(TenEuroNotesTempLevel) > int.Parse(TenEuroNotesLevel))
+                            {
+                                ini.IniWriteValue("SerialNV", "Avail10", ChangedNoteLevel[count].ToString());
+                                Avail10Notes.Text = ini.IniReadValue("SerialNV", "Avail10");
+                                if (SM == 6 || SM == 61)
+                                {
+                                    TenEuroNoteIn = false;
+                                    //Payment = Payment + 1000;
+                                    GeneralCounter = 120;
+                                    NotesTen++;
+                                    Display("User paid with 10 euro Note");
+                                }
+                                Display("One 10 Euro note was added to Note Float");
+                                TenEuroNotesLevel = Avail10Notes.Text;
+                            }
+                            else if (int.Parse(TenEuroNotesTempLevel) < int.Parse(TenEuroNotesLevel))
+                            {
+                                ini.IniWriteValue("SerialNV", "Avail10", ChangedNoteLevel[count].ToString());
+                                Avail10Notes.Text = ini.IniReadValue("SerialNV", "Avail10");
+                                TenEuroNotesLevel = Avail10Notes.Text;
+                                Display("One 10 Euro note was removed from Note Float");
+                            }
+                        }
+                        else
+                        {
+                            ini.IniWriteValue("SerialNV", "Avail10", ChangedNoteLevel[count].ToString());
+                            Avail10Notes.Text = ini.IniReadValue("SerialNV", "Avail10");
+                            TenEuroNotesLevel = Avail10Notes.Text;
+                        }
+                        break;
+                    case 5:
+                        Display("20 EUR new Level: " + ChangedNoteLevel[count]);
+                        string TwentyEuroNotesTempLevel = ChangedNoteLevel[count];
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void btnPayoutByDenom_Click(object sender, EventArgs e)
+        {
+            if (Running && ((payoutByDenomFrm == null) || (payoutByDenomFrm != null && !payoutByDenomFrm.Visible)))
+            {
+                payoutByDenomFrm = new frmPayoutByDenom(Payout, textBox1);
+                payoutByDenomFrm.Show();
+            }
+        }
+
+        private void btnSetFloat_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                double mp = double.Parse(tbMinPayout.Text) * 100;
+                double fa = double.Parse(tbFloatAmount.Text) * 100;
+                Payout.SetFloat((Int32)mp, (Int32)fa, tbFloatCurrency.Text.ToCharArray(), textBox1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "EXCEPTION");
+                return;
+            }
         }
 
         private void ResetAllCoinsbtn_Click(object sender, EventArgs e)
