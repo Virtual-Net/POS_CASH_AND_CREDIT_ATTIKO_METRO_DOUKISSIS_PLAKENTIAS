@@ -6368,6 +6368,13 @@ namespace POS_v20
             }
         }
 
+        // Clears all the checkboxes to unticked
+        private void ClearCheckBoxes()
+        {
+            foreach (CheckBox c in recycleBoxes)
+                c.Checked = false;
+        }
+
         private void reconnectionTimer_Tick(object sender, EventArgs e)
         {
             if (sender is System.Windows.Forms.Timer)
