@@ -5051,7 +5051,7 @@ namespace POS_v20
 
                 case 622:
                     Display("SM: " + SM);
-                    if (pay05)
+                    /*if (pay05)
                     {
                         if (secondForm.CashPayment)
                         {
@@ -5065,7 +5065,7 @@ namespace POS_v20
                             pay05 = false;
                             break;
                         }
-                    }
+                    }*/
                     break;
 
                 case 63:    //Accept Credit - Debit card for Card
