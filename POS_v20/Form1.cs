@@ -6422,6 +6422,13 @@ namespace POS_v20
             Payout.PayoutAmount(n, currency, textBox1);
         }
 
+        private bool IsUnitValid(char unitType)
+        {
+            if (unitType == (char)0x06) // 0x06 is Payout, no other types supported by this program
+                return true;
+            return false;
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             timer1.Enabled = false;
