@@ -4399,31 +4399,127 @@ namespace POS_v20
                     Display("SM: " + SM);
                     secondForm.Ticket_Icon.Visible = false;
                     secondForm.Card_Icon.Visible = false;
-                    switch (NV11.storedNoteValue)
+
+                    int PollNumberForCard = Payout.DoPoll(textBox1).Item2;
+                    Display("SmartPayout Poll response: " + PollNumberForCard.ToString());
+                    switch (PollNumberForCard)
                     {
-                        case 500:
-                            Display("NoteValue: " + NV11.storedNoteValue.ToString());
-                            notes05In = true;
-                            SM = 611;
+                        case 0:
+                            Display("SmartPayout idle state");
                             break;
-                        case 1000:
-                            Display("NoteValue: " + NV11.storedNoteValue.ToString());
-                            notes10In = true;
-                            SM = 611;
+                        case 1:
+                            Display("SmartPayout reset");
                             break;
-                        case 2000:
-                            Display("NoteValue: " + NV11.storedNoteValue.ToString());
-                            notes20In = true;
-                            SM = 611;
+                        case 2:
+                            Display("SmartPayout disabled");
                             break;
-                        case 5000:
-                            Display("NoteValue: " + NV11.storedNoteValue.ToString());
-                            notes50In = true;
-                            SM = 611;
+                        case 3:
+                            Display("SmartPayout note in escrow, reading note...");
                             break;
-                        default:
+                        case 4:
+                            Display("SmartPayout credit");
+                            break;
+                        case 5:
+                            Display("SmartPayout rejecting note");
+                            break;
+                        case 6:
+                            Display("SmartPayout note rejected");
+                            break;
+                        case 7:
+                            Display("SmartPayout stacking note");
+                            break;
+                        case 8:
+                            Display("SmartPayout floating note");
+                            break;
+                        case 9:
+                            Display("SmartPayout note stacked");
+                            break;
+                        case 10:
+                            Display("SmartPayout completed floating");
+                            break;
+                        case 11:
+                            Display("SmartPayout note stored");
+                            break;
+                        case 12:
+                            Display("SmartPayout safe jam");
+                            break;
+                        case 13:
+                            Display("SmartPayout unsafe jam");
+                            break;
+                        case 14:
+                            Display("SmartPayout detect error with payout device");
+                            break;
+                        case 15:
+                            Display("SmartPayout fraud attempt!!!");
+                            break;
+                        case 16:
+                            Display("SmartPayout stacker full");
+                            break;
+                        case 17:
+                            Display("SmartPayout note cleared from front of validator");
+                            break;
+                        case 18:
+                            Display("SmartPayout note cleared to cashbox");
+                            break;
+                        case 19:
+                            Display("SmartPayout note paid into payout on startup");
+                            break;
+                        case 20:
+                            Display("SmartPayout note paid into cashbox on startup");
+                            break;
+                        case 21:
+                            Display("SmartPayout cashbox removed");
+                            break;
+                        case 22:
+                            Display("SmartPayout cashbox replaced");
+                            break;
+                        case 23:
+                            Display("SmartPayout despensing notes");
+                            break;
+                        case 24:
+                            Display("SmartPayout dispensed notes");
+                            break;
+                        case 25:
+                            Display("SmartPayout emptying...");
+                            break;
+                        case 26:
+                            Display("SmartPayout emptied");
+                            break;
+                        case 27:
+                            Display("SmartPayout SMART Emptying");
+                            break;
+                        case 28:
+                            Display("SmartPayout SMART Emptied, getting info...");
+                            break;
+                        case 29:
+                            Display("SmartPayout unit jammed");
+                            break;
+                        case 30:
+                            Display("SmartPayout halted");
+                            break;
+                        case 31:
+                            Display("SmartPayout incomplete payout");
+                            break;
+                        case 32:
+                            Display("SmartPayout incomplete float");
+                            break;
+                        case 33:
+                            Display("SmartPayout notye transferred to stacker");
+                            break;
+                        case 34:
+                            Display("SmartPayout note in bezel");
+                            break;
+                        case 35:
+                            Display("SmartPayout payout out of service");
+                            break;
+                        case 36:
+                            Display("SmartPayout timeout searching for a note");
+                            break;
+                        case 37:
+                            Display("SmartPayout unsupported poll response received");
                             break;
                     }
+
                     if (Payment == InitalCost)
                     { //AKRIBWS
                         ReturnMoney = 0;
@@ -4485,17 +4581,17 @@ namespace POS_v20
                             {
                                 case HttpStatusCode.NotFound:
                                     Thread.Sleep(2000);
-                                    SM = 72;
+                                    SM = 10;
                                     Display("Error 404 on receipt request");
                                     break;
                                 case HttpStatusCode.InternalServerError:
                                     Thread.Sleep(2000);
-                                    SM = 72;
+                                    SM = 10;
                                     Display("Error 500 on receipt request");
                                     break;
                                 case HttpStatusCode.ServiceUnavailable:
                                     Thread.Sleep(2000);
-                                    SM = 72;
+                                    SM = 10;
                                     Display("Error 503 on receipt request");
                                     break;
                             }
@@ -4532,43 +4628,39 @@ namespace POS_v20
                         secondForm.POS_Messages.Clear();
                         secondForm.Refresh();
 
-                        if ((Math.Abs(InitalCost - Payment) / 500) > 0)
-                        {
+                        if (Math.Abs(InitalCost - Payment) > 500)
+                        {   //change should be in notes
                             secondForm.Ticket_Icon.Visible = false;
                             secondForm.Card_Icon.Visible = false;
                             GeneralTimer.Stop();
-                            int x = (Math.Abs(InitalCost - Payment) / 500);
-                            if (DNote < x)
+                            int x = Math.Abs(InitalCost - Payment) / 1000;
+                            if (DNote10 < x)
                             {
-                                Display("NV11 Poll response is :" + NV11.CommsLog.logtext);
-                                if (textBox1.Text.IndexOf("Payout out of service") != -1)
-                                {
-                                    Display("PAYOUT MODULE IS OUT OF SERVICE!!!");
-                                    x = 0;
-                                    break;
-                                }
-                                else
-                                {
-                                    UpdateUI();
-                                    if (notesInStorageText.Text.Length > 0)
-                                    {
-                                        Display("go return 5 euro notes: " + (x - DNote));
-                                        payoutBtn_Click(this, e);
-                                        ReturnMoney = ReturnMoney + 500;
-                                        SM = 64;
-                                        break;
-                                    }
-                                    else if (notesInStorageText.Text.Length == 0)
-                                    {
-                                        Display("out of stocked 5 euro notes!!!");
-                                        x = 0;
-                                    }
-                                }
+                                tbPayoutAmount.Text = "10";
+                                btnPayout_Click(this, e);
+                                SM = 64;
+                                break;
                             }
-                            if (x == (Math.Abs(InitalCost - Payment) / 500))
+                            int y = Math.Abs(InitalCost - Payment) / 500;
+                            if (DNote5 < y)
                             {
-                                Display("Correctly Returned Notes: " + x.ToString() + " " + ReturnMoney.ToString());
+                                secondForm.Ticket_Icon.Visible = false;
+                                secondForm.Card_Icon.Visible = false;
+                                GeneralTimer.Stop();
+                                tbPayoutAmount.Text = "5";
+                                btnPayout_Click(this, e);
+                                SM = 64;
+                                break;
+                            }
+                            if (Math.Abs(InitalCost - Payment) > (Total_Coins - 1000))
+                            {
+                                Display("OUT OF AMMO\n");
+                                ShowNotes("000");
+                                Display("ERROR_INCOMPLETE Pay: " + (InitalCost - Payment).ToString() + "\n");
+                                value = (InitalCost - Payment).ToString();
+
                                 string url_1 = HTTPURLRENEW + subscriptionId;
+                                Display("requesting url: " + url_1);
                                 HttpWebRequest request_1 = (HttpWebRequest)WebRequest.Create(url_1);
                                 request_1.Method = "POST";
                                 request_1.Headers.Add("Authorization", "Bearer " + ApiToken);
@@ -4619,74 +4711,12 @@ namespace POS_v20
                                             break;
                                     }
                                 }
+                                SM = 81;
                             }
-                            else
-                            {
-                                Display("FAILURE Returned Notes:" + x.ToString() + " " + ReturnMoney.ToString());
-                                if (Math.Abs(InitalCost - Payment) > (Total_Coins - 1000)) // /2
-                                {
-                                    Display("OUT OF AMMO\n");
-                                    ShowNotes("000");
-                                    Display("ERROR_INCOMPLETE Pay: " + (InitalCost - Payment).ToString() + "\n");
-                                    value = (InitalCost - Payment).ToString();
-                                    string url = HTTPURLRENEW + subscriptionId;
-                                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                                    request.Method = "POST";
-                                    request.Headers.Add("Authorization", "Bearer " + ApiToken);
-                                    HttpWebResponse response = null;
-                                    try
-                                    {
-                                        HttpWebResponse response_1 = null;
-                                        response_1 = (HttpWebResponse)request.GetResponse();
-                                        Stream responseStream = response_1.GetResponseStream();
-                                        string invoice_code;
-                                        StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-                                        var jsonobject = reader.ReadToEnd();
-                                        Display("JSON_object is: " + jsonobject);
-                                        var responseData = JObject.Parse(jsonobject);
-                                        Display("+++" + responseData.ToString());
-                                        invoice_code = (string)responseData["invoice"]["code"];
-                                        Display("invoice_code: " + invoice_code);
-                                        invoice_sequence = (string)responseData["invoice"]["sequence"];
-                                        Display("invoice_sequence: " + invoice_sequence);
-                                        invoice_number = (string)responseData["invoice"]["number"];
-                                        Display("invoice_number: " + invoice_number);
-                                        duration = (string)responseData["renewal"]["do_renewal"];
-                                        Display("duration of renewal: " + duration);
-                                        charge = (string)responseData["invoice"]["final_price"];
-                                        Display("charge: " + charge);
-                                        response_1.Close();
-                                        reader.Close();
-                                        responseStream.Close();
-                                    }
-                                    catch (WebException ex)
-                                    {
-                                        HttpWebResponse response_1 = (HttpWebResponse)ex.Response;
-                                        switch (response_1.StatusCode)
-                                        {
-                                            case HttpStatusCode.NotFound:
-                                                Thread.Sleep(2000);
-                                                SM = 81;
-                                                Display("Error 404 on receipt request");
-                                                break;
-                                            case HttpStatusCode.InternalServerError:
-                                                Thread.Sleep(2000);
-                                                SM = 81;
-                                                Display("Error 500 on receipt request");
-                                                break;
-                                            case HttpStatusCode.ServiceUnavailable:
-                                                Thread.Sleep(2000);
-                                                SM = 81;
-                                                Display("Error 503 on receipt request");
-                                                break;
-                                        }
-                                    }
-                                }
-                            }
-
                             GeneralTimer.Start();
                         }
 
+                        secondForm.POS_Messages.AppendText(Langtemp);
                         secondForm.Refresh();
 
                         Display("Inital " + InitalCost.ToString() + "\n");
@@ -4744,17 +4774,17 @@ namespace POS_v20
                                 {
                                     case HttpStatusCode.NotFound:
                                         Thread.Sleep(2000);
-                                        SM = 81;
+                                        SM = 10;
                                         Display("Error 404 on receipt request");
                                         break;
                                     case HttpStatusCode.InternalServerError:
                                         Thread.Sleep(2000);
-                                        SM = 81;
+                                        SM = 10;
                                         Display("Error 500 on receipt request");
                                         break;
                                     case HttpStatusCode.ServiceUnavailable:
                                         Thread.Sleep(2000);
-                                        SM = 81;
+                                        SM = 10;
                                         Display("Error 503 on receipt request");
                                         break;
                                 }
