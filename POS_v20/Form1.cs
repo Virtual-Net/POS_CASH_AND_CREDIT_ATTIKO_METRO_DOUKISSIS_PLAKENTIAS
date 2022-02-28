@@ -6530,6 +6530,21 @@ namespace POS_v20
                 CalculatePayout(tbPayoutAmount.Text, tbPayoutCurrency.Text.ToCharArray());
         }
 
+        private void btnSetFloat_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                double mp = double.Parse(tbMinPayout.Text) * 100;
+                double fa = double.Parse(tbFloatAmount.Text) * 100;
+                Payout.SetFloat((Int32)mp, (Int32)fa, tbFloatCurrency.Text.ToCharArray(), textBox1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "EXCEPTION");
+                return;
+            }
+        }
+
         //private void payoutBtn_Click(object sender, EventArgs e)
         //{
         //    if (NV11 != null)
