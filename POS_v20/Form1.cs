@@ -26,7 +26,7 @@ namespace POS_v20
     /// <summary>
     /// POS application version 3.7//
     /// new features: connection with web based server on Laravel Framework,
-    /// mixed type of payments (cash & credit), replace NV9 USB+ validator with NV11 note recycler
+    /// mixed type of payments (cash & credit), replace NV9 USB+ validator with NV22 note recycler
     /// Note: if you are using x64 platform you must change project options to x86 to 
     /// handle coin recycler (currenza c^2) dll file.
     /// 03/05/2019 usb printing enchanment
@@ -2218,9 +2218,7 @@ namespace POS_v20
                     this.Printer.Text = "Printer_OK";
                     PRINTERStatus.Enabled = false;
                     int tab = this.MainConfig.SelectedIndex;
-                //if (tab < 4) this.MainConfig.SelectedIndex = tab + 1;
-                //this.MainConfig.TabPages[6].Parent.Focus();
-            });
+                });
                 Thread.Sleep(1);
             }
             if (size >= 1 && (buffer[0] == 0x12))
@@ -2232,9 +2230,7 @@ namespace POS_v20
                     this.Printer.Text = "Printer_OK";
                     PRINTERStatus.Enabled = false;
                     int tab = this.MainConfig.SelectedIndex;
-                //if (tab < 4) this.MainConfig.SelectedIndex = tab + 1;
-                //this.MainConfig.TabPages[6].Parent.Focus();
-            });
+                });
                 Thread.Sleep(1);
             }
             data = "";
@@ -2631,7 +2627,6 @@ namespace POS_v20
 
             p = false; Refresh_Click(this, e);
 
-            //this.MainConfig.SelectedIndex = 4;
             this.MainConfig.TabPages[6].Parent.Focus();
 
             this.Init_System.BackColor = Color.GreenYellow;
@@ -2713,7 +2708,6 @@ namespace POS_v20
             GeneralTimer.Interval = 1000;//STATE MACHINE
             GeneralTimer.Start();
             Save_Click(this, e);
-            //NV11.storedNoteValue = 0;
             MoneyStatus(2);
             secondForm.Show();
             if (Total_Coins < 10)//1000
@@ -3091,9 +3085,13 @@ namespace POS_v20
                     isMidnight = A.Date == B.Date;
                     if (!isMidnight && !batchIsClosed)
                     {
-                        CloseBatchButton_Click(this, e);
-                        SM = 21;
-                        break;
+                        string FileName = "C:/CreditPOS/closeBatch/" + DateTime.Now.ToString("ddMMyy") + "_closeBatch.txt";
+                        if (!File.Exists(FileName))
+                        {
+                            CloseBatchButton_Click(this, e);
+                            SM = 21;
+                            break;
+                        }
                     }
                     break;
 
@@ -6206,51 +6204,6 @@ namespace POS_v20
             btnHalt.Enabled = false;
         }
     
-        //private void noteToRecycleComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    if (NV11 != null)
-        //    {
-
-        //        if (noteToRecycleComboBox.Text == "No Recycling")
-        //        {
-        //            // switch all notes to stacking
-        //            textBox1.AppendText("Resetting note routing...\r\n");
-        //            this.Refresh();
-        //            NV11.RouteAllToStack(textBox1);
-        //        }
-        //        else if (noteToRecycleComboBox.Text == "Show Routing")
-        //        {
-        //            textBox1.AppendText("Current note routing:\r\n");
-        //            this.Refresh();
-        //            NV11.ShowAllRouting(textBox1);
-        //            UpdateUI();
-        //        }
-
-        //        else
-        //        {
-        //            // switch all notes to stacking first
-        //            //NV11.RouteAllToStack();
-        //            // make sure payout is switched on
-        //            NV11.EnablePayout();
-        //            // switch selected note to payout
-        //            string s = noteToRecycleComboBox.Items[noteToRecycleComboBox.SelectedIndex].ToString();
-        //            string[] sArr = s.Split(' ');
-        //            try
-        //            {
-        //                textBox1.AppendText("Changing note routing...\r\n");
-        //                this.Refresh();
-        //                NV11.ChangeNoteRoute(Int32.Parse(sArr[0]) * 100, sArr[1].ToCharArray(), false, textBox1);
-        //                NV11.ShowAllRouting(textBox1);
-        //                UpdateUI();
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                Display(ex.ToString());
-        //                return;
-        //            }
-        //        }
-        //    }
-        //}
 
         private void btnRun_Click(object sender, EventArgs e)
         {
@@ -6619,19 +6572,7 @@ namespace POS_v20
                     Display("Correctly Returned 5 euro Notes: " + DNote5.ToString() + " " + ReturnMoney.ToString());
                     SM = 6;
                 }
-                //if (textBox1.Text.IndexOf("Busy") != -1)
-                //{
-                //    DisableChangeNotes = true;
-                //    SM = 6;
-                //    //Thread.Sleep(300);
-                //    //btnPayout_Click(this, e);
-                //    Display("Note Validator responded Busy condition. Rest o f change in coins...");
-                //}
-                //if(textBox1.Text.IndexOf("Unsafe jam")!=-1)
-                //{
-                //    DisableChangeNotes = true;
-                //    SM = 6;
-                //}
+                
             }
         }
         private void ResetAllNotesbtn_Click(object sender, EventArgs e)
