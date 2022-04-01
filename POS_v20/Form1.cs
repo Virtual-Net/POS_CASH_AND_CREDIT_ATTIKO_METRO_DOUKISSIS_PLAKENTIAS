@@ -6576,15 +6576,7 @@ namespace POS_v20
                 
             }
         }
-        private void ResetAllNotesbtn_Click(object sender, EventArgs e)
-        {
-            Paid05Notes.Text = "0";
-            Paid10Notes.Text = "0";
-            Paid20Notes.Text = "0";
-            Paid50Notes.Text = "0";
-        }
-
-        private void tbLevelInfo_TextChanged(object sender, EventArgs e)
+       private void tbLevelInfo_TextChanged(object sender, EventArgs e)
         {
             string CheckChangedLevelInfo = Payout.GetChannelLevelInfo();
             string[] ChangedNoteLevel = CheckChangedLevelInfo.Split('[', ']');
@@ -6696,6 +6688,14 @@ namespace POS_v20
             }
         }
 
+        private void ResetAllNotesbtn_Click(object sender, EventArgs e)
+        {
+            Paid05Notes.Text = "0";
+            Paid10Notes.Text = "0";
+            Paid20Notes.Text = "0";
+            Paid50Notes.Text = "0";
+        }
+
         private void ResetAllCoinsbtn_Click(object sender, EventArgs e)
         {
             Paid05Coins.Text = "0";
@@ -6705,6 +6705,7 @@ namespace POS_v20
             Paid100Coins.Text = "0";
             Paid200Coins.Text = "0";
         }
+
 
         /**************************************************************************************/
     }//public partial class Form1 : Form
