@@ -319,7 +319,7 @@
             this.ResetAllCoinsbtn.TabIndex = 61;
             this.ResetAllCoinsbtn.Text = "Reset all";
             this.ResetAllCoinsbtn.UseVisualStyleBackColor = true;
-            this.ResetAllCoinsbtn.Click += new System.EventHandler(this.ResetAllCoinsbtn_Click_1);
+            this.ResetAllCoinsbtn.Click += new System.EventHandler(this.ResetAllCoinsbtn_Click);
             // 
             // Paid200Coins
             // 
