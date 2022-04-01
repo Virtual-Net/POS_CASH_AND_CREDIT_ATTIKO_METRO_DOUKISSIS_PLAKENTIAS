@@ -2106,7 +2106,9 @@ namespace POS_v20
                 this.Refresh();
             }
             catch (Exception ex)
-            { }
+            {
+                Display("Serial Com Port Error with UX300");
+            }
             serialEFT_POS.DiscardOutBuffer();
             serialEFT_POS.DiscardInBuffer();
             serialEFT_POS.BaseStream.Flush();
