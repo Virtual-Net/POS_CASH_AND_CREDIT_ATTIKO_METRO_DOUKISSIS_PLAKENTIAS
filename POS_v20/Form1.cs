@@ -2647,6 +2647,7 @@ namespace POS_v20
             Cursor.Hide();
             Save.Enabled = false;
             Avail05Notes.ReadOnly = true;
+            Avail10Notes.ReadOnly = true;
             Paid05Notes.ReadOnly = true;
             Paid10Notes.ReadOnly = true;
             Paid20Notes.ReadOnly = true;
