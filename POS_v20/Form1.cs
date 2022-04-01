@@ -3085,7 +3085,7 @@ namespace POS_v20
                     isMidnight = A.Date == B.Date;
                     if (!isMidnight && !batchIsClosed)
                     {
-                        string FileName = "C:/CreditPOS/closeBatch/" + DateTime.Now.ToString("ddMMyy") + "_closeBatch.txt";
+                        string FileName = @"C:/CreditPOS/closeBatch/" + DateTime.Now.ToString("ddMMyy") + "_closeBatch.txt";
                         if (!File.Exists(FileName))
                         {
                             CloseBatchButton_Click(this, e);
