@@ -2627,9 +2627,8 @@ namespace POS_v20
             }
 
             p = false; Refresh_Click(this, e);
-
+            MainConfig.SelectedIndex = 6;
             this.MainConfig.TabPages[6].Parent.Focus();
-
             this.Init_System.BackColor = Color.GreenYellow;
             Thread.Sleep(1000);
             StartApplication.Enabled = true;
