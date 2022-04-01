@@ -2092,7 +2092,7 @@ namespace POS_v20
                             Display("Cashier Request Format Error");
                             break;
                         default:
-                            Display("Host unreachable");
+                            Display("No registered response, default switch case");
                             break;
                     }
                     //send Cashier Request ACK message
