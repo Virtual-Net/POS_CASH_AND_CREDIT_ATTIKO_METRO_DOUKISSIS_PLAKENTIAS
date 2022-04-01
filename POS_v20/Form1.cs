@@ -2519,8 +2519,9 @@ namespace POS_v20
 
             ini.IniWriteValue("SerialNV", "Avail05", Avail05Notes.Text); Thread.Sleep(100);
             NotesFive = int.Parse(Avail05Notes.Text);
-            ini.IniWriteValue("SerialNV", "Paid50", Paid50Notes.Text); Thread.Sleep(100);
+            ini.IniWriteValue("SerialNV", "Avail10", Avail10Notes.Text); Thread.Sleep(100);
             NotesTen = int.Parse(Avail10Notes.Text);
+            ini.IniWriteValue("SerialNV", "Paid50", Paid50Notes.Text); Thread.Sleep(100);
             ini.IniWriteValue("SerialNV", "Paid20", Paid20Notes.Text); Thread.Sleep(100);
             ini.IniWriteValue("SerialNV", "Paid10", Paid10Notes.Text); Thread.Sleep(100);
             ini.IniWriteValue("SerialNV", "Paid05", Paid05Notes.Text); Thread.Sleep(100);
