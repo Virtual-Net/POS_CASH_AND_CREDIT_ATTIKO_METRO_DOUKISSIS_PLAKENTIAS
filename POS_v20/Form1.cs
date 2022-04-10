@@ -2708,7 +2708,7 @@ namespace POS_v20
             secondForm.Messages2.Visible = false;
             LanguageTimer.Interval = 1000;
             LanguageTimer.Start();
-            GeneralTimer.Interval = 1000;//STATE MACHINE
+            GeneralTimer.Interval = 750;//STATE MACHINE
             GeneralTimer.Start();
             Save_Click(this, e);
             MoneyStatus(2);
@@ -5851,7 +5851,7 @@ namespace POS_v20
                     secondForm.Refresh();
 
                     Thread.Sleep(5000);
-                    GeneralTimer.Interval = 1000;
+                    GeneralTimer.Interval = 750;
 
                     secondForm.btnYes.Visible = false;
                     secondForm.btnNo.Visible = false;
@@ -6697,6 +6697,8 @@ namespace POS_v20
             Paid20Notes.Text = "0";
             Paid50Notes.Text = "0";
         }
+
+        
 
         private void ResetAllCoinsbtn_Click(object sender, EventArgs e)
         {
